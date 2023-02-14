@@ -14,8 +14,9 @@ public class Admin extends Person {
         this.role = Role.ADMIN;
     }
 
-    public Admin(Long id, String username, String lastname, String firstname, String email, Role role) {
+    public Admin(Long id, String username, String password, String lastname, String firstname, String email, Role role) {
         this.username = username;
+        this.password = password;
         this.lastname = lastname;
         this.firstname = firstname;
         this.email = email;

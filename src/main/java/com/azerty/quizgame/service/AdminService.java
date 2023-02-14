@@ -1,19 +1,19 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.model.Admin;
+import com.azerty.quizgame.dto.AdminDTO;
 
 import java.util.List;
 
 public interface AdminService {
 
-    List<Admin> getAllAdmins() throws Exception;
+    List<AdminDTO> getAllAdmins() throws Exception;
 
-    Admin getAdminById(Long id) throws Exception;
+    AdminDTO getAdminById(Long id) throws Exception;
 
-    Admin saveAdmin(Admin admin) throws Exception;
+    AdminDTO saveAdmin(AdminDTO admin) throws Exception;
 
     boolean deleteAdminById(Long id) throws Exception;
 
-    Admin updateAdminById(Admin admin, Long id) throws Exception;
+    AdminDTO updateAdminById(AdminDTO admin, Long id) throws Exception;
 
 }

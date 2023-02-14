@@ -24,17 +24,17 @@ public class QuizgameApplication {
     CommandLineRunner start(AdminDAO adminDAO, InternDAO internDAO, QuizDAO quizDAO, QuestionDAO questionDAO, AnswerDAO answerDAO, JourneyDAO journeyDAO) {
         return args -> {
 
-            Admin admin1 = new Admin(null, "superadmin", "BOULBI", "Boulga", "bb@bb.com", null);
-            Admin admin2 = new Admin(null, "wowowowow", "SURPRISE", "Surprise", "wowowow@google.com", null);
-            Admin admin3 = new Admin(null, "admin3", "DOE", "John", "john.doe@mail.com", null);
+            Admin admin1 = new Admin(null, "superadmin", "password123", "BOULBI", "Boulga", "bb@bb.com", null);
+            Admin admin2 = new Admin(null, "wowowowow", "6675455645645", "SURPRISE", "Surprise", "wowowow@google.com", null);
+            Admin admin3 = new Admin(null, "admin3", "*$⁾=$ù)=)$⁼", "DOE", "John", "john.doe@mail.com", null);
             adminDAO.save(admin1);
             adminDAO.save(admin2);
             adminDAO.save(admin3);
             adminDAO.findAll().forEach(System.out::println);
 
-            Intern intern1 = new Intern(null, "p.candy", "CANDY", "Philip", "philip.candy@gmail.com", "Google", null);
-            Intern intern2 = new Intern(null, "m.snack", "SNACK", "Mary", "mmmary.sssnack@hotmail.com", "Amazon", null);
-            Intern intern3 = new Intern(null, "j.doe", "DOE", "Jane", "jane.doe@mail.com", "FakeCompanyTM", null);
+            Intern intern1 = new Intern(null, "p.candy", "dfdloihgfd", "CANDY", "Philip", "philip.candy@gmail.com", "Google", null);
+            Intern intern2 = new Intern(null, "m.snack", "795678537564", "SNACK", "Mary", "mmmary.sssnack@hotmail.com", "Amazon", null);
+            Intern intern3 = new Intern(null, "j.doe", "zigouigoui", "DOE", "Jane", "jane.doe@mail.com", "FakeCompanyTM", null);
             internDAO.save(intern1);
             internDAO.save(intern2);
             internDAO.save(intern3);

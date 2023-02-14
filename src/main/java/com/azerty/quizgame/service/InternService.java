@@ -1,19 +1,19 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.model.Intern;
+import com.azerty.quizgame.dto.InternDTO;
 
 import java.util.List;
 
 public interface InternService {
 
-    List<Intern> getAllInterns() throws Exception;
+    List<InternDTO> getAllInterns() throws Exception;
 
-    Intern getInternById(Long id) throws Exception;
+    InternDTO getInternById(Long id) throws Exception;
 
-    Intern saveIntern(Intern intern) throws Exception;
+    InternDTO saveIntern(InternDTO intern) throws Exception;
 
     boolean deleteInternById(Long id) throws Exception;
 
-    Intern updateInternById(Intern intern, Long id) throws Exception;
+    InternDTO updateInternById(InternDTO intern, Long id) throws Exception;
 
 }

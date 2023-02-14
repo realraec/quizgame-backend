@@ -1,37 +1,67 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.JourneyDAO;
+import com.azerty.quizgame.dto.JourneyDTO;
 import com.azerty.quizgame.model.Journey;
+import com.azerty.quizgame.utils.JourneyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class JourneyServiceImplementation implements JourneyService {
 
     @Autowired
     private JourneyDAO journeyDAO;
 
-    @Override
-    public List<Journey> getAllJourneys() {
-        List<Journey> admins = (List<Journey>) journeyDAO.findAll();
+    private final JourneyMapper journeyMapper = new JourneyMapper();
 
-        if (!admins.isEmpty()) {
-            return admins;
+
+    @Override
+    public List<JourneyDTO> getAllJourneys() {
+        Iterator<Journey> journeyIterator = journeyDAO.findAll().iterator();
+        List<JourneyDTO> journeys = new ArrayList<>();
+
+        while (journeyIterator.hasNext()) {
+            journeys.add(journeyMapper.toJourneyDTO(journeyIterator.next()));
+        }
+
+        if (!journeys.isEmpty()) {
+            return journeys;
         } else {
             return null;
         }
     }
 
     @Override
-    public Journey getJourneyById(Long id) {
+    public JourneyDTO getJourneyById(Long id) {
         Optional<Journey> journey = journeyDAO.findById(id);
-        return journey.orElse(null);
+        if (journey.isPresent()) {
+            return journeyMapper.toJourneyDTO(journey.get());
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Journey saveJourney(Journey journey) {
-        return journeyDAO.save(journey);
+    public JourneyDTO saveJourney(JourneyDTO journey) {
+        return journeyMapper.toJourneyDTO(journeyDAO.save(journeyMapper.toJourney(journey)));
+    }
+
+    @Override
+    public JourneyDTO updateJourneyById(JourneyDTO journey, Long id) {
+        Optional<Journey> checkJourney = journeyDAO.findById(id);
+        if (checkJourney.isPresent()) {
+            Journey journeyAsModel = journeyMapper.toJourney(journey);
+            journeyAsModel.setId(id);
+            return journeyMapper.toJourneyDTO(journeyDAO.save(journeyAsModel));
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -45,14 +75,4 @@ public class JourneyServiceImplementation implements JourneyService {
         }
     }
 
-    @Override
-    public Journey updateJourneyById(Journey journey, Long id) {
-        Optional<Journey> checkJourney = journeyDAO.findById(id);
-        if (checkJourney.isPresent()) {
-            journey.setId(id);
-            return journeyDAO.save(journey);
-        } else {
-            return null;
-        }
-    }
 }

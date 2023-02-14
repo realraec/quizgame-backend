@@ -1,19 +1,19 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.model.Journey;
+import com.azerty.quizgame.dto.JourneyDTO;
 
 import java.util.List;
 
 public interface JourneyService {
 
-    List<Journey> getAllJourneys() throws Exception;
+    List<JourneyDTO> getAllJourneys() throws Exception;
 
-    Journey getJourneyById(Long id) throws Exception;
+    JourneyDTO getJourneyById(Long id) throws Exception;
 
-    Journey saveJourney(Journey journey) throws Exception;
+    JourneyDTO saveJourney(JourneyDTO journey) throws Exception;
 
     boolean deleteJourneyById(Long id) throws Exception;
 
-    Journey updateJourneyById(Journey journey, Long id) throws Exception;
+    JourneyDTO updateJourneyById(JourneyDTO journey, Long id) throws Exception;
 
 }

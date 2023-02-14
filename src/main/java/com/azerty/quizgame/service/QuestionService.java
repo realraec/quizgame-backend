@@ -1,19 +1,19 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.model.Question;
+import com.azerty.quizgame.dto.QuestionDTO;
 
 import java.util.List;
 
 public interface QuestionService {
 
-    List<Question> getAllQuestions() throws Exception;
+    List<QuestionDTO> getAllQuestions() throws Exception;
 
-    Question getQuestionById(Long id) throws Exception;
+    QuestionDTO getQuestionById(Long id) throws Exception;
 
-    Question saveQuestion(Question question) throws Exception;
+    QuestionDTO saveQuestion(QuestionDTO question) throws Exception;
 
     boolean deleteQuestionById(Long id) throws Exception;
 
-    Question updateQuestionById(Question question, Long id) throws Exception;
+    QuestionDTO updateQuestionById(QuestionDTO question, Long id) throws Exception;
 
 }

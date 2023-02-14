@@ -1,20 +1,34 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.AnswerDAO;
+import com.azerty.quizgame.dto.AnswerDTO;
 import com.azerty.quizgame.model.Answer;
+import com.azerty.quizgame.utils.AnswerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AnswerServiceImplementation implements AnswerService {
 
     @Autowired
     private AnswerDAO answerDAO;
 
+    private final AnswerMapper answerMapper = new AnswerMapper();
+
+
     @Override
-    public List<Answer> getAllAnswers() {
-        List<Answer> answers = (List<Answer>) answerDAO.findAll();
+    public List<AnswerDTO> getAllAnswers() {
+        Iterator<Answer> answerIterator = answerDAO.findAll().iterator();
+        List<AnswerDTO> answers = new ArrayList<>();
+
+        while (answerIterator.hasNext()) {
+            answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
+        }
 
         if (!answers.isEmpty()) {
             return answers;
@@ -24,14 +38,30 @@ public class AnswerServiceImplementation implements AnswerService {
     }
 
     @Override
-    public Answer getAnswerById(Long id) {
+    public AnswerDTO getAnswerById(Long id) {
         Optional<Answer> answer = answerDAO.findById(id);
-        return answer.orElse(null);
+        if (answer.isPresent()) {
+            return answerMapper.toAnswerDTO(answer.get());
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Answer saveAnswer(Answer answer) {
-        return answerDAO.save(answer);
+    public AnswerDTO saveAnswer(AnswerDTO answer) {
+        return answerMapper.toAnswerDTO(answerDAO.save(answerMapper.toAnswer(answer)));
+    }
+
+    @Override
+    public AnswerDTO updateAnswerById(AnswerDTO answer, Long id) {
+        Optional<Answer> checkAnswer = answerDAO.findById(id);
+        if (checkAnswer.isPresent()) {
+            Answer answerAsModel = answerMapper.toAnswer(answer);
+            answerAsModel.setId(id);
+            return answerMapper.toAnswerDTO(answerDAO.save(answerAsModel));
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -42,17 +72,6 @@ public class AnswerServiceImplementation implements AnswerService {
             return true;
         } else {
             return false;
-        }
-    }
-
-    @Override
-    public Answer updateAnswerById(Answer answer, Long id) {
-        Optional<Answer> checkAnswer = answerDAO.findById(id);
-        if (checkAnswer.isPresent()) {
-            answer.setId(id);
-            return answerDAO.save(answer);
-        } else {
-            return null;
         }
     }
 

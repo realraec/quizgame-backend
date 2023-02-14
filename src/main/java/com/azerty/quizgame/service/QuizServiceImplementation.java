@@ -1,20 +1,34 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.QuizDAO;
+import com.azerty.quizgame.dto.QuizDTO;
 import com.azerty.quizgame.model.Quiz;
+import com.azerty.quizgame.utils.QuizMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class QuizServiceImplementation implements QuizService {
 
     @Autowired
     private QuizDAO quizDAO;
 
+    private final QuizMapper quizMapper = new QuizMapper();
+
+
     @Override
-    public List<Quiz> getAllQuizzes() {
-        List<Quiz> quizzes = (List<Quiz>) quizDAO.findAll();
+    public List<QuizDTO> getAllQuizzes() {
+        Iterator<Quiz> quizIterator = quizDAO.findAll().iterator();
+        List<QuizDTO> quizzes = new ArrayList<>();
+
+        while (quizIterator.hasNext()) {
+            quizzes.add(quizMapper.toQuizDTO(quizIterator.next()));
+        }
 
         if (!quizzes.isEmpty()) {
             return quizzes;
@@ -24,14 +38,30 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public Quiz getQuizById(Long id) {
+    public QuizDTO getQuizById(Long id) {
         Optional<Quiz> quiz = quizDAO.findById(id);
-        return quiz.orElse(null);
+        if (quiz.isPresent()) {
+            return quizMapper.toQuizDTO(quiz.get());
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Quiz saveQuiz(Quiz quiz) {
-        return quizDAO.save(quiz);
+    public QuizDTO saveQuiz(QuizDTO quiz) {
+        return quizMapper.toQuizDTO(quizDAO.save(quizMapper.toQuiz(quiz)));
+    }
+
+    @Override
+    public QuizDTO updateQuizById(QuizDTO quiz, Long id) {
+        Optional<Quiz> checkQuiz = quizDAO.findById(id);
+        if (checkQuiz.isPresent()) {
+            Quiz quizAsModel = quizMapper.toQuiz(quiz);
+            quizAsModel.setId(id);
+            return quizMapper.toQuizDTO(quizDAO.save(quizAsModel));
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -45,14 +75,4 @@ public class QuizServiceImplementation implements QuizService {
         }
     }
 
-    @Override
-    public Quiz updateQuizById(Quiz question, Long id) {
-        Optional<Quiz> checkQuiz = quizDAO.findById(id);
-        if (checkQuiz.isPresent()) {
-            question.setId(id);
-            return quizDAO.save(question);
-        } else {
-            return null;
-        }
-    }
 }

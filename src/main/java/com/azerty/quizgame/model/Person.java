@@ -15,6 +15,9 @@ public class Person {
     protected String username;
 
     @Column(nullable = false)
+    protected String password;
+
+    @Column(nullable = false)
     protected String lastname;
 
     @Column(nullable = false)
@@ -25,7 +28,6 @@ public class Person {
 
     @Column(nullable = false)
     protected Role role;
-
 
 
     public Long getId() {
@@ -42,6 +44,14 @@ public class Person {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getLastname() {
@@ -82,6 +92,7 @@ public class Person {
         return "Person{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", email='" + email + '\'' +

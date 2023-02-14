@@ -1,10 +1,14 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.AdminDAO;
+import com.azerty.quizgame.dto.AdminDTO;
 import com.azerty.quizgame.model.Admin;
+import com.azerty.quizgame.utils.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,9 +18,17 @@ public class AdminServiceImplementation implements AdminService {
     @Autowired
     private AdminDAO adminDAO;
 
+    private final AdminMapper adminMapper = new AdminMapper();
+
+
     @Override
-    public List<Admin> getAllAdmins() {
-        List<Admin> admins = (List<Admin>) adminDAO.findAll();
+    public List<AdminDTO> getAllAdmins() {
+        Iterator<Admin> adminIterator = adminDAO.findAll().iterator();
+        List<AdminDTO> admins = new ArrayList<>();
+
+        while (adminIterator.hasNext()) {
+            admins.add(adminMapper.toAdminDTO(adminIterator.next()));
+        }
 
         if (!admins.isEmpty()) {
             return admins;
@@ -26,14 +38,30 @@ public class AdminServiceImplementation implements AdminService {
     }
 
     @Override
-    public Admin getAdminById(Long id) {
+    public AdminDTO getAdminById(Long id) {
         Optional<Admin> admin = adminDAO.findById(id);
-        return admin.orElse(null);
+        if (admin.isPresent()) {
+            return adminMapper.toAdminDTO(admin.get());
+        } else {
+            return null;
+        }
     }
 
     @Override
-    public Admin saveAdmin(Admin admin) {
-        return adminDAO.save(admin);
+    public AdminDTO saveAdmin(AdminDTO admin) {
+        return adminMapper.toAdminDTO(adminDAO.save(adminMapper.toAdmin(admin)));
+    }
+
+    @Override
+    public AdminDTO updateAdminById(AdminDTO admin, Long id) {
+        Optional<Admin> checkAdmin = adminDAO.findById(id);
+        if (checkAdmin.isPresent()) {
+            Admin adminAsModel = adminMapper.toAdmin(admin);
+            adminAsModel.setId(id);
+            return adminMapper.toAdminDTO(adminDAO.save(adminAsModel));
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -44,17 +72,6 @@ public class AdminServiceImplementation implements AdminService {
             return true;
         } else {
             return false;
-        }
-    }
-
-    @Override
-    public Admin updateAdminById(Admin admin, Long id) {
-        Optional<Admin> checkAdmin = adminDAO.findById(id);
-        if (checkAdmin.isPresent()) {
-            admin.setId(id);
-            return adminDAO.save(admin);
-        } else {
-            return null;
         }
     }
 

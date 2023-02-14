@@ -14,8 +14,9 @@ public class Intern extends Person {
         this.role = Role.INTERN;
     }
 
-    public Intern(Long id, String username, String lastname, String firstname, String email, String company, Role role) {
+    public Intern(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role) {
         this.username = username;
+        this.password = password;
         this.lastname = lastname;
         this.firstname = firstname;
         this.email = email;
@@ -39,6 +40,7 @@ public class Intern extends Person {
                 "company='" + company + '\'' +
                 ", id=" + id +
                 ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", email='" + email + '\'' +
