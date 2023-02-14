@@ -9,7 +9,17 @@ public class Intern extends Person {
 
     private String company;
 
+
     public Intern() {
+        this.role = Role.INTERN;
+    }
+
+    public Intern(Long id, String username, String lastname, String firstname, String email, String company, Role role) {
+        this.username = username;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.email = email;
+        this.company = company;
         this.role = Role.INTERN;
     }
 

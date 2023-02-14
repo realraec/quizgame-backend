@@ -19,6 +19,17 @@ public class Answer {
     @JoinColumn(name = "fk_question", nullable = false)
     private Question question;
 
+
+    public Answer() {
+    }
+
+    public Answer(Long id, String wording, boolean isCorrect, Question question) {
+        this.wording = wording;
+        this.isCorrect = isCorrect;
+        this.question = question;
+    }
+
+
     public Long getId() {
         return id;
     }

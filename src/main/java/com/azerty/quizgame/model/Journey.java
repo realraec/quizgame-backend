@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -30,9 +31,23 @@ public class Journey {
 
     @JsonIgnore
     @OneToMany
-    @JoinColumn(name = "fk_answers")
+    @JoinColumn(name = "fk_journey"
     //, referencedColumnName="DATREG_META_CODE"
+    )
     private List<Answer> answers;
+
+
+    public Journey() {
+    }
+
+    public Journey(Long id, LocalDateTime dateAndTimeOfCompletion, int durationInSeconds, int score, Intern intern, Quiz quiz, List<Answer> answers) {
+        this.dateAndTimeOfCompletion = dateAndTimeOfCompletion;
+        this.durationInSeconds = durationInSeconds;
+        this.score = score;
+        this.intern = intern;
+        this.quiz = quiz;
+        this.answers = answers;
+    }
 
 
     public Long getId() {

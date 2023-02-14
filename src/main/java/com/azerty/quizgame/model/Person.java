@@ -27,6 +27,7 @@ public class Person {
     protected Role role;
 
 
+
     public Long getId() {
         return id;
     }

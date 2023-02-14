@@ -3,6 +3,7 @@ package com.azerty.quizgame.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,17 @@ public class Quiz {
     @JsonIgnore
     @OneToMany(mappedBy = "quiz")
     private List<Question> questions;
+
+
+    public Quiz() {
+        this.questions = new ArrayList<>();
+    }
+
+    public Quiz(Long id, String title, String summary, List<Question> questions) {
+        this.title = title;
+        this.summary = summary;
+        this.questions = new ArrayList<>();
+    }
 
     public Long getId() {
         return id;
@@ -61,7 +73,7 @@ public class Quiz {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
-                ", questions=" + questions +
+                //", questions=" + questions +
                 '}';
     }
 
