@@ -16,4 +16,8 @@ public interface JourneyService {
 
     JourneyDTO updateJourneyById(JourneyDTO journey, Long id) throws Exception;
 
+    List<JourneyDTO> getAllJourneysByInternId(Long id) throws Exception;
+
+    JourneyDTO getJourneyByInternIdAndQuizId(Long internId, Long quizId) throws Exception;
+
 }

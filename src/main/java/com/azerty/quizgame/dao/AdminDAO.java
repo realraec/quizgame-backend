@@ -7,8 +7,4 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface AdminDAO extends CrudRepository<Admin, Long> {
-
-//    @Query("SELECT r FROM Rendezvous r WHERE r.medecin.id = (:id)")
-//    List<Rendezvous> getAllRendezvousByMedecinId(Long id);
-
 }

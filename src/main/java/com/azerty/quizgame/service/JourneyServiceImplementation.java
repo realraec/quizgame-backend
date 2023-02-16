@@ -75,4 +75,33 @@ public class JourneyServiceImplementation implements JourneyService {
         }
     }
 
+
+    @Override
+    public List<JourneyDTO> getAllJourneysByInternId(Long id)  {
+        Iterator<Journey> journeyIterator = journeyDAO.findAllJourneysByInternId(id).iterator();
+        List<JourneyDTO> journeys = new ArrayList<>();
+
+        while (journeyIterator.hasNext()) {
+            journeys.add(journeyMapper.toJourneyDTO(journeyIterator.next()));
+        }
+
+        if (!journeys.isEmpty()) {
+            return journeys;
+        } else {
+            return null;
+        }
+    }
+
+
+    @Override
+    public JourneyDTO getJourneyByInternIdAndQuizId(Long internId, Long quizId) {
+        JourneyDTO journey = journeyMapper.toJourneyDTO(journeyDAO.findJourneyByInternIdAndQuizId(internId, quizId));
+        /*if (journey.isPresent()) {
+            return journeyMapper.toJourneyDTO(journey.get());
+        } else {
+            return null;
+        }*/
+        return journey;
+    }
+
 }

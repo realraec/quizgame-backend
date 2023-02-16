@@ -61,16 +61,16 @@ public class QuizgameApplication {
             questionDAO.findAll().forEach(System.out::println);
 
             Answer answer1a = new Answer(null, ";", true, question1);
-            Answer answer1b = new Answer(null, "$", true, question1);
-            Answer answer1c = new Answer(null, "*", true, question1);
-            Answer answer1d = new Answer(null, "#", true, question1);
+            Answer answer1b = new Answer(null, "$", false, question1);
+            Answer answer1c = new Answer(null, "*", false, question1);
+            Answer answer1d = new Answer(null, "#", false, question1);
             Answer answer2a = new Answer(null, "Yes it is.", true, question2);
-            Answer answer2b = new Answer(null, "No it is not.", true, question2);
+            Answer answer2b = new Answer(null, "No it is not.", false, question2);
             Answer answer3a = new Answer(null, "Object-Oriented Programming", true, question3);
-            Answer answer3b = new Answer(null, "Obviously Over-the-top Proposition", true, question3);
-            Answer answer3c = new Answer(null, "Ohmygod Ohmygod Please", true, question3);
-            Answer answer3d = new Answer(null, "Out Of Perception", true, question3);
-            Answer answer3e = new Answer(null, "It does not mean anything.", true, question3);
+            Answer answer3b = new Answer(null, "Obviously Over-the-top Proposition", false, question3);
+            Answer answer3c = new Answer(null, "Ohmygod Ohmygod Please", false, question3);
+            Answer answer3d = new Answer(null, "Out Of Perception", false, question3);
+            Answer answer3e = new Answer(null, "It does not mean anything.", false, question3);
             answerDAO.save(answer1a);
             answerDAO.save(answer1b);
             answerDAO.save(answer1c);
@@ -93,10 +93,15 @@ public class QuizgameApplication {
             answersIntern2.add(answer2a);
             answersIntern2.add(answer3c);
             answersIntern2.add(answer3d);
+            List<Answer> answersIntern3 = new ArrayList<>();
+            answersIntern3.add(answer1b);
+            answersIntern3.add(answer2b);
             Journey journey1 = new Journey(null, null, 0, 0, intern1, quiz3, answersIntern1);
             Journey journey2 = new Journey(null, null, 0, 0, intern2, quiz3, answersIntern2);
+            Journey journey3 = new Journey(null, null, 0, 0, intern2, quiz2, answersIntern3);
             journeyDAO.save(journey1);
             journeyDAO.save(journey2);
+            journeyDAO.save(journey3);
 
         };
     }
