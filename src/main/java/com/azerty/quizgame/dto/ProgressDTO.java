@@ -2,7 +2,7 @@ package com.azerty.quizgame.dto;
 
 import java.time.LocalDateTime;
 
-public class JourneyDTO {
+public class ProgressDTO {
 
     private Long id;
     private LocalDateTime dateAndTimeOfCompletion;
@@ -10,17 +10,17 @@ public class JourneyDTO {
     private int score;
     private Long internId;
     private Long quizId;
-    private Long[] answersIds;
+    private Long[] recordsIds;
 
 
-    public JourneyDTO(Long id, LocalDateTime dateAndTimeOfCompletion, int durationInSeconds, int score, Long internId, Long quizId, Long[] answersIds) {
+    public ProgressDTO(Long id, LocalDateTime dateAndTimeOfCompletion, int durationInSeconds, int score, Long internId, Long quizId, Long[] recordsIds) {
         this.id = id;
         this.dateAndTimeOfCompletion = dateAndTimeOfCompletion;
         this.durationInSeconds = durationInSeconds;
         this.score = score;
         this.internId = internId;
         this.quizId = quizId;
-        this.answersIds = answersIds;
+        this.recordsIds = recordsIds;
     }
 
 
@@ -72,12 +72,12 @@ public class JourneyDTO {
         this.quizId = quizId;
     }
 
-    public Long[] getAnswersIds() {
-        return answersIds;
+    public Long[] getRecordsIds() {
+        return recordsIds;
     }
 
-    public void setAnswersIds(Long[] answersIds) {
-        this.answersIds = answersIds;
+    public void setRecordsIds(Long[] recordsIds) {
+        this.recordsIds = recordsIds;
     }
 
 }

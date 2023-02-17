@@ -2,16 +2,14 @@ package com.azerty.quizgame;
 
 import com.azerty.quizgame.dao.*;
 import com.azerty.quizgame.model.*;
+import com.azerty.quizgame.model.Record;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 @SpringBootApplication
 public class QuizgameApplication {
@@ -21,7 +19,7 @@ public class QuizgameApplication {
     }
 
     @Bean
-    CommandLineRunner start(AdminDAO adminDAO, InternDAO internDAO, QuizDAO quizDAO, QuestionDAO questionDAO, AnswerDAO answerDAO, JourneyDAO journeyDAO) {
+    CommandLineRunner start(AdminDAO adminDAO, InternDAO internDAO, QuizDAO quizDAO, QuestionDAO questionDAO, AnswerDAO answerDAO, ProgressDAO progressDAO, RecordDAO recordDAO) {
         return args -> {
 
             Admin admin1 = new Admin(null, "superadmin", "password123", "BOULBI", "Boulga", "bb@bb.com", null);
@@ -83,25 +81,43 @@ public class QuizgameApplication {
             answerDAO.save(answer3d);
             answerDAO.save(answer3e);
 
-            List<Answer> answersIntern1 = new ArrayList<>();
-            answersIntern1.add(answer1a);
-            answersIntern1.add(answer1b);
-            answersIntern1.add(answer1c);
-            answersIntern1.add(answer1d);
-            List<Answer> answersIntern2 = new ArrayList<>();
-            answersIntern2.add(answer1a);
-            answersIntern2.add(answer2a);
-            answersIntern2.add(answer3c);
-            answersIntern2.add(answer3d);
-            List<Answer> answersIntern3 = new ArrayList<>();
-            answersIntern3.add(answer1b);
-            answersIntern3.add(answer2b);
-            Journey journey1 = new Journey(null, null, 0, 0, intern1, quiz3, answersIntern1);
-            Journey journey2 = new Journey(null, null, 0, 0, intern2, quiz3, answersIntern2);
-            Journey journey3 = new Journey(null, null, 0, 0, intern2, quiz2, answersIntern3);
-            journeyDAO.save(journey1);
-            journeyDAO.save(journey2);
-            journeyDAO.save(journey3);
+            Record recordQuestion1Intern1 = new Record(null, question1, true);
+            Record recordQuestion2Intern1 = new Record(null, question2, false);
+            Record recordQuestion3Intern1 = new Record(null, question3, false);
+            Record recordQuestion1Intern2 = new Record(null, question1, true);
+            Record recordQuestion2Intern2 = new Record(null, question2, true);
+            Record recordQuestion1Intern3 = new Record(null, question1, false);
+            Record recordQuestion2Intern3 = new Record(null, question2, true);
+            Record recordQuestion3Intern3 = new Record(null, question3, true);
+            Record recordQuestion4Intern3 = new Record(null, question4, false);
+            recordDAO.save(recordQuestion1Intern1);
+            recordDAO.save(recordQuestion2Intern1);
+            recordDAO.save(recordQuestion3Intern1);
+            recordDAO.save(recordQuestion1Intern2);
+            recordDAO.save(recordQuestion2Intern2);
+            recordDAO.save(recordQuestion1Intern3);
+            recordDAO.save(recordQuestion2Intern3);
+            recordDAO.save(recordQuestion3Intern3);
+            recordDAO.save(recordQuestion4Intern3);
+
+            List<Record> records1Intern1 = new ArrayList<>();
+            records1Intern1.add(recordQuestion1Intern1);
+            records1Intern1.add(recordQuestion2Intern1);
+            records1Intern1.add(recordQuestion3Intern1);
+            List<Record> records2Intern1 = new ArrayList<>();
+            records2Intern1.add(recordQuestion1Intern2);
+            records2Intern1.add(recordQuestion2Intern2);
+            List<Record> records1Intern2 = new ArrayList<>();
+            records1Intern2.add(recordQuestion1Intern3);
+            records1Intern2.add(recordQuestion2Intern3);
+            records1Intern2.add(recordQuestion3Intern3);
+            records1Intern2.add(recordQuestion4Intern3);
+            Progress progress1 = new Progress(null, null, 0, 0, intern1, quiz3, records1Intern1);
+            Progress progress2 = new Progress(null, null, 0, 0, intern2, quiz3, records2Intern1);
+            Progress progress3 = new Progress(null, null, 0, 0, intern3, quiz3, records1Intern2);
+            progressDAO.save(progress1);
+            progressDAO.save(progress2);
+            progressDAO.save(progress3);
 
         };
     }

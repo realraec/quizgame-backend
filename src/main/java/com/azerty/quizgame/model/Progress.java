@@ -1,20 +1,18 @@
 package com.azerty.quizgame.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Access(AccessType.FIELD)
-@Table(name = "journeys")
-public class Journey {
+@Table(name = "progresses")
+public class Progress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pk_journey")
+    @Column(name = "pk_progress")
     private Long id;
 
     private LocalDateTime dateAndTimeOfCompletion;
@@ -29,24 +27,35 @@ public class Journey {
     @JoinColumn(name = "fk_quiz")
     private Quiz quiz;
 
-    @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "fk_journey"
+    //@JsonIgnore
+    //@OneToMany
+
+    //@JoinColumn(name = "fk_progress"
     //, referencedColumnName="DATREG_META_CODE"
-    )
-    private List<Answer> answers;
+    //)
+    //private List<Answer> answers;
+    //@JoinTable(name = "question_success")
+//    ,
+//    joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
+//    inverseJoinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")})
+    //@MapKey(name = "itemName")
+
+    @OneToMany
+    @JoinColumn(name = "fk_progress")
+    private List<Record> records;
 
 
-    public Journey() {
+
+    public Progress() {
     }
 
-    public Journey(Long id, LocalDateTime dateAndTimeOfCompletion, int durationInSeconds, int score, Intern intern, Quiz quiz, List<Answer> answers) {
+    public Progress(Long id, LocalDateTime dateAndTimeOfCompletion, int durationInSeconds, int score, Intern intern, Quiz quiz, List<Record> records) {
         this.dateAndTimeOfCompletion = dateAndTimeOfCompletion;
         this.durationInSeconds = durationInSeconds;
         this.score = score;
         this.intern = intern;
         this.quiz = quiz;
-        this.answers = answers;
+        this.records = records;
     }
 
 
@@ -98,25 +107,24 @@ public class Journey {
         this.quiz = quiz;
     }
 
-    public List<Answer> getAnswers() {
-        return answers;
+    public List<Record> getRecords() {
+        return records;
     }
 
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+    public void setRecords(List<Record> records) {
+        this.records = records;
     }
-
 
     @Override
     public String toString() {
-        return "Journey{" +
+        return "Progress{" +
                 "id=" + id +
                 ", dateAndTimeOfCompletion=" + dateAndTimeOfCompletion +
                 ", durationInSeconds=" + durationInSeconds +
                 ", score=" + score +
                 ", intern=" + intern +
                 ", quiz=" + quiz +
-                ", answers=" + answers +
+                ", records=" + records +
                 '}';
     }
 
