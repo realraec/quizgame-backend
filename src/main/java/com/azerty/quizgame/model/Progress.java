@@ -1,8 +1,10 @@
 package com.azerty.quizgame.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -27,23 +29,9 @@ public class Progress {
     @JoinColumn(name = "fk_quiz")
     private Quiz quiz;
 
-    //@JsonIgnore
-    //@OneToMany
-
-    //@JoinColumn(name = "fk_progress"
-    //, referencedColumnName="DATREG_META_CODE"
-    //)
-    //private List<Answer> answers;
-    //@JoinTable(name = "question_success")
-//    ,
-//    joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
-//    inverseJoinColumns = {@JoinColumn(name = "item_id", referencedColumnName = "id")})
-    //@MapKey(name = "itemName")
-
-    @OneToMany
-    @JoinColumn(name = "fk_progress")
+    @JsonIgnore
+    @OneToMany(mappedBy = "progress")
     private List<Record> records;
-
 
 
     public Progress() {
@@ -55,7 +43,7 @@ public class Progress {
         this.score = score;
         this.intern = intern;
         this.quiz = quiz;
-        this.records = records;
+        this.records = new ArrayList<>();
     }
 
 
@@ -114,6 +102,15 @@ public class Progress {
     public void setRecords(List<Record> records) {
         this.records = records;
     }
+
+//    public boolean addRecord(Record record) {
+//        if (!this.records.contains(record)) {
+//            this.records.add(record);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 
     @Override
     public String toString() {

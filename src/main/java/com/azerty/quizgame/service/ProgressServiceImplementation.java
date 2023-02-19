@@ -1,6 +1,7 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.ProgressDAO;
+import com.azerty.quizgame.dao.RecordDAO;
 import com.azerty.quizgame.dto.ProgressDTO;
 import com.azerty.quizgame.model.Progress;
 import com.azerty.quizgame.utils.ProgressMapper;
@@ -17,6 +18,9 @@ public class ProgressServiceImplementation implements ProgressService {
 
     @Autowired
     private ProgressDAO progressDAO;
+
+//    @Autowired
+//    private RecordDAO recordDAO;
 
     private final ProgressMapper progressMapper = new ProgressMapper();
 
@@ -80,7 +84,6 @@ public class ProgressServiceImplementation implements ProgressService {
     public List<ProgressDTO> getAllProgressesByInternId(Long id)  {
         Iterator<Progress> progressIterator = progressDAO.findAllProgressesByInternId(id).iterator();
         List<ProgressDTO> progresses = new ArrayList<>();
-
         while (progressIterator.hasNext()) {
             progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
         }
@@ -95,13 +98,44 @@ public class ProgressServiceImplementation implements ProgressService {
 
     @Override
     public ProgressDTO getProgressByInternIdAndQuizId(Long internId, Long quizId) {
-        ProgressDTO progress = progressMapper.toProgressDTO(progressDAO.findProgressByInternIdAndQuizId(internId, quizId));
-        /*if (progress.isPresent()) {
-            return progressMapper.toProgressDTO(progress.get());
+        Progress progress = progressDAO.findProgressByInternIdAndQuizId(internId, quizId);
+        if (progress != null) {
+            return progressMapper.toProgressDTO(progress);
         } else {
             return null;
-        }*/
-        return progress;
+        }
     }
+
+//    @Override
+//    @Transactional
+//    public boolean addRecordByIdToProgressById(Long recordId, Long progressId) {
+//        Optional<Record> record = recordDAO.findById(recordId);
+//        Optional<Progress> progress = progressDAO.findById(progressId);
+//        if (record.isPresent() && progress.isPresent()) {
+//            progress.get().addRecord(record.get());
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+//    @Override
+//    public Long[] getQuestionsIdsByProgressId(Long progressId) {
+//        Optional<Progress> progress = progressDAO.findById(progressId);
+//
+//        if (progress.isPresent()) {
+//            Progress progressAsModel = progress.get();
+//            List<Long> questionsIdsInProgressAsList = new ArrayList<>();
+//
+//            List<Record> recordsInProgress = progressAsModel.getRecords();
+//            for (int i = 0; i < recordsInProgress.size(); i++) {
+//                questionsIdsInProgressAsList.add(progressAsModel.getRecords().get(i).getQuestion().getId());
+//            }
+//            Long[] questionsIdsInProgress = questionsIdsInProgressAsList.toArray(Long[]::new);
+//            return questionsIdsInProgress;
+//        } else {
+//            return new Long[0];
+//        }
+//    }
 
 }

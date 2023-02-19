@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/progresses")
+@CrossOrigin("*")
 public class ProgressController {
 
     @Autowired
@@ -116,5 +117,18 @@ public class ProgressController {
         }
     }
 
+//    @GetMapping(path = "/{id}/questions")
+//    public ResponseEntity<Long[]> getQuestionsIdsByProgressId(@PathVariable Long id) {
+//        try {
+//            Long[] questionsIdsByProgressId = progressService.getQuestionsIdsByProgressId(id);
+//            if (questionsIdsByProgressId != null) {
+//                return new ResponseEntity<>(questionsIdsByProgressId, HttpStatus.OK);
+//            } else {
+//                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//            }
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 }

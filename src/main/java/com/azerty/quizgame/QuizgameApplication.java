@@ -18,7 +18,7 @@ public class QuizgameApplication {
         SpringApplication.run(QuizgameApplication.class, args);
     }
 
-    @Bean
+    /*@Bean
     CommandLineRunner start(AdminDAO adminDAO, InternDAO internDAO, QuizDAO quizDAO, QuestionDAO questionDAO, AnswerDAO answerDAO, ProgressDAO progressDAO, RecordDAO recordDAO) {
         return args -> {
 
@@ -120,6 +120,6 @@ public class QuizgameApplication {
             progressDAO.save(progress3);
 
         };
-    }
+    }*/
 
 }

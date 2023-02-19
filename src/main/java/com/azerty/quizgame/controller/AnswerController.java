@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/answers")
+@CrossOrigin("*")
 public class AnswerController {
 
     @Autowired
@@ -87,21 +88,6 @@ public class AnswerController {
         }
     }
 
-    @GetMapping(path = "/quiz/{id}")
-    public ResponseEntity<List<AnswerDTO>> getAllAnswersByQuizId(@PathVariable Long id) {
-        try {
-            QuizDTO quiz = quizService.getQuizById(id);
-            if (quiz == null) {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-            }
-            List<AnswerDTO> answers = answerService.getAllAnswersByQuizId(id);
-            return new ResponseEntity<>(answers, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping(path = "/question/{id}")
     public ResponseEntity<List<AnswerDTO>> getAllAnswersByQuestionId(@PathVariable Long id) {
         try {
@@ -115,5 +101,19 @@ public class AnswerController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @GetMapping(path = "/quiz/{id}")
+//    public ResponseEntity<List<AnswerDTO>> getAllAnswersByQuizId(@PathVariable Long id) {
+//        try {
+//            QuizDTO quiz = quizService.getQuizById(id);
+//            if (quiz == null) {
+//                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//            }
+//            List<AnswerDTO> answers = answerService.getAllAnswersByQuizId(id);
+//            return new ResponseEntity<>(answers, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 }

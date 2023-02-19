@@ -12,7 +12,10 @@ public class Answer {
     @Column(name = "pk_answer")
     private Long id;
 
+    @Column(nullable = false)
     private String wording;
+
+    @Column(nullable = false)
     private boolean isCorrect;
 
     @ManyToOne

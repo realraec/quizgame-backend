@@ -25,7 +25,6 @@ public class AnswerServiceImplementation implements AnswerService {
     public List<AnswerDTO> getAllAnswers() {
         Iterator<Answer> answerIterator = answerDAO.findAll().iterator();
         List<AnswerDTO> answers = new ArrayList<>();
-
         while (answerIterator.hasNext()) {
             answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
         }
@@ -76,10 +75,9 @@ public class AnswerServiceImplementation implements AnswerService {
     }
 
     @Override
-    public List<AnswerDTO> getAllAnswersByQuizId(Long id) {
-        Iterator<Answer> answerIterator = answerDAO.findAllAnswersByQuizId(id).iterator();
+    public List<AnswerDTO> getAllAnswersByQuestionId(Long questionId) {
+        Iterator<Answer> answerIterator = answerDAO.findAllAnswersByQuestionId(questionId).iterator();
         List<AnswerDTO> answers = new ArrayList<>();
-
         while (answerIterator.hasNext()) {
             answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
         }
@@ -91,20 +89,20 @@ public class AnswerServiceImplementation implements AnswerService {
         }
     }
 
-    @Override
-    public List<AnswerDTO> getAllAnswersByQuestionId(Long id) {
-        Iterator<Answer> answerIterator = answerDAO.findAllAnswersByQuestionId(id).iterator();
-        List<AnswerDTO> answers = new ArrayList<>();
-
-        while (answerIterator.hasNext()) {
-            answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
-        }
-
-        if (!answers.isEmpty()) {
-            return answers;
-        } else {
-            return null;
-        }
-    }
+//    @Override
+//    public List<AnswerDTO> getAllAnswersByQuizId(Long id) {
+//        Iterator<Answer> answerIterator = answerDAO.findAllAnswersByQuizId(id).iterator();
+//        List<AnswerDTO> answers = new ArrayList<>();
+//
+//        while (answerIterator.hasNext()) {
+//            answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
+//        }
+//
+//        if (!answers.isEmpty()) {
+//            return answers;
+//        } else {
+//            return null;
+//        }
+//    }
 
 }

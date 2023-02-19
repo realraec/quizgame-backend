@@ -1,6 +1,7 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.dto.RecordDTO;
+import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.RecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,11 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/records")
+@CrossOrigin("*")
 public class RecordController {
 
     @Autowired
     private RecordService recordService;
 
+    //@Autowired
+    //private ProgressService progressService;
 
     @GetMapping
     public ResponseEntity<List<RecordDTO>> getAllRecords() {
@@ -44,7 +48,9 @@ public class RecordController {
     @PostMapping(path = "/create")
     public ResponseEntity<RecordDTO> saveRecord(@RequestBody RecordDTO record) {
         try {
-            return new ResponseEntity<>(recordService.saveRecord(record), HttpStatus.CREATED);
+            RecordDTO savedRecord = recordService.saveRecord(record);
+            //progressService.addRecordByIdToProgressById(savedRecord.getId(), progressId);
+            return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

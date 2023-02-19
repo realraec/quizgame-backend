@@ -16,7 +16,10 @@ public class Quiz {
     @Column(name = "pk_quiz")
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private String summary;
 
     @JsonIgnore

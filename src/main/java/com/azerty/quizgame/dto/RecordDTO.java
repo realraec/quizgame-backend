@@ -3,18 +3,23 @@ package com.azerty.quizgame.dto;
 public class RecordDTO {
 
     private Long id;
-
-    private Long questionId;
+    private int timeTakenInSeconds;
     private boolean isSuccess;
+    private Long questionId;
+    private Long progressId;
+
 
     public RecordDTO() {
     }
 
-    public RecordDTO(Long id, Long questionId, boolean isSuccess) {
+    public RecordDTO(Long id, int timeTakenInSeconds, boolean isSuccess, Long questionId, Long progressId) {
         this.id = id;
-        this.questionId = questionId;
+        this.timeTakenInSeconds = timeTakenInSeconds;
         this.isSuccess = isSuccess;
+        this.questionId = questionId;
+        this.progressId = progressId;
     }
+
 
     public Long getId() {
         return id;
@@ -22,6 +27,22 @@ public class RecordDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getTimeTakenInSeconds() {
+        return timeTakenInSeconds;
+    }
+
+    public void setTimeTakenInSeconds(int timeTakenInSeconds) {
+        this.timeTakenInSeconds = timeTakenInSeconds;
+    }
+
+    public boolean isSuccess() {
+        return isSuccess;
+    }
+
+    public void setSuccess(boolean success) {
+        this.isSuccess = success;
     }
 
     public Long getQuestionId() {
@@ -32,12 +53,12 @@ public class RecordDTO {
         this.questionId = questionId;
     }
 
-    public boolean isSuccess() {
-        return isSuccess;
+    public Long getProgressId() {
+        return progressId;
     }
 
-    public void setSuccess(boolean success) {
-        this.isSuccess = success;
+    public void setProgressId(Long progressId) {
+        this.progressId = progressId;
     }
 
 }

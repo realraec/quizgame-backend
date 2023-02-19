@@ -25,7 +25,6 @@ public class InternServiceImplementation implements InternService {
     public List<InternDTO> getAllInterns() {
         Iterator<Intern> internIterator = internDAO.findAll().iterator();
         List<InternDTO> interns = new ArrayList<>();
-
         while (internIterator.hasNext()) {
             interns.add(internMapper.toInternDTO(internIterator.next()));
         }

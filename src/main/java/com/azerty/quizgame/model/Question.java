@@ -16,7 +16,10 @@ public class Question {
     @Column(name = "pk_question")
     private Long id;
 
+    @Column(nullable = false)
     private String wording;
+
+    @Column(nullable = false)
     private int maxDurationInSeconds;
 
     @ManyToOne
@@ -87,7 +90,7 @@ public class Question {
                 ", wording='" + wording + '\'' +
                 ", maxDurationInSeconds=" + maxDurationInSeconds +
                 ", quiz=" + quiz +
-                //", answers=" + answers +
+                ", answers=" + answers +
                 '}';
     }
 

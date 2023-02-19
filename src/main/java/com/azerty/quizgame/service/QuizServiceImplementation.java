@@ -25,7 +25,6 @@ public class QuizServiceImplementation implements QuizService {
     public List<QuizDTO> getAllQuizzes() {
         Iterator<Quiz> quizIterator = quizDAO.findAll().iterator();
         List<QuizDTO> quizzes = new ArrayList<>();
-
         while (quizIterator.hasNext()) {
             quizzes.add(quizMapper.toQuizDTO(quizIterator.next()));
         }

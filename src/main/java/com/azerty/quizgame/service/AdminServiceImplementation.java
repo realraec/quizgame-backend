@@ -25,7 +25,6 @@ public class AdminServiceImplementation implements AdminService {
     public List<AdminDTO> getAllAdmins() {
         Iterator<Admin> adminIterator = adminDAO.findAll().iterator();
         List<AdminDTO> admins = new ArrayList<>();
-
         while (adminIterator.hasNext()) {
             admins.add(adminMapper.toAdminDTO(adminIterator.next()));
         }

@@ -16,8 +16,8 @@ public interface AnswerService {
 
     AnswerDTO updateAnswerById(AnswerDTO answer, Long id) throws Exception;
 
-    List<AnswerDTO> getAllAnswersByQuizId(Long id) throws Exception;
-
     List<AnswerDTO> getAllAnswersByQuestionId(Long id) throws Exception;
+
+//    List<AnswerDTO> getAllAnswersByQuizId(Long id) throws Exception;
 
 }

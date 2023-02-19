@@ -9,21 +9,32 @@ public class Record {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "id", nullable = false)
+    @Column(name = "pk_record", nullable = false)
     private Long id;
+
+    @Column(nullable = false)
+    private int timeTakenInSeconds;
+
+    @Column(nullable = false)
+    private boolean isSuccess;
 
     @ManyToOne
     @JoinColumn(name = "fk_question")
     private Question question;
-    private boolean isSuccess;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_progress")
+    private Progress progress;
+
 
     public Record() {
     }
 
-    public Record(Long id, Question question, boolean isSuccess) {
-        this.id = id;
-        this.question = question;
+    public Record(Long id, int timeTakenInSeconds, boolean isSuccess, Question question, Progress progress) {
+        this.timeTakenInSeconds = timeTakenInSeconds;
         this.isSuccess = isSuccess;
+        this.question = question;
+        this.progress = progress;
     }
 
     public Long getId() {
@@ -34,12 +45,12 @@ public class Record {
         this.id = id;
     }
 
-    public Question getQuestion() {
-        return question;
+    public int getTimeTakenInSeconds() {
+        return timeTakenInSeconds;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setTimeTakenInSeconds(int timeTakenInSeconds) {
+        this.timeTakenInSeconds = timeTakenInSeconds;
     }
 
     public boolean isSuccess() {
@@ -50,12 +61,31 @@ public class Record {
         this.isSuccess = success;
     }
 
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public Progress getProgress() {
+        return progress;
+    }
+
+    public void setProgress(Progress progress) {
+        this.progress = progress;
+    }
+
+
     @Override
     public String toString() {
         return "Record{" +
                 "id=" + id +
-                ", question=" + question +
+                ", timeTakenInSeconds=" + timeTakenInSeconds +
                 ", isSuccess=" + isSuccess +
+                ", question=" + question +
+                ", progress=" + progress +
                 '}';
     }
 

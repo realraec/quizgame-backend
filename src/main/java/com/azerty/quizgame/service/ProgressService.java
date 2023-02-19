@@ -20,4 +20,8 @@ public interface ProgressService {
 
     ProgressDTO getProgressByInternIdAndQuizId(Long internId, Long quizId) throws Exception;
 
+    //boolean addRecordByIdToProgressById(Long recordId, Long progressId) throws Exception;
+
+    //Long[] getQuestionsIdsByProgressId(Long progressId) throws Exception;
+
 }
