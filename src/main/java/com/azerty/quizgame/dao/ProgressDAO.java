@@ -8,10 +8,19 @@ import java.util.List;
 
 public interface ProgressDAO extends CrudRepository<Progress, Long> {
 
-    @Query("SELECT p FROM Progress p WHERE p.intern.id = (:id)")
+    @Query("""
+            SELECT p
+            FROM Progress p
+            WHERE p.intern.id = (:id)
+            """)
     List<Progress> findAllProgressesByInternId(Long id);
 
-    @Query("SELECT p FROM Progress p WHERE p.intern.id = (:internId) AND p.quiz.id = (:quizId)")
+    @Query("""
+            SELECT p
+            FROM Progress p
+            WHERE p.intern.id = (:internId)
+            AND p.quiz.id = (:quizId)
+            """)
     Progress findProgressByInternIdAndQuizId(Long internId, Long quizId);
 
 }

@@ -8,10 +8,18 @@ import java.util.List;
 
 public interface AnswerDAO extends CrudRepository<Answer, Long> {
 
-    @Query("SELECT a FROM Answer a WHERE a.question.quiz.id = (:id)")
+    @Query("""
+            SELECT a
+            FROM Answer a
+            WHERE a.question.quiz.id = (:id)
+            """)
     List<Answer> findAllAnswersByQuizId(Long id);
 
-    @Query("SELECT a FROM Answer a WHERE a.question.id = (:id)")
+    @Query("""
+            SELECT a
+            FROM Answer a
+            WHERE a.question.id = (:id)
+            """)
     List<Answer> findAllAnswersByQuestionId(Long id);
 
 }
