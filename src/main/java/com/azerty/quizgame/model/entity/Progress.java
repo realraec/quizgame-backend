@@ -18,28 +18,28 @@ public class Progress {
     private Long id;
 
     private LocalDateTime dateAndTimeOfCompletion;
-    private int durationInSeconds;
+
+    @Column(nullable = false)
     private int score;
 
     @ManyToOne
-    @JoinColumn(name = "fk_intern")
+    @JoinColumn(name = "fk_intern", nullable = false)
     private Intern intern;
 
     @ManyToOne
-    @JoinColumn(name = "fk_quiz")
+    @JoinColumn(name = "fk_quiz", nullable = false)
     private Quiz quiz;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "progress")
+    @OneToMany(mappedBy = "progress", fetch = FetchType.EAGER)
     private List<Record> records;
 
 
     public Progress() {
     }
 
-    public Progress(Long id, LocalDateTime dateAndTimeOfCompletion, int durationInSeconds, int score, Intern intern, Quiz quiz, List<Record> records) {
+    public Progress(Long id, LocalDateTime dateAndTimeOfCompletion, int score, Intern intern, Quiz quiz, List<Record> records) {
         this.dateAndTimeOfCompletion = dateAndTimeOfCompletion;
-        this.durationInSeconds = durationInSeconds;
         this.score = score;
         this.intern = intern;
         this.quiz = quiz;
@@ -61,14 +61,6 @@ public class Progress {
 
     public void setDateAndTimeOfCompletion(LocalDateTime dateAndTime) {
         this.dateAndTimeOfCompletion = dateAndTime;
-    }
-
-    public int getDurationInSeconds() {
-        return durationInSeconds;
-    }
-
-    public void setDurationInSeconds(int durationInSeconds) {
-        this.durationInSeconds = durationInSeconds;
     }
 
     public int getScore() {
@@ -103,21 +95,12 @@ public class Progress {
         this.records = records;
     }
 
-//    public boolean addRecord(Record record) {
-//        if (!this.records.contains(record)) {
-//            this.records.add(record);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 
     @Override
     public String toString() {
         return "Progress{" +
                 "id=" + id +
                 ", dateAndTimeOfCompletion=" + dateAndTimeOfCompletion +
-                ", durationInSeconds=" + durationInSeconds +
                 ", score=" + score +
                 ", intern=" + intern +
                 ", quiz=" + quiz +

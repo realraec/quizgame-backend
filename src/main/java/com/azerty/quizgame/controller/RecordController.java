@@ -1,7 +1,9 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.RecordService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,8 @@ public class RecordController {
     @Autowired
     private RecordService recordService;
 
-    //@Autowired
-    //private ProgressService progressService;
+    @Autowired
+    private ProgressService progressService;
 
     @GetMapping
     public ResponseEntity<List<RecordDTO>> getAllRecords() {
@@ -44,11 +46,12 @@ public class RecordController {
         }
     }
 
+    @Transactional
     @PostMapping(path = "/create")
     public ResponseEntity<RecordDTO> saveRecord(@RequestBody RecordDTO record) {
         try {
             RecordDTO savedRecord = recordService.saveRecord(record);
-            //progressService.addRecordByIdToProgressById(savedRecord.getId(), progressId);
+            progressService.updateProgressScoreDependingOnRecord(record);
             return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

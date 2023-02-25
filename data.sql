@@ -29,7 +29,7 @@ INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role
 -- Data for Name: interns; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (1, 'timothée.lompech@gmail.com', 'Thimothée', 'LOMPECH', 'P@ssW0rd1', 1, 'intern1', 'Ammazon');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (1, 'timothée.lompech@gmail.com', 'Thimothée', 'LOMPECH', 'P@ssW0rd1', 1, 'intern1', 'Amazon');
 INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (2, 'mathias.guillaume@gmail.com', 'Mathias', 'GUILLAUME', 'P@ssW0rd2', 1, 'intern2', 'Apple');
 INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (3, 'camille.royer@gmail.com', 'Camille', 'ROYER', 'P@ssW0rd3', 1, 'intern3', 'Alphabet Inc.');
 INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (4, 'leandre.perrin@gmail.com', 'Léandre', 'PERRIN', 'P@ssW0rd4', 1, 'intern4', 'Microsoft');

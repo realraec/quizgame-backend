@@ -2,6 +2,7 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.model.dto.ProgressDTO;
+import com.azerty.quizgame.model.dto.RecordDTO;
 import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.utils.ProgressMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,19 @@ public class ProgressServiceImplementation implements ProgressService {
     }
 
     @Override
+    public boolean updateProgressScoreDependingOnRecord(RecordDTO record) {
+        Optional<Progress> checkProgress = progressDAO.findById(record.getProgressId());
+        if (checkProgress.isPresent() && record.isSuccess()) {
+            Progress progressAsModel = checkProgress.get();
+            progressAsModel.setScore(progressAsModel.getScore() + 1);
+            progressMapper.toProgressDTO(progressDAO.save(progressAsModel));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public boolean deleteProgressById(Long id) {
         Optional<Progress> checkProgress = progressDAO.findById(id);
         if (checkProgress.isPresent()) {
@@ -80,7 +94,7 @@ public class ProgressServiceImplementation implements ProgressService {
 
 
     @Override
-    public List<ProgressDTO> getAllProgressesByInternId(Long id)  {
+    public List<ProgressDTO> getAllProgressesByInternId(Long id) {
         Iterator<Progress> progressIterator = progressDAO.findAllProgressesByInternId(id).iterator();
         List<ProgressDTO> progresses = new ArrayList<>();
         while (progressIterator.hasNext()) {

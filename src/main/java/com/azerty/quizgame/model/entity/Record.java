@@ -9,29 +9,25 @@ public class Record {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "pk_record", nullable = false)
+    @Column(name = "pk_record")
     private Long id;
-
-    @Column(nullable = false)
-    private int timeTakenInSeconds;
 
     @Column(nullable = false)
     private boolean isSuccess;
 
     @ManyToOne
-    @JoinColumn(name = "fk_question")
+    @JoinColumn(name = "fk_question", nullable = false)
     private Question question;
 
     @ManyToOne
-    @JoinColumn(name = "fk_progress")
+    @JoinColumn(name = "fk_progress", nullable = false)
     private Progress progress;
 
 
     public Record() {
     }
 
-    public Record(Long id, int timeTakenInSeconds, boolean isSuccess, Question question, Progress progress) {
-        this.timeTakenInSeconds = timeTakenInSeconds;
+    public Record(Long id, boolean isSuccess, Question question, Progress progress) {
         this.isSuccess = isSuccess;
         this.question = question;
         this.progress = progress;
@@ -43,14 +39,6 @@ public class Record {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public int getTimeTakenInSeconds() {
-        return timeTakenInSeconds;
-    }
-
-    public void setTimeTakenInSeconds(int timeTakenInSeconds) {
-        this.timeTakenInSeconds = timeTakenInSeconds;
     }
 
     public boolean isSuccess() {
@@ -82,7 +70,6 @@ public class Record {
     public String toString() {
         return "Record{" +
                 "id=" + id +
-                ", timeTakenInSeconds=" + timeTakenInSeconds +
                 ", isSuccess=" + isSuccess +
                 ", question=" + question +
                 ", progress=" + progress +

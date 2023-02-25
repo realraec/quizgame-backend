@@ -23,7 +23,7 @@ public class Quiz {
     private String summary;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "quiz")
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Question> questions;
 
 

@@ -27,7 +27,7 @@ public class Question {
     private Quiz quiz;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Answer> answers;
 
 

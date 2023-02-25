@@ -6,17 +6,15 @@ public class ProgressDTO {
 
     private Long id;
     private LocalDateTime dateAndTimeOfCompletion;
-    private int durationInSeconds;
     private int score;
     private Long internId;
     private Long quizId;
     private Long[] recordsIds;
 
 
-    public ProgressDTO(Long id, LocalDateTime dateAndTimeOfCompletion, int durationInSeconds, int score, Long internId, Long quizId, Long[] recordsIds) {
+    public ProgressDTO(Long id, LocalDateTime dateAndTimeOfCompletion, int score, Long internId, Long quizId, Long[] recordsIds) {
         this.id = id;
         this.dateAndTimeOfCompletion = dateAndTimeOfCompletion;
-        this.durationInSeconds = durationInSeconds;
         this.score = score;
         this.internId = internId;
         this.quizId = quizId;
@@ -38,14 +36,6 @@ public class ProgressDTO {
 
     public void setDateAndTimeOfCompletion(LocalDateTime dateAndTimeOfCompletion) {
         this.dateAndTimeOfCompletion = dateAndTimeOfCompletion;
-    }
-
-    public int getDurationInSeconds() {
-        return durationInSeconds;
-    }
-
-    public void setDurationInSeconds(int durationInSeconds) {
-        this.durationInSeconds = durationInSeconds;
     }
 
     public int getScore() {

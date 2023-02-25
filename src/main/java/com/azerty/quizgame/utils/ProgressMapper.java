@@ -17,13 +17,12 @@ public class ProgressMapper {
     public ProgressDTO toProgressDTO(Progress progress) {
         Long id = progress.getId();
         LocalDateTime dateAndTimeOfCompletion = progress.getDateAndTimeOfCompletion();
-        int durationInSeconds = progress.getDurationInSeconds();
         int score = progress.getScore();
         Long internId = progress.getIntern().getId();
         Long quizId = progress.getQuiz().getId();
         Long[] records = progress.getRecords().stream().map(Record::getId).toArray(Long[]::new);
 
-        return new ProgressDTO(id, dateAndTimeOfCompletion, durationInSeconds, score, internId, quizId, records);
+        return new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, records);
     }
 
     public Progress toProgress(ProgressDTO progressDTO) {
@@ -39,7 +38,7 @@ public class ProgressMapper {
             records.add(record);
         }
 
-        return new Progress(progressDTO.getId(), progressDTO.getDateAndTimeOfCompletion(), progressDTO.getDurationInSeconds(), progressDTO.getScore(), intern, quiz, records);
+        return new Progress(progressDTO.getId(), progressDTO.getDateAndTimeOfCompletion(), progressDTO.getScore(), intern, quiz, records);
     }
 
 }

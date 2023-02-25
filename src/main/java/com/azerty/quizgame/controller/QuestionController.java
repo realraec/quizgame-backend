@@ -104,7 +104,6 @@ public class QuestionController {
             List<QuestionDTO> questions = questionService.getAllQuestionsByInternIdAndQuizId(internId, quizId);
             return new ResponseEntity<>(questions, HttpStatus.OK);
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -119,7 +118,6 @@ public class QuestionController {
                 return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
