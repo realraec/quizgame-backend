@@ -1,8 +1,8 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.AdminDAO;
-import com.azerty.quizgame.dto.AdminDTO;
-import com.azerty.quizgame.model.Admin;
+import com.azerty.quizgame.model.dto.AdminDTO;
+import com.azerty.quizgame.model.entity.Admin;
 import com.azerty.quizgame.utils.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

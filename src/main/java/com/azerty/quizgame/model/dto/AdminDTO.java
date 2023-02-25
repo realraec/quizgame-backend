@@ -1,6 +1,6 @@
-package com.azerty.quizgame.dto;
+package com.azerty.quizgame.model.dto;
 
-import com.azerty.quizgame.model.Role;
+import com.azerty.quizgame.model.entity.Role;
 
 public class AdminDTO {
 

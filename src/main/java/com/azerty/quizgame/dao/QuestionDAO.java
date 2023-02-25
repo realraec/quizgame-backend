@@ -1,6 +1,6 @@
 package com.azerty.quizgame.dao;
 
-import com.azerty.quizgame.model.Question;
+import com.azerty.quizgame.model.entity.Question;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

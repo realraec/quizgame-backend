@@ -1,8 +1,8 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.dto.InternDTO;
-import com.azerty.quizgame.dto.ProgressDTO;
-import com.azerty.quizgame.dto.QuizDTO;
+import com.azerty.quizgame.model.dto.InternDTO;
+import com.azerty.quizgame.model.dto.ProgressDTO;
+import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.service.InternService;
 import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.QuizService;

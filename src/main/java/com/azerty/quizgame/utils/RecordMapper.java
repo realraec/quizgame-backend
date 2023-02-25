@@ -1,9 +1,9 @@
 package com.azerty.quizgame.utils;
 
-import com.azerty.quizgame.dto.RecordDTO;
-import com.azerty.quizgame.model.Progress;
-import com.azerty.quizgame.model.Question;
-import com.azerty.quizgame.model.Record;
+import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.entity.Progress;
+import com.azerty.quizgame.model.entity.Question;
+import com.azerty.quizgame.model.entity.Record;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,4 +1,4 @@
-package com.azerty.quizgame.model;
+package com.azerty.quizgame.model.entity;
 
 import jakarta.persistence.*;
 

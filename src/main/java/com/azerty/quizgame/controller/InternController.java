@@ -1,6 +1,6 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.dto.InternDTO;
+import com.azerty.quizgame.model.dto.InternDTO;
 import com.azerty.quizgame.service.InternService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

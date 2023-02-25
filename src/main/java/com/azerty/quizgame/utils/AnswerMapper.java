@@ -1,8 +1,8 @@
 package com.azerty.quizgame.utils;
 
-import com.azerty.quizgame.dto.AnswerDTO;
-import com.azerty.quizgame.model.Answer;
-import com.azerty.quizgame.model.Question;
+import com.azerty.quizgame.model.dto.AnswerDTO;
+import com.azerty.quizgame.model.entity.Answer;
+import com.azerty.quizgame.model.entity.Question;
 import org.springframework.stereotype.Component;
 
 @Component

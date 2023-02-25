@@ -1,6 +1,6 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dto.QuestionDTO;
+import com.azerty.quizgame.model.dto.QuestionDTO;
 
 import java.util.List;
 

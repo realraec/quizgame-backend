@@ -1,6 +1,6 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dto.ProgressDTO;
+import com.azerty.quizgame.model.dto.ProgressDTO;
 
 import java.util.List;
 

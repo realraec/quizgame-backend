@@ -1,6 +1,6 @@
 package com.azerty.quizgame.dao;
 
-import com.azerty.quizgame.model.Progress;
+import com.azerty.quizgame.model.entity.Progress;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 

@@ -1,8 +1,8 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.QuizDAO;
-import com.azerty.quizgame.dto.QuizDTO;
-import com.azerty.quizgame.model.Quiz;
+import com.azerty.quizgame.model.dto.QuizDTO;
+import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.utils.QuizMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

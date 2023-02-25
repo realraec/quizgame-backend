@@ -1,8 +1,10 @@
 package com.azerty.quizgame.utils;
 
-import com.azerty.quizgame.dto.ProgressDTO;
-import com.azerty.quizgame.model.*;
-import com.azerty.quizgame.model.Record;
+import com.azerty.quizgame.model.dto.ProgressDTO;
+import com.azerty.quizgame.model.entity.Intern;
+import com.azerty.quizgame.model.entity.Progress;
+import com.azerty.quizgame.model.entity.Quiz;
+import com.azerty.quizgame.model.entity.Record;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

@@ -1,4 +1,4 @@
-package com.azerty.quizgame.dto;
+package com.azerty.quizgame.model.dto;
 
 import java.time.LocalDateTime;
 

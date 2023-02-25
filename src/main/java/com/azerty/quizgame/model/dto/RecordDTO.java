@@ -1,4 +1,4 @@
-package com.azerty.quizgame.dto;
+package com.azerty.quizgame.model.dto;
 
 public class RecordDTO {
 

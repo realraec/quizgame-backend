@@ -1,8 +1,8 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.RecordDAO;
-import com.azerty.quizgame.dto.RecordDTO;
-import com.azerty.quizgame.model.Record;
+import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.entity.Record;
 import com.azerty.quizgame.utils.RecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

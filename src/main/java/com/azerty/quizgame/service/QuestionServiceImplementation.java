@@ -2,9 +2,9 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuestionDAO;
-import com.azerty.quizgame.dto.QuestionDTO;
-import com.azerty.quizgame.model.Progress;
-import com.azerty.quizgame.model.Question;
+import com.azerty.quizgame.model.dto.QuestionDTO;
+import com.azerty.quizgame.model.entity.Progress;
+import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.utils.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

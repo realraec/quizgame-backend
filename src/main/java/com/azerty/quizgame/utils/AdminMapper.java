@@ -1,8 +1,8 @@
 package com.azerty.quizgame.utils;
 
-import com.azerty.quizgame.dto.AdminDTO;
-import com.azerty.quizgame.model.Admin;
-import com.azerty.quizgame.model.Role;
+import com.azerty.quizgame.model.dto.AdminDTO;
+import com.azerty.quizgame.model.entity.Admin;
+import com.azerty.quizgame.model.entity.Role;
 import org.springframework.stereotype.Component;
 
 @Component
