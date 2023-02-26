@@ -124,13 +124,13 @@ INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES 
 -- Data for Name: progresses; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duration_in_seconds, score, fk_intern, fk_quiz) VALUES (1, NULL, 0, 0, 1, 1);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duration_in_seconds, score, fk_intern, fk_quiz) VALUES (2, NULL, 0, 0, 1, 2);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duration_in_seconds, score, fk_intern, fk_quiz) VALUES (3, NULL, 0, 0, 2, 2);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duration_in_seconds, score, fk_intern, fk_quiz) VALUES (4, NULL, 0, 0, 2, 4);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duration_in_seconds, score, fk_intern, fk_quiz) VALUES (5, NULL, 0, 0, 3, 1);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duration_in_seconds, score, fk_intern, fk_quiz) VALUES (6, NULL, 0, 0, 4, 2);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duration_in_seconds, score, fk_intern, fk_quiz) VALUES (7, NULL, 0, 0, 4, 3);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (1, '2023-02-26 14:17:01.82939', 2, 1, 1);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (2, NULL, 1, 1, 2);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (3, '2023-02-26 14:17:02.626664', 1, 2, 2);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (4, '2023-02-26 14:17:02.793977', 1, 2, 4);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (5, NULL, 1, 3, 1);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (6, NULL, 0, 4, 2);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (7, NULL, 0, 4, 3);
 
 
 --
@@ -139,22 +139,20 @@ INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, duratio
 -- Data for Name: records; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (1, true, 16, 1, 1);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (2, false, 12, 1, 2);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (3, false, 8, 1, 3);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (4, true, 15, 1, 4);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (5, true, 10, 2, 5);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (6, false, 15, 2, 6);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (7, false, 16, 3, 5);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (8, false, 7, 3, 6);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (9, true, 4, 3, 7);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (10, true, 15, 4, 10);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (11, false, 20, 5, 1);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (12, true, 5, 5, 2);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (13, false, 10, 5, 3);
-INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (14, false, 12, 6, 5);
-
-
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (1, true, 1, 1);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (2, false, 1, 2);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (3, false, 1, 3);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (4, true, 1, 4);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (5, true, 2, 5);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (6, false, 2, 6);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (7, false, 3, 5);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (8, false, 3, 6);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (9, true, 3, 7);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (10, true, 4, 10);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (11, false, 5, 1);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (12, true, 5, 2);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (13, false, 5, 3);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (14, false, 6, 5);
 
 
 --
@@ -167,48 +165,12 @@ SELECT pg_catalog.setval('public.admins_pk_person_seq', 3, true);
 
 
 --
--- TOC entry 3033 (class 0 OID 0)
--- Dependencies: 205
--- Name: answers_pk_answer_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.answers_pk_answer_seq', 39, true);
-
-
---
 -- TOC entry 3034 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: interns_pk_person_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
 SELECT pg_catalog.setval('public.interns_pk_person_seq', 9, true);
-
-
---
--- TOC entry 3036 (class 0 OID 0)
--- Dependencies: 211
--- Name: progresses_pk_progress_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.progresses_pk_progress_seq', 7, true);
-
-
---
--- TOC entry 3037 (class 0 OID 0)
--- Dependencies: 212
--- Name: question_records_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.question_records_seq', 1, false);
-
-
---
--- TOC entry 3038 (class 0 OID 0)
--- Dependencies: 214
--- Name: questions_pk_question_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.questions_pk_question_seq', 10, true);
 
 
 --
@@ -221,12 +183,40 @@ SELECT pg_catalog.setval('public.quizzes_pk_quiz_seq', 5, true);
 
 
 --
+-- TOC entry 3038 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: questions_pk_question_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.questions_pk_question_seq', 10, true);
+
+
+--
+-- TOC entry 3033 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: answers_pk_answer_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.answers_pk_answer_seq', 39, true);
+
+
+--
+-- TOC entry 3036 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: progresses_pk_progress_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.progresses_pk_progress_seq', 7, true);
+
+
+--
 -- TOC entry 3040 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: records_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.records_seq', 51, true);
+SELECT pg_catalog.setval('public.records_seq', 14, true);
+
 
 --
 -- PostgreSQL database dump complete

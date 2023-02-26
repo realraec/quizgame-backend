@@ -1,8 +1,10 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.entity.Record;
 import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.RecordService;
+import com.azerty.quizgame.utils.RecordMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +23,8 @@ public class RecordController {
 
     @Autowired
     private ProgressService progressService;
+
+    private final RecordMapper recordMapper = new RecordMapper();
 
     @GetMapping
     public ResponseEntity<List<RecordDTO>> getAllRecords() {
@@ -50,9 +54,18 @@ public class RecordController {
     @PostMapping(path = "/create")
     public ResponseEntity<RecordDTO> saveRecord(@RequestBody RecordDTO record) {
         try {
-            RecordDTO savedRecord = recordService.saveRecord(record);
-            progressService.updateProgressScoreDependingOnRecord(record);
-            return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
+            Record recordAsEntity = recordMapper.toRecord(record);
+            Long progressId = recordAsEntity.getProgress().getId();
+            Long questionId = recordAsEntity.getQuestion().getId();
+            RecordDTO checkRecord = recordService.getRecordByProgressIdAndQuestionId(progressId, questionId);
+
+            if (checkRecord == null) {
+                RecordDTO savedRecord = recordService.saveRecord(record);
+                progressService.updateProgressDependingOnRecord(record);
+                return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(checkRecord, HttpStatus.CONFLICT);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

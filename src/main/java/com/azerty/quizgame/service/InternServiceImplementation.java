@@ -55,9 +55,9 @@ public class InternServiceImplementation implements InternService {
     public InternDTO updateInternById(InternDTO intern, Long id) {
         Optional<Intern> checkIntern = internDAO.findById(id);
         if (checkIntern.isPresent()) {
-            Intern internAsModel = internMapper.toIntern(intern);
-            internAsModel.setId(id);
-            return internMapper.toInternDTO(internDAO.save(internAsModel));
+            Intern internAsEntity = internMapper.toIntern(intern);
+            internAsEntity.setId(id);
+            return internMapper.toInternDTO(internDAO.save(internAsEntity));
         } else {
             return null;
         }

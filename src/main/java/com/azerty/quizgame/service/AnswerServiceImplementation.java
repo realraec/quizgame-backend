@@ -55,9 +55,9 @@ public class AnswerServiceImplementation implements AnswerService {
     public AnswerDTO updateAnswerById(AnswerDTO answer, Long id) {
         Optional<Answer> checkAnswer = answerDAO.findById(id);
         if (checkAnswer.isPresent()) {
-            Answer answerAsModel = answerMapper.toAnswer(answer);
-            answerAsModel.setId(id);
-            return answerMapper.toAnswerDTO(answerDAO.save(answerAsModel));
+            Answer answerAsEntity = answerMapper.toAnswer(answer);
+            answerAsEntity.setId(id);
+            return answerMapper.toAnswerDTO(answerDAO.save(answerAsEntity));
         } else {
             return null;
         }

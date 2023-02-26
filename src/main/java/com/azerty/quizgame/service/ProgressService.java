@@ -21,10 +21,6 @@ public interface ProgressService {
 
     ProgressDTO getProgressByInternIdAndQuizId(Long internId, Long quizId) throws Exception;
 
-    boolean updateProgressScoreDependingOnRecord(RecordDTO record) throws Exception;
-
-    //boolean addRecordByIdToProgressById(Long recordId, Long progressId) throws Exception;
-
-    //Long[] getQuestionsIdsByProgressId(Long progressId) throws Exception;
+    boolean updateProgressDependingOnRecord(RecordDTO record) throws Exception;
 
 }

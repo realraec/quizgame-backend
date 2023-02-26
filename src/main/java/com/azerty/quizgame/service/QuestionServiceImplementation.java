@@ -60,9 +60,9 @@ public class QuestionServiceImplementation implements QuestionService {
     public QuestionDTO updateQuestionById(QuestionDTO question, Long id) {
         Optional<Question> checkQuestion = questionDAO.findById(id);
         if (checkQuestion.isPresent()) {
-            Question questionAsModel = questionMapper.toQuestion(question);
-            questionAsModel.setId(id);
-            return questionMapper.toQuestionDTO(questionDAO.save(questionAsModel));
+            Question questionAsEntity = questionMapper.toQuestion(question);
+            questionAsEntity.setId(id);
+            return questionMapper.toQuestionDTO(questionDAO.save(questionAsEntity));
         } else {
             return null;
         }
@@ -129,7 +129,6 @@ public class QuestionServiceImplementation implements QuestionService {
         Optional<Progress> progress = progressDAO.findById(progressId);
         if (progress.isPresent()) {
             List<Question> questions = questionDAO.findAllQuestionsInQuizWithIdNotInProgressRecordsByProgressId(progressId);
-            System.out.println(questions);
 
             if (questions.size() > 0) {
                 Question question = questions.get(0);

@@ -55,9 +55,9 @@ public class RecordServiceImplementation implements RecordService {
     public RecordDTO updateRecordById(RecordDTO record, Long id) {
         Optional<Record> checkRecord = recordDAO.findById(id);
         if (checkRecord.isPresent()) {
-            Record recordAsModel = recordMapper.toRecord(record);
-            recordAsModel.setId(id);
-            return recordMapper.toRecordDTO(recordDAO.save(recordAsModel));
+            Record recordAsEntity = recordMapper.toRecord(record);
+            recordAsEntity.setId(id);
+            return recordMapper.toRecordDTO(recordDAO.save(recordAsEntity));
         } else {
             return null;
         }
@@ -73,5 +73,16 @@ public class RecordServiceImplementation implements RecordService {
             return false;
         }
     }
+
+
+    public RecordDTO getRecordByProgressIdAndQuestionId(Long internId, Long questionId) {
+        Optional<Record> record = recordDAO.findRecordByProgressIdAndQuestionId(internId, questionId);
+        if (record.isPresent()) {
+            return recordMapper.toRecordDTO(record.get());
+        } else {
+            return null;
+        }
+    }
+
 
 }

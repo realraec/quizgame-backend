@@ -55,9 +55,9 @@ public class AdminServiceImplementation implements AdminService {
     public AdminDTO updateAdminById(AdminDTO admin, Long id) {
         Optional<Admin> checkAdmin = adminDAO.findById(id);
         if (checkAdmin.isPresent()) {
-            Admin adminAsModel = adminMapper.toAdmin(admin);
-            adminAsModel.setId(id);
-            return adminMapper.toAdminDTO(adminDAO.save(adminAsModel));
+            Admin adminAsEntity = adminMapper.toAdmin(admin);
+            adminAsEntity.setId(id);
+            return adminMapper.toAdminDTO(adminDAO.save(adminAsEntity));
         } else {
             return null;
         }

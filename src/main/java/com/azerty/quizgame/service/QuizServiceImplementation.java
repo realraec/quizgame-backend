@@ -55,9 +55,9 @@ public class QuizServiceImplementation implements QuizService {
     public QuizDTO updateQuizById(QuizDTO quiz, Long id) {
         Optional<Quiz> checkQuiz = quizDAO.findById(id);
         if (checkQuiz.isPresent()) {
-            Quiz quizAsModel = quizMapper.toQuiz(quiz);
-            quizAsModel.setId(id);
-            return quizMapper.toQuizDTO(quizDAO.save(quizAsModel));
+            Quiz quizAsEntity = quizMapper.toQuiz(quiz);
+            quizAsEntity.setId(id);
+            return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
         } else {
             return null;
         }
