@@ -18,9 +18,9 @@ DELETE FROM public.admins;
 -- Data for Name: admins; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role, username) VALUES (1, 'emilie.lucas@gmail.com', 'Emilie', 'LUCAS', 'P@ssW0rd1', 0, 'admin1');
-INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role, username) VALUES (2, 'thomas.saligny@gmail.com', 'Thomas', 'SALIGNY', 'P@ssW0rd2', 0, 'admin2');
-INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role, username) VALUES (3, 'louis.bernard@gmail.com', 'Louis', 'BERNARD', 'P@ssW0rd3', 0, 'admin3');
+INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role, username) VALUES (1, 'emilie.lucas@gmail.com', 'Emilie', 'LUCAS', 'P@ssW0rd1', 'ADMIN', 'admin1');
+INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role, username) VALUES (2, 'thomas.saligny@gmail.com', 'Thomas', 'SALIGNY', 'P@ssW0rd2', 'ADMIN', 'admin2');
+INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role, username) VALUES (3, 'louis.bernard@gmail.com', 'Louis', 'BERNARD', 'P@ssW0rd3', 'ADMIN', 'admin3');
 
 
 --
@@ -29,15 +29,15 @@ INSERT INTO public.admins (pk_person, email, firstname, lastname, password, role
 -- Data for Name: interns; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (1, 'timothée.lompech@gmail.com', 'Thimothée', 'LOMPECH', 'P@ssW0rd1', 1, 'intern1', 'Amazon');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (2, 'mathias.guillaume@gmail.com', 'Mathias', 'GUILLAUME', 'P@ssW0rd2', 1, 'intern2', 'Apple');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (3, 'camille.royer@gmail.com', 'Camille', 'ROYER', 'P@ssW0rd3', 1, 'intern3', 'Alphabet Inc.');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (4, 'leandre.perrin@gmail.com', 'Léandre', 'PERRIN', 'P@ssW0rd4', 1, 'intern4', 'Microsoft');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (5, 'marie.coolen@gmail.com', 'Marie', 'COOLEN', 'P@ssW0rd5', 1, 'intern5', 'Samsung Group');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (6, 'theodore.leclerc@gmail.com', 'Théodore', 'LECLERC', 'P@ssW0rd6', 1, 'intern6', 'Tencent Holdings');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (7, 'celestine.meunier@gmail.com', 'Célestine', 'MEUNIER', 'P@ssW0rd7', 1, 'intern7', 'Meta Platforms');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (8, 'chloe.carpentier@gmail.com', 'Chloé', 'CARPENTIER', 'P@ssW0rd8', 1, 'intern8', 'Cisco Systems');
-INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (9, 'diane.caudron@gmail.com', 'Diane', 'CAUDRON', 'P@ssW0rd9', 1, 'intern9', 'Oracle Corporation');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (1, 'timothée.lompech@gmail.com', 'Thimothée', 'LOMPECH', 'P@ssW0rd1', 'INTERN', 'intern1', 'Amazon');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (2, 'mathias.guillaume@gmail.com', 'Mathias', 'GUILLAUME', 'P@ssW0rd2', 'INTERN', 'intern2', 'Apple');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (3, 'camille.royer@gmail.com', 'Camille', 'ROYER', 'P@ssW0rd3', 'INTERN', 'intern3', 'Alphabet Inc.');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (4, 'leandre.perrin@gmail.com', 'Léandre', 'PERRIN', 'P@ssW0rd4', 'INTERN', 'intern4', 'Microsoft');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (5, 'marie.coolen@gmail.com', 'Marie', 'COOLEN', 'P@ssW0rd5', 'INTERN', 'intern5', 'Samsung Group');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (6, 'theodore.leclerc@gmail.com', 'Théodore', 'LECLERC', 'P@ssW0rd6', 'INTERN', 'intern6', 'Tencent Holdings');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (7, 'celestine.meunier@gmail.com', 'Célestine', 'MEUNIER', 'P@ssW0rd7', 'INTERN', 'intern7', 'Meta Platforms');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (8, 'chloe.carpentier@gmail.com', 'Chloé', 'CARPENTIER', 'P@ssW0rd8', 'INTERN', 'intern8', 'Cisco Systems');
+INSERT INTO public.interns (pk_person, email, firstname, lastname, password, role, username, company) VALUES (9, 'diane.caudron@gmail.com', 'Diane', 'CAUDRON', 'P@ssW0rd9', 'INTERN', 'intern9', 'Oracle Corporation');
 
 
 --

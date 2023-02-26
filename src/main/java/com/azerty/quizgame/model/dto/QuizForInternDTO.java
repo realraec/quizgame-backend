@@ -1,21 +1,23 @@
 package com.azerty.quizgame.model.dto;
 
-public class QuizDTO {
+import com.azerty.quizgame.model.entity.QuizState;
+
+public class QuizForInternDTO {
 
     private Long id;
     private String title;
     private String summary;
-    private Long[] questionsIds;
+    private QuizState state;
 
 
-    public QuizDTO() {
+    public QuizForInternDTO() {
     }
 
-    public QuizDTO(Long id, String title, String summary, Long[] questionsIds) {
+    public QuizForInternDTO(Long id, String title, String summary, QuizState state) {
         this.id = id;
         this.title = title;
         this.summary = summary;
-        this.questionsIds = questionsIds;
+        this.state = state;
     }
 
 
@@ -43,12 +45,12 @@ public class QuizDTO {
         this.summary = summary;
     }
 
-    public Long[] getQuestionsIds() {
-        return questionsIds;
+    public QuizState getState() {
+        return state;
     }
 
-    public void setQuestionsIds(Long[] questionsIds) {
-        this.questionsIds = questionsIds;
+    public void setState(QuizState state) {
+        this.state = state;
     }
 
 }

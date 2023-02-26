@@ -13,6 +13,9 @@ public class AdminDTO {
     private Role role;
 
 
+    public AdminDTO() {
+    }
+
     public AdminDTO(Long id, String username, String password, String lastname, String firstname, String email, Role role) {
         this.id = id;
         this.username = username;

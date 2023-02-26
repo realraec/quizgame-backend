@@ -1,8 +1,10 @@
 package com.azerty.quizgame.utils;
 
 import com.azerty.quizgame.model.dto.QuizDTO;
+import com.azerty.quizgame.model.dto.QuizForInternDTO;
 import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.model.entity.Quiz;
+import com.azerty.quizgame.model.entity.QuizState;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,6 +20,14 @@ public class QuizMapper {
         Long[] questionsIds = quiz.getQuestions().stream().map(Question::getId).toArray(Long[]::new);
 
         return new QuizDTO(id, title, summary, questionsIds);
+    }
+
+    public QuizForInternDTO toQuizForInternDTO(Quiz quiz, QuizState quizState) {
+        Long id = quiz.getId();
+        String title = quiz.getTitle();
+        String summary = quiz.getSummary();
+
+        return new QuizForInternDTO(id, title, summary, quizState);
     }
 
     public Quiz toQuiz(QuizDTO quizDTO) {

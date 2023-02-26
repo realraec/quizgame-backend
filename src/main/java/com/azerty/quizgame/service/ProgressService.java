@@ -17,7 +17,7 @@ public interface ProgressService {
 
     ProgressDTO updateProgressById(ProgressDTO progress, Long id) throws Exception;
 
-    List<ProgressDTO> getAllProgressesByInternId(Long id) throws Exception;
+    List<ProgressDTO> getAllProgressesByInternId(Long internId) throws Exception;
 
     ProgressDTO getProgressByInternIdAndQuizId(Long internId, Long quizId) throws Exception;
 

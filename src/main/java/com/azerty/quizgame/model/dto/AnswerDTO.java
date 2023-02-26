@@ -8,6 +8,9 @@ public class AnswerDTO {
     private Long questionId;
 
 
+    public AnswerDTO() {
+    }
+
     public AnswerDTO(Long id, String wording, boolean isCorrect, Long questionId) {
         this.id = id;
         this.wording = wording;

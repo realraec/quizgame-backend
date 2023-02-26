@@ -27,7 +27,6 @@ public class RecordDTO {
         this.id = id;
     }
 
-
     public boolean isSuccess() {
         return isSuccess;
     }

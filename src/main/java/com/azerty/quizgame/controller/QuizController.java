@@ -1,6 +1,7 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.QuizDTO;
+import com.azerty.quizgame.model.dto.QuizForInternDTO;
 import com.azerty.quizgame.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,7 @@ public class QuizController {
             if (quiz != null) {
                 return new ResponseEntity<>(quiz, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -57,7 +58,7 @@ public class QuizController {
             if (updatedQuiz != null) {
                 return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,6 +71,35 @@ public class QuizController {
             boolean deletedOrNot = quizService.deleteQuizById(id);
             if (deletedOrNot) {
                 return new ResponseEntity<>(HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping(path = "/{quizId}/forIntern/{internId}")
+    public ResponseEntity<QuizForInternDTO> getQuizWithStateByQuizIdAndInternId(@PathVariable Long quizId, @PathVariable Long internId) {
+        try {
+            QuizForInternDTO quiz = quizService.getQuizWithStateByQuizIdAndInternId(quizId, internId);
+            if (quiz != null) {
+                return new ResponseEntity<>(quiz, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/forIntern/{internId}")
+    public ResponseEntity<List<QuizForInternDTO>> getAllQuizzesWithStateByInternId(@PathVariable Long internId) {
+        try {
+            List<QuizForInternDTO> quizzesForIntern = quizService.getAllQuizzesWithStateByInternId(internId);
+            if (quizzesForIntern != null) {
+                return new ResponseEntity<>(quizzesForIntern, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }

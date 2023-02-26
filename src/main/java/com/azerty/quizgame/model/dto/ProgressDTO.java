@@ -5,12 +5,16 @@ import java.time.LocalDateTime;
 public class ProgressDTO {
 
     private Long id;
+
     private LocalDateTime dateAndTimeOfCompletion;
     private int score;
     private Long internId;
     private Long quizId;
     private Long[] recordsIds;
 
+
+    public ProgressDTO() {
+    }
 
     public ProgressDTO(Long id, LocalDateTime dateAndTimeOfCompletion, int score, Long internId, Long quizId, Long[] recordsIds) {
         this.id = id;

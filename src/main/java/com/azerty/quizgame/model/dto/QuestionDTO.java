@@ -9,6 +9,9 @@ public class QuestionDTO {
     private Long[] answersIds;
 
 
+    public QuestionDTO() {
+    }
+
     public QuestionDTO(Long id, String wording, int maxDurationInSeconds, Long quizId, Long[] answersIds) {
         this.id = id;
         this.wording = wording;

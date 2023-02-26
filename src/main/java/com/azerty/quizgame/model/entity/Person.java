@@ -26,6 +26,7 @@ public class Person {
     @Column(nullable = false, unique = true)
     protected String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     protected Role role;
 

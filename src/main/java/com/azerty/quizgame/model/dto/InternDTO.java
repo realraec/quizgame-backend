@@ -14,6 +14,9 @@ public class InternDTO {
     private Role role;
 
 
+    public InternDTO() {
+    }
+
     public InternDTO(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role) {
         this.id = id;
         this.username = username;

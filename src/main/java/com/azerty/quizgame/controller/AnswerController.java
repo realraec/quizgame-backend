@@ -43,7 +43,7 @@ public class AnswerController {
             if (answer != null) {
                 return new ResponseEntity<>(answer, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -66,7 +66,7 @@ public class AnswerController {
             if (updatedAnswer != null) {
                 return new ResponseEntity<>(updatedAnswer, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -92,7 +92,7 @@ public class AnswerController {
         try {
             QuestionDTO question = questionService.getQuestionById(id);
             if (question == null) {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             List<AnswerDTO> answers = answerService.getAllAnswersByQuestionId(id);
             return new ResponseEntity<>(answers, HttpStatus.OK);
@@ -100,19 +100,5 @@ public class AnswerController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-//    @GetMapping(path = "/quiz/{id}")
-//    public ResponseEntity<List<AnswerDTO>> getAllAnswersByQuizId(@PathVariable Long id) {
-//        try {
-//            QuizDTO quiz = quizService.getQuizById(id);
-//            if (quiz == null) {
-//                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-//            }
-//            List<AnswerDTO> answers = answerService.getAllAnswersByQuizId(id);
-//            return new ResponseEntity<>(answers, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
 }

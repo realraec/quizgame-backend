@@ -2,9 +2,11 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuestionDAO;
+import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
 import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.model.entity.Question;
+import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.utils.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +21,10 @@ public class QuestionServiceImplementation implements QuestionService {
 
     @Autowired
     private QuestionDAO questionDAO;
-
     @Autowired
     private ProgressDAO progressDAO;
+    @Autowired
+    private QuizDAO quizDAO;
 
     private final QuestionMapper questionMapper = new QuestionMapper();
 
@@ -81,43 +84,14 @@ public class QuestionServiceImplementation implements QuestionService {
 
     @Override
     public List<QuestionDTO> getAllQuestionsByQuizId(Long quizId) {
-        Iterator<Question> questionIterator = questionDAO.findAllQuestionsByQuizId(quizId).iterator();
-        List<QuestionDTO> questions = new ArrayList<>();
-        while (questionIterator.hasNext()) {
-            questions.add(questionMapper.toQuestionDTO(questionIterator.next()));
-        }
+        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
+        if (checkQuiz.isPresent()) {
 
-        if (!questions.isEmpty()) {
-            return questions;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public List<QuestionDTO> getAllQuestionsByQuizIdWithIdNotInArray(Long quizId, Long[] questionsIds) {
-        Iterator<Question> questionIterator = questionDAO.findAllQuestionsByQuizIdWithIdNotInArray(quizId, questionsIds).iterator();
-        List<QuestionDTO> questions = new ArrayList<>();
-        while (questionIterator.hasNext()) {
-            questions.add(questionMapper.toQuestionDTO(questionIterator.next()));
-        }
-
-        if (!questions.isEmpty()) {
-            return questions;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public List<QuestionDTO> getAllQuestionsByInternIdAndQuizId(Long internId, Long quizId) {
-        Iterator<Question> questionIterator = questionDAO.findAllQuestionsByInternIdAndQuizId(internId, quizId).iterator();
-        List<QuestionDTO> questions = new ArrayList<>();
-        while (questionIterator.hasNext()) {
-            questions.add(questionMapper.toQuestionDTO(questionIterator.next()));
-        }
-
-        if (!questions.isEmpty()) {
+            Iterator<Question> questionIterator = questionDAO.findAllQuestionsByQuizId(quizId).iterator();
+            List<QuestionDTO> questions = new ArrayList<>();
+            while (questionIterator.hasNext()) {
+                questions.add(questionMapper.toQuestionDTO(questionIterator.next()));
+            }
             return questions;
         } else {
             return null;
@@ -126,15 +100,15 @@ public class QuestionServiceImplementation implements QuestionService {
 
     @Override
     public QuestionDTO getSingleQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) {
-        Optional<Progress> progress = progressDAO.findById(progressId);
-        if (progress.isPresent()) {
-            List<Question> questions = questionDAO.findAllQuestionsInQuizWithIdNotInProgressRecordsByProgressId(progressId);
+        Optional<Progress> checkProgress = progressDAO.findById(progressId);
+        if (checkProgress.isPresent()) {
 
+            List<Question> questions = questionDAO.findAllQuestionsInQuizWithIdNotInProgressRecordsByProgressId(progressId);
             if (questions.size() > 0) {
                 Question question = questions.get(0);
                 return questionMapper.toQuestionDTO(question);
             } else {
-                return null;
+                return new QuestionDTO();
             }
         } else {
             return null;
