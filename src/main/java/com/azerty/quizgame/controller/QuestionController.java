@@ -1,6 +1,7 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.QuestionDTO;
+import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
 import com.azerty.quizgame.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -93,9 +94,9 @@ public class QuestionController {
     }
 
     @GetMapping(path = "/notInProgress/{progressId}")
-    public ResponseEntity<QuestionDTO> getSingleQuestionInQuizWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
+    public ResponseEntity<QuestionDTO> getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
         try {
-            QuestionDTO question = questionService.getSingleQuestionInQuizWithIdNotInProgressRecordsByProgressId(progressId);
+            QuestionDTO question = questionService.getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(progressId);
             if (question != null) {
                 if (question.getId() != null) {
                     return new ResponseEntity<>(question, HttpStatus.OK);
@@ -106,6 +107,25 @@ public class QuestionController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/notInProgress2/{progressId}")
+    public ResponseEntity<QuestionInQuizDTO> getOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
+        try {
+            QuestionInQuizDTO question = questionService.getOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(progressId);
+            if (question != null) {
+                if (question.getId() != null) {
+                    return new ResponseEntity<>(question, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

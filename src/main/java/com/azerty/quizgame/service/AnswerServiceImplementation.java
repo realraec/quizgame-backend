@@ -89,20 +89,4 @@ public class AnswerServiceImplementation implements AnswerService {
         }
     }
 
-//    @Override
-//    public List<AnswerDTO> getAllAnswersByQuizId(Long id) {
-//        Iterator<Answer> answerIterator = answerDAO.findAllAnswersByQuizId(id).iterator();
-//        List<AnswerDTO> answers = new ArrayList<>();
-//
-//        while (answerIterator.hasNext()) {
-//            answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
-//        }
-//
-//        if (!answers.isEmpty()) {
-//            return answers;
-//        } else {
-//            return null;
-//        }
-//    }
-
 }

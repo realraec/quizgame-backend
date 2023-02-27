@@ -1,6 +1,8 @@
 package com.azerty.quizgame.utils;
 
+import com.azerty.quizgame.model.dto.AnswerInQuizDTO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
+import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
 import com.azerty.quizgame.model.entity.Answer;
 import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.model.entity.Quiz;
@@ -11,6 +13,24 @@ import java.util.List;
 
 @Component
 public class QuestionMapper {
+
+    private final AnswerMapper answerMapper = new AnswerMapper();
+
+    public QuestionInQuizDTO toQuestionInQuizDTO(List<Question> questions) {
+        Question question = questions.get(0);
+        Long id = question.getId();
+        String wording = question.getWording();
+        int maxDurationInSeconds = question.getMaxDurationInSeconds();
+
+        List<AnswerInQuizDTO> answersAsList = new ArrayList<>();
+        for (int i = 0; i < questions.size(); i++) {
+            Answer answer = questions.get(i).getAnswers().get(0);
+            answersAsList.add(answerMapper.toAnswerInQuizDTO(answer));
+        }
+        AnswerInQuizDTO[] answers = answersAsList.toArray(AnswerInQuizDTO[]::new);
+
+        return new QuestionInQuizDTO(id, wording, maxDurationInSeconds, answers);
+    }
 
     public QuestionDTO toQuestionDTO(Question question) {
         Long id = question.getId();

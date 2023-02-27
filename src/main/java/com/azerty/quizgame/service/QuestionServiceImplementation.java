@@ -1,9 +1,11 @@
 package com.azerty.quizgame.service;
 
+import com.azerty.quizgame.dao.AnswerDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
+import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
 import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.model.entity.Quiz;
@@ -25,6 +27,8 @@ public class QuestionServiceImplementation implements QuestionService {
     private ProgressDAO progressDAO;
     @Autowired
     private QuizDAO quizDAO;
+    @Autowired
+    private AnswerDAO answerDAO;
 
     private final QuestionMapper questionMapper = new QuestionMapper();
 
@@ -99,7 +103,7 @@ public class QuestionServiceImplementation implements QuestionService {
     }
 
     @Override
-    public QuestionDTO getSingleQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) {
+    public QuestionDTO getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) {
         Optional<Progress> checkProgress = progressDAO.findById(progressId);
         if (checkProgress.isPresent()) {
 
@@ -114,5 +118,22 @@ public class QuestionServiceImplementation implements QuestionService {
             return null;
         }
     }
+
+    @Override
+    public QuestionInQuizDTO getOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) {
+        Optional<Progress> checkProgress = progressDAO.findById(progressId);
+        if (checkProgress.isPresent()) {
+
+            List<Question> questions = questionDAO.findOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(progressId);
+            if (questions.size() > 0) {
+                return questionMapper.toQuestionInQuizDTO(questions);
+            } else {
+                return new QuestionInQuizDTO();
+            }
+        } else {
+            return null;
+        }
+    }
+
 
 }
