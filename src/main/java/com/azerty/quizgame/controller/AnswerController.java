@@ -1,7 +1,6 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.AnswerDTO;
-import com.azerty.quizgame.model.dto.QuestionDTO;
 import com.azerty.quizgame.service.AnswerService;
 import com.azerty.quizgame.service.QuestionService;
 import com.azerty.quizgame.service.QuizService;
@@ -90,12 +89,12 @@ public class AnswerController {
     @GetMapping(path = "/question/{id}")
     public ResponseEntity<List<AnswerDTO>> getAllAnswersByQuestionId(@PathVariable Long id) {
         try {
-            QuestionDTO question = questionService.getQuestionById(id);
-            if (question == null) {
+            List<AnswerDTO> answers = answerService.getAllAnswersByQuestionId(id);
+            if (answers != null) {
+                return new ResponseEntity<>(answers, HttpStatus.OK);
+            } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
-            List<AnswerDTO> answers = answerService.getAllAnswersByQuestionId(id);
-            return new ResponseEntity<>(answers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

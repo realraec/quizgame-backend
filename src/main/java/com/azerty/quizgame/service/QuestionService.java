@@ -19,8 +19,10 @@ public interface QuestionService {
 
     List<QuestionDTO> getAllQuestionsByQuizId(Long quizId) throws Exception;
 
-    QuestionDTO getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
+    QuestionInQuizDTO getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
 
-    QuestionInQuizDTO getOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
+/*    QuestionDTO getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
+
+    QuestionTogetherWithAllItsAnswers[] getOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;*/
 
 }

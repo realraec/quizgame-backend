@@ -1,6 +1,5 @@
 package com.azerty.quizgame.dao;
 
-import com.azerty.quizgame.model.entity.Answer;
 import com.azerty.quizgame.model.entity.Question;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -61,6 +60,6 @@ public interface QuestionDAO extends CrudRepository<Question, Long> {
                         
             JOIN answers ON answers.fk_question = t.pk_question
             """)
-    List<Question> findOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(Long progressId);
+    List<Object[]> findOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId);
 
 }

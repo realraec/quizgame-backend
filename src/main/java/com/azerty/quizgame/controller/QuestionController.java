@@ -94,6 +94,24 @@ public class QuestionController {
     }
 
     @GetMapping(path = "/notInProgress/{progressId}")
+    public ResponseEntity<QuestionInQuizDTO> getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
+        try {
+            QuestionInQuizDTO questionInQuizDTO = questionService.getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
+            if (questionInQuizDTO != null) {
+                if (questionInQuizDTO.getId() != null) {
+                    return new ResponseEntity<>(questionInQuizDTO, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+/*    @GetMapping(path = "/notInProgress-/{progressId}")
     public ResponseEntity<QuestionDTO> getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
         try {
             QuestionDTO question = questionService.getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(progressId);
@@ -109,25 +127,22 @@ public class QuestionController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 
-    @GetMapping(path = "/notInProgress2/{progressId}")
-    public ResponseEntity<QuestionInQuizDTO> getOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
+/*    @GetMapping(path = "/notInProgress+/{progressId}")
+    public ResponseEntity<QuestionTogetherWithAllItsAnswers[]> getAllTheAnswersToOneQuestionInQuizWithTheirQuestionWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
         try {
-            QuestionInQuizDTO question = questionService.getOneQuestionAndAllItsAnswersInQuizWithIdNotInProgressRecordsByProgressId(progressId);
+            QuestionTogetherWithAllItsAnswers[] question = questionService.getOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
             if (question != null) {
-                if (question.getId() != null) {
-                    return new ResponseEntity<>(question, HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>(HttpStatus.OK);
-                }
+
+                return new ResponseEntity<>(question, HttpStatus.OK);
+
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    }*/
 
 }

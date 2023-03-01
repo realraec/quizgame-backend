@@ -14,23 +14,54 @@ import java.util.List;
 @Component
 public class QuestionMapper {
 
-    private final AnswerMapper answerMapper = new AnswerMapper();
-
-    public QuestionInQuizDTO toQuestionInQuizDTO(List<Question> questions) {
-        Question question = questions.get(0);
-        Long id = question.getId();
-        String wording = question.getWording();
-        int maxDurationInSeconds = question.getMaxDurationInSeconds();
-
-        List<AnswerInQuizDTO> answersAsList = new ArrayList<>();
-        for (int i = 0; i < questions.size(); i++) {
-            Answer answer = questions.get(i).getAnswers().get(0);
-            answersAsList.add(answerMapper.toAnswerInQuizDTO(answer));
+    public QuestionInQuizDTO toQuestionInQuizDTO(List<Object[]> objectArraysList) {
+        if (objectArraysList.isEmpty()) {
+            return new QuestionInQuizDTO();
         }
-        AnswerInQuizDTO[] answers = answersAsList.toArray(AnswerInQuizDTO[]::new);
 
-        return new QuestionInQuizDTO(id, wording, maxDurationInSeconds, answers);
+        Object[] firstObject = objectArraysList.get(0);
+        Long questionId = (Long) firstObject[0];
+        Integer questionMaxDurationInSeconds = (Integer) firstObject[1];
+        String questionWording = (String) firstObject[2];
+
+        List<Object> objectsAsList = new ArrayList<>();
+        for (int i = 0; i < objectArraysList.size(); i++) {
+            Object[] currentObject = objectArraysList.get(i);
+
+            Long answerId = (Long) currentObject[3];
+            boolean answerIsCorrect = (Boolean) currentObject[4];
+            String answerWording = (String) currentObject[5];
+
+            AnswerInQuizDTO answerInQuizDTO = new AnswerInQuizDTO(answerId, answerIsCorrect, answerWording);
+            objectsAsList.add(answerInQuizDTO);
+        }
+        AnswerInQuizDTO[] answersInQuizDTO = objectsAsList.toArray(AnswerInQuizDTO[]::new);
+
+        QuestionInQuizDTO questionInQuizDTO = new QuestionInQuizDTO(questionId, questionMaxDurationInSeconds, questionWording, answersInQuizDTO);
+        return questionInQuizDTO;
     }
+
+/*    public QuestionTogetherWithAllItsAnswers[] toQuestionTogetherWithAllItsAnswersDTO(List<Object[]> objectArraysList) {
+        List<QuestionTogetherWithAllItsAnswers> questionTogetherWithAllItsAnswersAsList = new ArrayList<>();
+
+        for (int i = 0; i < objectArraysList.size(); i++) {
+            Object[] currentObject = objectArraysList.get(i);
+
+            Long questionId = (Long) currentObject[0];
+            Integer questionMaxDurationInSeconds = (Integer) currentObject[1];
+            String questionWording = (String) currentObject[2];
+
+            Long answerId = (Long) currentObject[3];
+            boolean answerIsCorrect = (Boolean) currentObject[4];
+            String answerWording = (String) currentObject[5];
+
+            QuestionTogetherWithAllItsAnswers questionTogetherWithAllItsAnswers = new QuestionTogetherWithAllItsAnswers(questionId, questionMaxDurationInSeconds, questionWording, answerId, answerIsCorrect, answerWording);
+            questionTogetherWithAllItsAnswersAsList.add(questionTogetherWithAllItsAnswers);
+        }
+
+        QuestionTogetherWithAllItsAnswers[] questionTogetherWithAllItsAnswersAsArray = questionTogetherWithAllItsAnswersAsList.toArray(QuestionTogetherWithAllItsAnswers[]::new);
+        return questionTogetherWithAllItsAnswersAsArray;
+    }*/
 
     public QuestionDTO toQuestionDTO(Question question) {
         Long id = question.getId();
