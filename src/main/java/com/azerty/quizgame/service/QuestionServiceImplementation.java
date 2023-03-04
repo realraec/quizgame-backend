@@ -20,14 +20,18 @@ import java.util.Optional;
 @Service
 public class QuestionServiceImplementation implements QuestionService {
 
-    @Autowired
-    private QuestionDAO questionDAO;
-    @Autowired
-    private ProgressDAO progressDAO;
-    @Autowired
-    private QuizDAO quizDAO;
-
+    private final QuestionDAO questionDAO;
+    private final ProgressDAO progressDAO;
+    private final QuizDAO quizDAO;
     private final QuestionMapper questionMapper = new QuestionMapper();
+
+
+    @Autowired
+    public QuestionServiceImplementation(QuestionDAO questionDAO, ProgressDAO progressDAO, QuizDAO quizDAO) {
+        this.questionDAO = questionDAO;
+        this.progressDAO = progressDAO;
+        this.quizDAO = quizDAO;
+    }
 
 
     @Override
@@ -48,11 +52,7 @@ public class QuestionServiceImplementation implements QuestionService {
     @Override
     public QuestionDTO getQuestionById(Long id) {
         Optional<Question> question = questionDAO.findById(id);
-        if (question.isPresent()) {
-            return questionMapper.toQuestionDTO(question.get());
-        } else {
-            return null;
-        }
+        return question.map(questionMapper::toQuestionDTO).orElse(null);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class QuestionServiceImplementation implements QuestionService {
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
         if (checkQuiz.isPresent()) {
 
-            Iterator<Question> questionIterator = questionDAO.findAllQuestionsByQuizId(quizId).iterator();
+            Iterator<Question> questionIterator = questionDAO.findAllByQuizId(quizId).iterator();
             List<QuestionDTO> questions = new ArrayList<>();
             while (questionIterator.hasNext()) {
                 questions.add(questionMapper.toQuestionDTO(questionIterator.next()));
@@ -105,42 +105,10 @@ public class QuestionServiceImplementation implements QuestionService {
         if (checkProgress.isPresent()) {
 
             List<Object[]> objectArraysList = questionDAO.findOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
-            QuestionInQuizDTO questionInQuizDTO = questionMapper.toQuestionInQuizDTO(objectArraysList);
-            return questionInQuizDTO;
+            return questionMapper.toQuestionInQuizDTO(objectArraysList);
         } else {
             return null;
         }
     }
-
-/*    @Override
-    public QuestionDTO getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) {
-        Optional<Progress> checkProgress = progressDAO.findById(progressId);
-        if (checkProgress.isPresent()) {
-
-            List<Question> questions = questionDAO.findAllQuestionsInQuizWithIdNotInProgressRecordsByProgressId(progressId);
-            if (questions.size() > 0) {
-                Question question = questions.get(0);
-                return questionMapper.toQuestionDTO(question);
-            } else {
-                return new QuestionDTO();
-            }
-        } else {
-            return null;
-        }
-    }*/
-
-/*    @Override
-    public QuestionTogetherWithAllItsAnswers[] getOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) {
-        Optional<Progress> checkProgress = progressDAO.findById(progressId);
-        if (checkProgress.isPresent()) {
-
-            List<Object[]> objectArraysList = questionDAO.findOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
-            QuestionTogetherWithAllItsAnswers[] questionTogetherWithAllItsAnswers = questionMapper.toQuestionTogetherWithAllItsAnswersDTO(objectArraysList);
-            return questionTogetherWithAllItsAnswers;
-        } else {
-            return null;
-        }
-    }*/
-
 
 }

@@ -15,8 +15,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class QuizController {
 
+    private final QuizService quizService;
+
+
     @Autowired
-    private QuizService quizService;
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<QuizDTO>> getAllQuizzes() {

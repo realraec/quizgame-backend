@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 public class ProgressDTO {
 
     private Long id;
-
     private LocalDateTime dateAndTimeOfCompletion;
     private int score;
     private Long internId;

@@ -17,12 +17,16 @@ import java.util.Optional;
 @Service
 public class AnswerServiceImplementation implements AnswerService {
 
-    @Autowired
-    private AnswerDAO answerDAO;
-
+    private final AnswerDAO answerDAO;
+    private final QuestionDAO questionDAO;
     private final AnswerMapper answerMapper = new AnswerMapper();
+
+
     @Autowired
-    private QuestionDAO questionDAO;
+    public AnswerServiceImplementation(AnswerDAO answerDAO, QuestionDAO questionDAO) {
+        this.answerDAO = answerDAO;
+        this.questionDAO = questionDAO;
+    }
 
 
     @Override
@@ -43,11 +47,7 @@ public class AnswerServiceImplementation implements AnswerService {
     @Override
     public AnswerDTO getAnswerById(Long id) {
         Optional<Answer> answer = answerDAO.findById(id);
-        if (answer.isPresent()) {
-            return answerMapper.toAnswerDTO(answer.get());
-        } else {
-            return null;
-        }
+        return answer.map(answerMapper::toAnswerDTO).orElse(null);
     }
 
     @Override

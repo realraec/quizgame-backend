@@ -16,8 +16,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class ProgressController {
 
+    private final ProgressService progressService;
+
+
     @Autowired
-    private ProgressService progressService;
+    public ProgressController(ProgressService progressService) {
+        this.progressService = progressService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<ProgressDTO>> getAllProgresses() {

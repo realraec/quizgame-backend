@@ -14,8 +14,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class InternController {
 
+    private final InternService internService;
+
+
     @Autowired
-    private InternService internService;
+    public InternController(InternService internService) {
+        this.internService = internService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<InternDTO>> getAllInterns() {

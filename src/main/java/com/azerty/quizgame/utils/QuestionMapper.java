@@ -23,6 +23,7 @@ public class QuestionMapper {
         Long questionId = (Long) firstObject[0];
         Integer questionMaxDurationInSeconds = (Integer) firstObject[1];
         String questionWording = (String) firstObject[2];
+        Long numberOfQuestionsLeft = (Long) firstObject[6];
 
         List<Object> objectsAsList = new ArrayList<>();
         for (int i = 0; i < objectArraysList.size(); i++) {
@@ -37,31 +38,9 @@ public class QuestionMapper {
         }
         AnswerInQuizDTO[] answersInQuizDTO = objectsAsList.toArray(AnswerInQuizDTO[]::new);
 
-        QuestionInQuizDTO questionInQuizDTO = new QuestionInQuizDTO(questionId, questionMaxDurationInSeconds, questionWording, answersInQuizDTO);
+        QuestionInQuizDTO questionInQuizDTO = new QuestionInQuizDTO(questionId, questionMaxDurationInSeconds, questionWording, answersInQuizDTO, numberOfQuestionsLeft);
         return questionInQuizDTO;
     }
-
-/*    public QuestionTogetherWithAllItsAnswers[] toQuestionTogetherWithAllItsAnswersDTO(List<Object[]> objectArraysList) {
-        List<QuestionTogetherWithAllItsAnswers> questionTogetherWithAllItsAnswersAsList = new ArrayList<>();
-
-        for (int i = 0; i < objectArraysList.size(); i++) {
-            Object[] currentObject = objectArraysList.get(i);
-
-            Long questionId = (Long) currentObject[0];
-            Integer questionMaxDurationInSeconds = (Integer) currentObject[1];
-            String questionWording = (String) currentObject[2];
-
-            Long answerId = (Long) currentObject[3];
-            boolean answerIsCorrect = (Boolean) currentObject[4];
-            String answerWording = (String) currentObject[5];
-
-            QuestionTogetherWithAllItsAnswers questionTogetherWithAllItsAnswers = new QuestionTogetherWithAllItsAnswers(questionId, questionMaxDurationInSeconds, questionWording, answerId, answerIsCorrect, answerWording);
-            questionTogetherWithAllItsAnswersAsList.add(questionTogetherWithAllItsAnswers);
-        }
-
-        QuestionTogetherWithAllItsAnswers[] questionTogetherWithAllItsAnswersAsArray = questionTogetherWithAllItsAnswersAsList.toArray(QuestionTogetherWithAllItsAnswers[]::new);
-        return questionTogetherWithAllItsAnswersAsArray;
-    }*/
 
     public QuestionDTO toQuestionDTO(Question question) {
         Long id = question.getId();

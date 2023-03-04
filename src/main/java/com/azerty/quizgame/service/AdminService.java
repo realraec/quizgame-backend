@@ -1,6 +1,7 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.model.dto.AdminDTO;
+import com.azerty.quizgame.model.dto.CountsDTO;
 
 import java.util.List;
 
@@ -15,5 +16,7 @@ public interface AdminService {
     boolean deleteAdminById(Long id) throws Exception;
 
     AdminDTO updateAdminById(AdminDTO admin, Long id) throws Exception;
+
+    CountsDTO getInternCountAndQuizCount() throws Exception;
 
 }

@@ -15,10 +15,14 @@ import java.util.Optional;
 @Service
 public class InternServiceImplementation implements InternService {
 
-    @Autowired
-    private InternDAO internDAO;
-
+    private final InternDAO internDAO;
     private final InternMapper internMapper = new InternMapper();
+
+
+    @Autowired
+    public InternServiceImplementation(InternDAO internDAO) {
+        this.internDAO = internDAO;
+    }
 
 
     @Override
@@ -39,11 +43,7 @@ public class InternServiceImplementation implements InternService {
     @Override
     public InternDTO getInternById(Long id) {
         Optional<Intern> intern = internDAO.findById(id);
-        if (intern.isPresent()) {
-            return internMapper.toInternDTO(intern.get());
-        } else {
-            return null;
-        }
+        return intern.map(internMapper::toInternDTO).orElse(null);
     }
 
     @Override

@@ -6,16 +6,18 @@ public class QuestionInQuizDTO {
     private int maxDurationInSeconds;
     private String wording;
     private AnswerInQuizDTO[] answers;
+    private Long numberOfQuestionsLeft;
 
 
     public QuestionInQuizDTO() {
     }
 
-    public QuestionInQuizDTO(Long id, int maxDurationInSeconds, String wording, AnswerInQuizDTO[] answers) {
+    public QuestionInQuizDTO(Long id, int maxDurationInSeconds, String wording, AnswerInQuizDTO[] answers, Long numberOfQuestionsLeft) {
         this.id = id;
         this.maxDurationInSeconds = maxDurationInSeconds;
         this.wording = wording;
         this.answers = answers;
+        this.numberOfQuestionsLeft = numberOfQuestionsLeft;
     }
 
     public Long getId() {
@@ -48,6 +50,14 @@ public class QuestionInQuizDTO {
 
     public void setAnswers(AnswerInQuizDTO[] answers) {
         this.answers = answers;
+    }
+
+    public Long getNumberOfQuestionsLeft() {
+        return numberOfQuestionsLeft;
+    }
+
+    public void setNumberOfQuestionsLeft(Long numberOfQuestionsLeft) {
+        this.numberOfQuestionsLeft = numberOfQuestionsLeft;
     }
 
 }

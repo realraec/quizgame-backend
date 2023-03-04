@@ -21,8 +21,4 @@ public interface QuestionService {
 
     QuestionInQuizDTO getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
 
-/*    QuestionDTO getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
-
-    QuestionTogetherWithAllItsAnswers[] getOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;*/
-
 }

@@ -2,8 +2,6 @@ package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.AnswerDTO;
 import com.azerty.quizgame.service.AnswerService;
-import com.azerty.quizgame.service.QuestionService;
-import com.azerty.quizgame.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +14,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class AnswerController {
 
-    @Autowired
-    private AnswerService answerService;
+    private final AnswerService answerService;
+
 
     @Autowired
-    private QuizService quizService;
+    public AnswerController(AnswerService answerService) {
+        this.answerService = answerService;
+    }
 
-    @Autowired
-    private QuestionService questionService;
 
     @GetMapping
     public ResponseEntity<List<AnswerDTO>> getAllAnswers() {

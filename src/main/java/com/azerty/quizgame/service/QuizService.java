@@ -21,5 +21,4 @@ public interface QuizService {
 
     List<QuizForInternDTO> getAllQuizzesWithStateByInternId(Long internId) throws Exception;
 
-
 }

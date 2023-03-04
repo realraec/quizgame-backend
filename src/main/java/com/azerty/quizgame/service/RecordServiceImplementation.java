@@ -15,10 +15,14 @@ import java.util.Optional;
 @Service
 public class RecordServiceImplementation implements RecordService {
 
-    @Autowired
-    private RecordDAO recordDAO;
-
+    private final RecordDAO recordDAO;
     private final RecordMapper recordMapper = new RecordMapper();
+
+
+    @Autowired
+    public RecordServiceImplementation(RecordDAO recordDAO) {
+        this.recordDAO = recordDAO;
+    }
 
 
     @Override
@@ -39,11 +43,7 @@ public class RecordServiceImplementation implements RecordService {
     @Override
     public RecordDTO getRecordById(Long id) {
         Optional<Record> record = recordDAO.findById(id);
-        if (record.isPresent()) {
-            return recordMapper.toRecordDTO(record.get());
-        } else {
-            return null;
-        }
+        return record.map(recordMapper::toRecordDTO).orElse(null);
     }
 
     @Override
@@ -77,11 +77,7 @@ public class RecordServiceImplementation implements RecordService {
 
     public RecordDTO getRecordByProgressIdAndQuestionId(Long internId, Long questionId) {
         Optional<Record> record = recordDAO.findRecordByProgressIdAndQuestionId(internId, questionId);
-        if (record.isPresent()) {
-            return recordMapper.toRecordDTO(record.get());
-        } else {
-            return null;
-        }
+        return record.map(recordMapper::toRecordDTO).orElse(null);
     }
 
 

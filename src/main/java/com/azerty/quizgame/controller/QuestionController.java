@@ -15,8 +15,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class QuestionController {
 
+    private final QuestionService questionService;
+
+
     @Autowired
-    private QuestionService questionService;
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<QuestionDTO>> getAllQuestions() {
@@ -110,39 +116,5 @@ public class QuestionController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-/*    @GetMapping(path = "/notInProgress-/{progressId}")
-    public ResponseEntity<QuestionDTO> getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
-        try {
-            QuestionDTO question = questionService.getOneQuestionInQuizWithIdNotInProgressRecordsByProgressId(progressId);
-            if (question != null) {
-                if (question.getId() != null) {
-                    return new ResponseEntity<>(question, HttpStatus.OK);
-                } else {
-                    return new ResponseEntity<>(HttpStatus.OK);
-                }
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }*/
-
-/*    @GetMapping(path = "/notInProgress+/{progressId}")
-    public ResponseEntity<QuestionTogetherWithAllItsAnswers[]> getAllTheAnswersToOneQuestionInQuizWithTheirQuestionWithIdNotInProgressRecordsByProgressId(@PathVariable Long progressId) {
-        try {
-            QuestionTogetherWithAllItsAnswers[] question = questionService.getOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
-            if (question != null) {
-
-                return new ResponseEntity<>(question, HttpStatus.OK);
-
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }*/
 
 }

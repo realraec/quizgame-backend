@@ -21,14 +21,18 @@ import java.util.Optional;
 @Service
 public class QuizServiceImplementation implements QuizService {
 
-    @Autowired
-    private QuizDAO quizDAO;
-    @Autowired
-    private ProgressDAO progressDAO;
-    @Autowired
-    private InternDAO internDAO;
-
+    private final QuizDAO quizDAO;
+    private final ProgressDAO progressDAO;
+    private final InternDAO internDAO;
     private final QuizMapper quizMapper = new QuizMapper();
+
+
+    @Autowired
+    public QuizServiceImplementation(QuizDAO quizDAO, ProgressDAO progressDAO, InternDAO internDAO) {
+        this.quizDAO = quizDAO;
+        this.progressDAO = progressDAO;
+        this.internDAO = internDAO;
+    }
 
 
     @Override
@@ -49,11 +53,7 @@ public class QuizServiceImplementation implements QuizService {
     @Override
     public QuizDTO getQuizById(Long id) {
         Optional<Quiz> quiz = quizDAO.findById(id);
-        if (quiz.isPresent()) {
-            return quizMapper.toQuizDTO(quiz.get());
-        } else {
-            return null;
-        }
+        return quiz.map(quizMapper::toQuizDTO).orElse(null);
     }
 
     @Override

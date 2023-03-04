@@ -2,8 +2,10 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.AdminDAO;
 import com.azerty.quizgame.model.dto.AdminDTO;
+import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.entity.Admin;
 import com.azerty.quizgame.utils.AdminMapper;
+import com.azerty.quizgame.utils.CountsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,15 @@ import java.util.Optional;
 @Service
 public class AdminServiceImplementation implements AdminService {
 
-    @Autowired
-    private AdminDAO adminDAO;
-
+    private final AdminDAO adminDAO;
     private final AdminMapper adminMapper = new AdminMapper();
+    private final CountsMapper countsMapper = new CountsMapper();
+
+
+    @Autowired
+    public AdminServiceImplementation(AdminDAO adminDAO) {
+        this.adminDAO = adminDAO;
+    }
 
 
     @Override
@@ -39,11 +46,7 @@ public class AdminServiceImplementation implements AdminService {
     @Override
     public AdminDTO getAdminById(Long id) {
         Optional<Admin> admin = adminDAO.findById(id);
-        if (admin.isPresent()) {
-            return adminMapper.toAdminDTO(admin.get());
-        } else {
-            return null;
-        }
+        return admin.map(adminMapper::toAdminDTO).orElse(null);
     }
 
     @Override
@@ -72,6 +75,12 @@ public class AdminServiceImplementation implements AdminService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public CountsDTO getInternCountAndQuizCount() {
+        Long[] counts = adminDAO.findInternCountAndQuizCount();
+        return countsMapper.toCountsDTO(counts);
     }
 
 }

@@ -1,10 +1,8 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.RecordDTO;
-import com.azerty.quizgame.model.entity.Record;
 import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.RecordService;
-import com.azerty.quizgame.utils.RecordMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,13 +16,16 @@ import java.util.List;
 @CrossOrigin("*")
 public class RecordController {
 
-    @Autowired
-    private RecordService recordService;
+    private final RecordService recordService;
+    private final ProgressService progressService;
+
 
     @Autowired
-    private ProgressService progressService;
+    public RecordController(RecordService recordService, ProgressService progressService) {
+        this.recordService = recordService;
+        this.progressService = progressService;
+    }
 
-    private final RecordMapper recordMapper = new RecordMapper();
 
     @GetMapping
     public ResponseEntity<List<RecordDTO>> getAllRecords() {
@@ -54,9 +55,8 @@ public class RecordController {
     @PostMapping(path = "/create")
     public ResponseEntity<RecordDTO> saveRecord(@RequestBody RecordDTO record) {
         try {
-            Record recordAsEntity = recordMapper.toRecord(record);
-            Long progressId = recordAsEntity.getProgress().getId();
-            Long questionId = recordAsEntity.getQuestion().getId();
+            Long progressId = record.getProgressId();
+            Long questionId = record.getQuestionId();
             RecordDTO checkRecord = recordService.getRecordByProgressIdAndQuestionId(progressId, questionId);
 
             if (checkRecord == null) {

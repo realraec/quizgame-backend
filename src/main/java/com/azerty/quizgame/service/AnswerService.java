@@ -18,6 +18,4 @@ public interface AnswerService {
 
     List<AnswerDTO> getAllAnswersByQuestionId(Long id) throws Exception;
 
-//    List<AnswerDTO> getAllAnswersByQuizId(Long id) throws Exception;
-
 }

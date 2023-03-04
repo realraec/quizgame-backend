@@ -22,14 +22,18 @@ import java.util.Optional;
 @Service
 public class ProgressServiceImplementation implements ProgressService {
 
-    @Autowired
-    private ProgressDAO progressDAO;
-    @Autowired
-    private InternDAO internDAO;
-    @Autowired
-    private QuizDAO quizDAO;
-
+    private final ProgressDAO progressDAO;
+    private final InternDAO internDAO;
+    private final QuizDAO quizDAO;
     private final ProgressMapper progressMapper = new ProgressMapper();
+
+
+    @Autowired
+    public ProgressServiceImplementation(ProgressDAO progressDAO, InternDAO internDAO, QuizDAO quizDAO) {
+        this.progressDAO = progressDAO;
+        this.internDAO = internDAO;
+        this.quizDAO = quizDAO;
+    }
 
 
     @Override
@@ -51,11 +55,7 @@ public class ProgressServiceImplementation implements ProgressService {
     @Override
     public ProgressDTO getProgressById(Long id) {
         Optional<Progress> progress = progressDAO.findById(id);
-        if (progress.isPresent()) {
-            return progressMapper.toProgressDTO(progress.get());
-        } else {
-            return null;
-        }
+        return progress.map(progressMapper::toProgressDTO).orElse(null);
     }
 
     @Override
