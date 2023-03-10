@@ -1,9 +1,8 @@
 package com.azerty.quizgame.controller;
 
+import com.azerty.quizgame.model.dto.AnswerDTO;
 import com.azerty.quizgame.model.dto.ProgressDTO;
-import com.azerty.quizgame.service.InternService;
 import com.azerty.quizgame.service.ProgressService;
-import com.azerty.quizgame.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,7 +51,12 @@ public class ProgressController {
     @PostMapping(path = "/create")
     public ResponseEntity<ProgressDTO> saveProgress(@RequestBody ProgressDTO progress) {
         try {
-            return new ResponseEntity<>(progressService.saveProgress(progress), HttpStatus.CREATED);
+            ProgressDTO progressReturned = progressService.saveProgress(progress);
+            if (progressReturned != null) {
+                return new ResponseEntity<>(progressReturned, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

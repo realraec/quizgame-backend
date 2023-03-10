@@ -6,6 +6,9 @@ public class CountsDTO {
     private Long quizCount;
 
 
+    public CountsDTO() {
+    }
+
     public CountsDTO(Long internCount, Long quizCount) {
         this.internCount = internCount;
         this.quizCount = quizCount;

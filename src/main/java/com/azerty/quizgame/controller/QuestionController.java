@@ -1,5 +1,6 @@
 package com.azerty.quizgame.controller;
 
+import com.azerty.quizgame.model.dto.AnswerDTO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
 import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
 import com.azerty.quizgame.service.QuestionService;
@@ -51,7 +52,12 @@ public class QuestionController {
     @PostMapping(path = "/create")
     public ResponseEntity<QuestionDTO> saveQuestion(@RequestBody QuestionDTO question) {
         try {
-            return new ResponseEntity<>(questionService.saveQuestion(question), HttpStatus.CREATED);
+            QuestionDTO questionReturned = questionService.saveQuestion(question);
+            if (questionReturned != null) {
+                return new ResponseEntity<>(questionReturned, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

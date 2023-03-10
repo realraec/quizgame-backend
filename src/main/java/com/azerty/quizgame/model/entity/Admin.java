@@ -1,5 +1,6 @@
 package com.azerty.quizgame.model.entity;
 
+import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.Access;
 import jakarta.persistence.AccessType;
 import jakarta.persistence.Entity;
@@ -21,6 +22,20 @@ public class Admin extends Person {
         this.firstname = firstname;
         this.email = email;
         this.role = Role.ADMIN;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Admin{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
     }
 
 }

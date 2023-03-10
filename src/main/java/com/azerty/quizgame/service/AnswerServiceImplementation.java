@@ -52,7 +52,13 @@ public class AnswerServiceImplementation implements AnswerService {
 
     @Override
     public AnswerDTO saveAnswer(AnswerDTO answer) {
-        return answerMapper.toAnswerDTO(answerDAO.save(answerMapper.toAnswer(answer)));
+
+        Optional<Question> checkQuestion = questionDAO.findById(answer.getQuestionId());
+        if (checkQuestion.isPresent()) {
+            return answerMapper.toAnswerDTO(answerDAO.save(answerMapper.toAnswer(answer)));
+        } else {
+            return null;
+        }
     }
 
     @Override

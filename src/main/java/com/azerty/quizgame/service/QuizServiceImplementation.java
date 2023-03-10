@@ -2,13 +2,12 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.InternDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
+import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.dto.QuizForInternDTO;
-import com.azerty.quizgame.model.entity.Intern;
-import com.azerty.quizgame.model.entity.Progress;
-import com.azerty.quizgame.model.entity.Quiz;
-import com.azerty.quizgame.model.entity.QuizState;
+import com.azerty.quizgame.model.entity.*;
+import com.azerty.quizgame.model.enums.QuizState;
 import com.azerty.quizgame.utils.QuizMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +24,16 @@ public class QuizServiceImplementation implements QuizService {
     private final ProgressDAO progressDAO;
     private final InternDAO internDAO;
     private final QuizMapper quizMapper = new QuizMapper();
+    private final QuestionDAO questionDAO;
 
 
     @Autowired
-    public QuizServiceImplementation(QuizDAO quizDAO, ProgressDAO progressDAO, InternDAO internDAO) {
+    public QuizServiceImplementation(QuizDAO quizDAO, ProgressDAO progressDAO, InternDAO internDAO,
+                                     QuestionDAO questionDAO) {
         this.quizDAO = quizDAO;
         this.progressDAO = progressDAO;
         this.internDAO = internDAO;
+        this.questionDAO = questionDAO;
     }
 
 
@@ -58,6 +60,12 @@ public class QuizServiceImplementation implements QuizService {
 
     @Override
     public QuizDTO saveQuiz(QuizDTO quiz) {
+        for (int i = 0; i < quiz.getQuestionsIds().length; i++) {
+            Optional<Question> checkQuestion = questionDAO.findById(quiz.getQuestionsIds()[i]);
+            if (checkQuestion.isEmpty()) {
+                return null;
+            }
+        }
         return quizMapper.toQuizDTO(quizDAO.save(quizMapper.toQuiz(quiz)));
     }
 

@@ -61,8 +61,12 @@ public class RecordController {
 
             if (checkRecord == null) {
                 RecordDTO savedRecord = recordService.saveRecord(record);
-                progressService.updateProgressDependingOnRecord(record);
-                return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
+                if (savedRecord != null) {
+                    progressService.updateProgressDependingOnRecord(record);
+                    return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
             } else {
                 return new ResponseEntity<>(checkRecord, HttpStatus.CONFLICT);
             }

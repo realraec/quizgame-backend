@@ -9,6 +9,7 @@ import com.azerty.quizgame.model.entity.Quiz;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -21,8 +22,8 @@ public class QuestionMapper {
 
         Object[] firstObject = objectArraysList.get(0);
         Long questionId = (Long) firstObject[0];
-        Integer questionMaxDurationInSeconds = (Integer) firstObject[1];
-        String questionWording = (String) firstObject[2];
+        String questionWording = (String) firstObject[1];
+        Integer questionMaxDurationInSeconds = (Integer) firstObject[2];
         Long numberOfQuestionsLeft = (Long) firstObject[6];
 
         List<Object> objectsAsList = new ArrayList<>();
@@ -33,12 +34,12 @@ public class QuestionMapper {
             boolean answerIsCorrect = (Boolean) currentObject[4];
             String answerWording = (String) currentObject[5];
 
-            AnswerInQuizDTO answerInQuizDTO = new AnswerInQuizDTO(answerId, answerIsCorrect, answerWording);
+            AnswerInQuizDTO answerInQuizDTO = new AnswerInQuizDTO(answerId, answerWording, answerIsCorrect);
             objectsAsList.add(answerInQuizDTO);
         }
         AnswerInQuizDTO[] answersInQuizDTO = objectsAsList.toArray(AnswerInQuizDTO[]::new);
 
-        QuestionInQuizDTO questionInQuizDTO = new QuestionInQuizDTO(questionId, questionMaxDurationInSeconds, questionWording, answersInQuizDTO, numberOfQuestionsLeft);
+        QuestionInQuizDTO questionInQuizDTO = new QuestionInQuizDTO(questionId, questionWording, questionMaxDurationInSeconds, answersInQuizDTO, numberOfQuestionsLeft);
         return questionInQuizDTO;
     }
 

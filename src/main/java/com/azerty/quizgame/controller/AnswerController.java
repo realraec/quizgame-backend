@@ -50,7 +50,12 @@ public class AnswerController {
     @PostMapping(path = "/create")
     public ResponseEntity<AnswerDTO> saveAnswer(@RequestBody AnswerDTO answer) {
         try {
-            return new ResponseEntity<>(answerService.saveAnswer(answer), HttpStatus.CREATED);
+            AnswerDTO answerReturned = answerService.saveAnswer(answer);
+            if (answerReturned != null) {
+                return new ResponseEntity<>(answerReturned, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -88,7 +93,7 @@ public class AnswerController {
     public ResponseEntity<List<AnswerDTO>> getAllAnswersByQuestionId(@PathVariable Long id) {
         try {
             List<AnswerDTO> answers = answerService.getAllAnswersByQuestionId(id);
-            if (answers != null) {
+            if (!answers.isEmpty()) {
                 return new ResponseEntity<>(answers, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,5 +1,6 @@
 package com.azerty.quizgame.model.entity;
 
+import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
 
 @Entity

@@ -3,12 +3,11 @@ package com.azerty.quizgame.service;
 import com.azerty.quizgame.dao.InternDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuizDAO;
+import com.azerty.quizgame.dao.RecordDAO;
 import com.azerty.quizgame.model.dto.ProgressDTO;
 import com.azerty.quizgame.model.dto.RecordDTO;
-import com.azerty.quizgame.model.entity.Intern;
-import com.azerty.quizgame.model.entity.Progress;
-import com.azerty.quizgame.model.entity.Question;
-import com.azerty.quizgame.model.entity.Quiz;
+import com.azerty.quizgame.model.entity.Record;
+import com.azerty.quizgame.model.entity.*;
 import com.azerty.quizgame.utils.ProgressMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,13 +25,16 @@ public class ProgressServiceImplementation implements ProgressService {
     private final InternDAO internDAO;
     private final QuizDAO quizDAO;
     private final ProgressMapper progressMapper = new ProgressMapper();
+    private final RecordDAO recordDAO;
 
 
     @Autowired
-    public ProgressServiceImplementation(ProgressDAO progressDAO, InternDAO internDAO, QuizDAO quizDAO) {
+    public ProgressServiceImplementation(ProgressDAO progressDAO, InternDAO internDAO, QuizDAO quizDAO,
+                                         RecordDAO recordDAO) {
         this.progressDAO = progressDAO;
         this.internDAO = internDAO;
         this.quizDAO = quizDAO;
+        this.recordDAO = recordDAO;
     }
 
 
@@ -60,7 +62,19 @@ public class ProgressServiceImplementation implements ProgressService {
 
     @Override
     public ProgressDTO saveProgress(ProgressDTO progress) {
-        return progressMapper.toProgressDTO(progressDAO.save(progressMapper.toProgress(progress)));
+        for (int i = 0; i < progress.getRecordsIds().length; i++) {
+            Optional<Record> checkRecord = recordDAO.findById(progress.getRecordsIds()[i]);
+            if (checkRecord.isEmpty()) {
+                return null;
+            }
+        }
+        Optional<Intern> checkIntern = internDAO.findById(progress.getInternId());
+        Optional<Quiz> checkQuiz = quizDAO.findById(progress.getQuizId());
+        if (checkIntern.isPresent() && checkQuiz.isPresent()) {
+            return progressMapper.toProgressDTO(progressDAO.save(progressMapper.toProgress(progress)));
+        } else {
+            return null;
+        }
     }
 
     @Override

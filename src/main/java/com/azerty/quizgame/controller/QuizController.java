@@ -51,7 +51,12 @@ public class QuizController {
     @PostMapping(path = "/create")
     public ResponseEntity<QuizDTO> saveQuiz(@RequestBody QuizDTO quiz) {
         try {
-            return new ResponseEntity<>(quizService.saveQuiz(quiz), HttpStatus.CREATED);
+            QuizDTO quizReturned = quizService.saveQuiz(quiz);
+            if (quizReturned != null) {
+                return new ResponseEntity<>(quizReturned, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -105,6 +110,7 @@ public class QuizController {
         try {
             List<QuizForInternDTO> quizzesForIntern = quizService.getAllQuizzesWithStateByInternId(internId);
             if (quizzesForIntern != null) {
+                //!!!!!!!!!!!!!!!!!!
                 return new ResponseEntity<>(quizzesForIntern, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);

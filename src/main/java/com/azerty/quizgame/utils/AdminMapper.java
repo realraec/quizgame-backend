@@ -2,7 +2,7 @@ package com.azerty.quizgame.utils;
 
 import com.azerty.quizgame.model.dto.AdminDTO;
 import com.azerty.quizgame.model.entity.Admin;
-import com.azerty.quizgame.model.entity.Role;
+import com.azerty.quizgame.model.enums.Role;
 import org.springframework.stereotype.Component;
 
 @Component

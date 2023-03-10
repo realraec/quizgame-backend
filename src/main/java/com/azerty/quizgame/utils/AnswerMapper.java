@@ -14,7 +14,7 @@ public class AnswerMapper {
         String wording = answer.getWording();
         boolean isCorrect = answer.isCorrect();
 
-        return new AnswerInQuizDTO(id, isCorrect, wording);
+        return new AnswerInQuizDTO(id, wording, isCorrect);
     }
 
     public AnswerDTO toAnswerDTO(Answer answer) {

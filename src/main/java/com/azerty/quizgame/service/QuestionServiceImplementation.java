@@ -1,13 +1,13 @@
 package com.azerty.quizgame.service;
 
+import com.azerty.quizgame.dao.AnswerDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
 import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
-import com.azerty.quizgame.model.entity.Progress;
-import com.azerty.quizgame.model.entity.Question;
-import com.azerty.quizgame.model.entity.Quiz;
+import com.azerty.quizgame.model.entity.*;
+import com.azerty.quizgame.model.entity.Record;
 import com.azerty.quizgame.utils.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,16 @@ public class QuestionServiceImplementation implements QuestionService {
     private final ProgressDAO progressDAO;
     private final QuizDAO quizDAO;
     private final QuestionMapper questionMapper = new QuestionMapper();
+    private final AnswerDAO answerDAO;
 
 
     @Autowired
-    public QuestionServiceImplementation(QuestionDAO questionDAO, ProgressDAO progressDAO, QuizDAO quizDAO) {
+    public QuestionServiceImplementation(QuestionDAO questionDAO, ProgressDAO progressDAO, QuizDAO quizDAO,
+                                         AnswerDAO answerDAO) {
         this.questionDAO = questionDAO;
         this.progressDAO = progressDAO;
         this.quizDAO = quizDAO;
+        this.answerDAO = answerDAO;
     }
 
 
@@ -57,7 +60,18 @@ public class QuestionServiceImplementation implements QuestionService {
 
     @Override
     public QuestionDTO saveQuestion(QuestionDTO question) {
-        return questionMapper.toQuestionDTO(questionDAO.save(questionMapper.toQuestion(question)));
+        for (int i = 0; i < question.getAnswersIds().length; i++) {
+            Optional<Answer> checkRecord = answerDAO.findById(question.getAnswersIds()[i]);
+            if (checkRecord.isEmpty()) {
+                return null;
+            }
+        }
+        Optional<Quiz> checkQuiz = quizDAO.findById(question.getQuizId());
+        if (checkQuiz.isPresent()) {
+            return questionMapper.toQuestionDTO(questionDAO.save(questionMapper.toQuestion(question)));
+        } else {
+            return null;
+        }
     }
 
     @Override

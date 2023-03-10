@@ -1,5 +1,6 @@
 package com.azerty.quizgame.model.entity;
 
+import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
 
 @Access(AccessType.FIELD)
@@ -85,20 +86,6 @@ public class Person {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                '}';
     }
 
 }

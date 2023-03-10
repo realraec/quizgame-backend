@@ -1,4 +1,4 @@
-package com.azerty.quizgame.model.entity;
+package com.azerty.quizgame.model.enums;
 
 public enum QuizState {
 

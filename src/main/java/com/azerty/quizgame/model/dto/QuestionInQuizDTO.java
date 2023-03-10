@@ -3,8 +3,8 @@ package com.azerty.quizgame.model.dto;
 public class QuestionInQuizDTO {
 
     private Long id;
-    private int maxDurationInSeconds;
     private String wording;
+    private int maxDurationInSeconds;
     private AnswerInQuizDTO[] answers;
     private Long numberOfQuestionsLeft;
 
@@ -12,10 +12,10 @@ public class QuestionInQuizDTO {
     public QuestionInQuizDTO() {
     }
 
-    public QuestionInQuizDTO(Long id, int maxDurationInSeconds, String wording, AnswerInQuizDTO[] answers, Long numberOfQuestionsLeft) {
+    public QuestionInQuizDTO(Long id, String wording, int maxDurationInSeconds, AnswerInQuizDTO[] answers, Long numberOfQuestionsLeft) {
         this.id = id;
-        this.maxDurationInSeconds = maxDurationInSeconds;
         this.wording = wording;
+        this.maxDurationInSeconds = maxDurationInSeconds;
         this.answers = answers;
         this.numberOfQuestionsLeft = numberOfQuestionsLeft;
     }
@@ -28,20 +28,20 @@ public class QuestionInQuizDTO {
         this.id = id;
     }
 
-    public int getMaxDurationInSeconds() {
-        return maxDurationInSeconds;
-    }
-
-    public void setMaxDurationInSeconds(int maxDurationInSeconds) {
-        this.maxDurationInSeconds = maxDurationInSeconds;
-    }
-
     public String getWording() {
         return wording;
     }
 
     public void setWording(String wording) {
         this.wording = wording;
+    }
+
+    public int getMaxDurationInSeconds() {
+        return maxDurationInSeconds;
+    }
+
+    public void setMaxDurationInSeconds(int maxDurationInSeconds) {
+        this.maxDurationInSeconds = maxDurationInSeconds;
     }
 
     public AnswerInQuizDTO[] getAnswers() {

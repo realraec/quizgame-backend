@@ -1,6 +1,6 @@
 package com.azerty.quizgame.model.dto;
 
-import com.azerty.quizgame.model.entity.QuizState;
+import com.azerty.quizgame.model.enums.QuizState;
 
 public class QuizForInternDTO {
 

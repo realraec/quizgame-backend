@@ -14,7 +14,7 @@ public interface QuestionDAO extends CrudRepository<Question, Long> {
 
     @Query(nativeQuery = true, value = """
             SELECT
-            	t.pk_question, t.max_duration_in_seconds, t.wording,
+            	t.pk_question, t.wording, t.max_duration_in_seconds,
             	answers.pk_answer, answers.is_correct, answers.wording,
             	t.number_of_questions_left
             FROM
