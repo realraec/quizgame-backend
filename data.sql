@@ -155,6 +155,79 @@ INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_pro
 INSERT INTO public.records (pk_record, is_success, time_taken_in_seconds, fk_progress, fk_question) VALUES (14, false, 12, 6, 5);
 
 
+
+
+--
+-- TOC entry 3032 (class 0 OID 0)
+-- Dependencies: 203
+-- Name: admins_pk_person_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.admins_pk_person_seq', 3, true);
+
+
+--
+-- TOC entry 3033 (class 0 OID 0)
+-- Dependencies: 205
+-- Name: answers_pk_answer_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.answers_pk_answer_seq', 39, true);
+
+
+--
+-- TOC entry 3034 (class 0 OID 0)
+-- Dependencies: 207
+-- Name: interns_pk_person_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.interns_pk_person_seq', 9, true);
+
+
+--
+-- TOC entry 3036 (class 0 OID 0)
+-- Dependencies: 211
+-- Name: progresses_pk_progress_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.progresses_pk_progress_seq', 7, true);
+
+
+--
+-- TOC entry 3037 (class 0 OID 0)
+-- Dependencies: 212
+-- Name: question_records_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.question_records_seq', 1, false);
+
+
+--
+-- TOC entry 3038 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: questions_pk_question_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.questions_pk_question_seq', 10, true);
+
+
+--
+-- TOC entry 3039 (class 0 OID 0)
+-- Dependencies: 216
+-- Name: quizzes_pk_quiz_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.quizzes_pk_quiz_seq', 5, true);
+
+
+--
+-- TOC entry 3040 (class 0 OID 0)
+-- Dependencies: 218
+-- Name: records_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.records_seq', 51, true);
+
 --
 -- PostgreSQL database dump complete
 --
