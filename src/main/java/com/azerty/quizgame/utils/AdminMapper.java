@@ -21,7 +21,14 @@ public class AdminMapper {
     }
 
     public Admin toAdmin(AdminDTO adminDTO) {
-        return new Admin(adminDTO.getId(), adminDTO.getUsername(), adminDTO.getPassword(), adminDTO.getLastname(), adminDTO.getFirstname(), adminDTO.getEmail(), adminDTO.getRole());
+        return new Admin(
+                adminDTO.getId(),
+                adminDTO.getUsername(),
+                adminDTO.getPassword(),
+                adminDTO.getLastname(),
+                adminDTO.getFirstname(),
+                adminDTO.getEmail(),
+                adminDTO.getRole());
     }
 
 }

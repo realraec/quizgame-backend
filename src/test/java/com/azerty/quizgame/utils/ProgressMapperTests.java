@@ -31,9 +31,10 @@ public class ProgressMapperTests {
         List<Record> records = new ArrayList<>();
         records.add(record1);
         records.add(record2);
-        Long[] recordsIds = records.stream().map(Record::getId).toArray(Long[]::new);
+        //Long[] recordsIds = records.stream().map(Record::getId).toArray(Long[]::new);
 
-        Progress progress = new Progress(id, dateAndTimeOfCompletion, score, intern, quiz, records);
+        Progress progress = new Progress(id, dateAndTimeOfCompletion, score, intern, quiz, null);
+        progress.setRecords(records);
         ProgressDTO progressDTO = progressMapper.toProgressDTO(progress);
 
         Assertions.assertEquals(null, progressDTO.getId());
@@ -41,7 +42,7 @@ public class ProgressMapperTests {
         Assertions.assertEquals(score, progressDTO.getScore());
         Assertions.assertEquals(intern.getId(), progressDTO.getInternId());
         Assertions.assertEquals(quiz.getId(), progressDTO.getQuizId());
-        Assertions.assertEquals(0, progressDTO.getRecordsIds().length);
+        Assertions.assertEquals(records.size(), progressDTO.getRecordsIds().length);
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.azerty.quizgame.utils;
 
 import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.dto.QuizForInternDTO;
+import com.azerty.quizgame.model.entity.Intern;
 import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.model.enums.QuizState;
@@ -24,9 +25,12 @@ public class QuizMapperTests {
         List<Question> questions = new ArrayList<>();
         questions.add(new Question());
         questions.add(new Question());
+        List<Intern> interns = new ArrayList<>();
+        interns.add(new Intern());
+        interns.add(new Intern());
         QuizState state = QuizState.STARTED;
 
-        Quiz quiz = new Quiz(id, title, summary, questions);
+        Quiz quiz = new Quiz(id, title, summary, questions, interns);
         QuizForInternDTO quizForInternDTO = quizMapper.toQuizForInternDTO(quiz, state);
 
         Assertions.assertEquals(null, quizForInternDTO.getId());
@@ -43,15 +47,22 @@ public class QuizMapperTests {
         List<Question> questions = new ArrayList<>();
         questions.add(new Question());
         questions.add(new Question());
-        Long[] questionsIds = questions.stream().map(Question::getId).toArray(Long[]::new);
+        //Long[] questionsIds = questions.stream().map(Question::getId).toArray(Long[]::new);
+        List<Intern> interns = new ArrayList<>();
+        interns.add(new Intern());
+        interns.add(new Intern());
+        //Long[] internsIds = interns.stream().map(Intern::getId).toArray(Long[]::new);
 
-        Quiz quiz = new Quiz(id, title, summary, questions);
+        Quiz quiz = new Quiz(id, title, summary, null, null);
+        quiz.setQuestions(questions);
+        quiz.setInterns(interns);
         QuizDTO quizDTO = quizMapper.toQuizDTO(quiz);
 
         Assertions.assertEquals(null, quizDTO.getId());
         Assertions.assertEquals(title, quizDTO.getTitle());
         Assertions.assertEquals(summary, quizDTO.getSummary());
-        Assertions.assertEquals(0, quizDTO.getQuestionsIds().length);
+        Assertions.assertEquals(questions.size(), quizDTO.getQuestionsIds().length);
+        Assertions.assertEquals(interns.size(), quizDTO.getInternsIds().length);
     }
 
     @Test
@@ -63,14 +74,19 @@ public class QuizMapperTests {
         questions.add(new Question());
         questions.add(new Question());
         Long[] questionsIds = questions.stream().map(Question::getId).toArray(Long[]::new);
+        List<Intern> interns = new ArrayList<>();
+        interns.add(new Intern());
+        interns.add(new Intern());
+        Long[] internsIds = interns.stream().map(Intern::getId).toArray(Long[]::new);
 
-        QuizDTO quizDTO = new QuizDTO(id, title, summary, questionsIds);
+        QuizDTO quizDTO = new QuizDTO(id, title, summary, questionsIds, internsIds);
         Quiz quiz = quizMapper.toQuiz(quizDTO);
 
         Assertions.assertEquals(null, quiz.getId());
         Assertions.assertEquals(title, quiz.getTitle());
         Assertions.assertEquals(summary, quiz.getSummary());
         Assertions.assertEquals(0, quiz.getQuestions().size());
+        Assertions.assertEquals(0, quiz.getInterns().size());
     }
 
 }

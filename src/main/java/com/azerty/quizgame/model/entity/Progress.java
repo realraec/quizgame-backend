@@ -1,6 +1,5 @@
 package com.azerty.quizgame.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -30,7 +29,6 @@ public class Progress {
     @JoinColumn(name = "fk_quiz", nullable = false)
     private Quiz quiz;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "progress", fetch = FetchType.EAGER)
     private List<Record> records;
 

@@ -1,6 +1,5 @@
 package com.azerty.quizgame.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -22,19 +21,28 @@ public class Quiz {
     @Column(nullable = false)
     private String summary;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Question> questions;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "quizzes_interns",
+            joinColumns = { @JoinColumn(name = "pk_quiz") },
+            inverseJoinColumns = { @JoinColumn(name = "pk_intern") }
+    )
+    private List<Intern> interns;
 
 
     public Quiz() {
         this.questions = new ArrayList<>();
+        this.interns = new ArrayList<>();
     }
 
-    public Quiz(Long id, String title, String summary, List<Question> questions) {
+    public Quiz(Long id, String title, String summary, List<Question> questions, List<Intern> interns) {
         this.title = title;
         this.summary = summary;
         this.questions = new ArrayList<>();
+        this.interns = new ArrayList<>();
     }
 
     public Long getId() {
@@ -67,6 +75,14 @@ public class Quiz {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public List<Intern> getInterns() {
+        return interns;
+    }
+
+    public void setInterns(List<Intern> interns) {
+        this.interns = interns;
     }
 
 

@@ -4,6 +4,7 @@ import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.dto.QuizForInternDTO;
+import com.azerty.quizgame.model.entity.Intern;
 import com.azerty.quizgame.model.enums.QuizState;
 import com.azerty.quizgame.service.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +76,8 @@ public class QuizControllerTests {
         String title = "Life";
         String summary = "Pretty important stuff.";
         Long[] questionsIds = {2L, 3L, 4L};
-        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds);
+        Long[] internsIds = {5L, 6L, 7L};
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
 
         given(quizService.getQuizById(id)).willReturn(quiz);
 
@@ -89,7 +91,10 @@ public class QuizControllerTests {
                 //.andExpect(jsonPath("$.questionsIds", is(Arrays.toString(quiz.getQuestionsIds()))))
                 .andExpect(jsonPath("$.questionsIds[0]", is(Integer.valueOf(quiz.getQuestionsIds()[0].toString()))))
                 .andExpect(jsonPath("$.questionsIds[1]", is(Integer.valueOf(quiz.getQuestionsIds()[1].toString()))))
-                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))));
+                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))))
+                .andExpect(jsonPath("$.internsIds[0]", is(Integer.valueOf(quiz.getInternsIds()[0].toString()))))
+                .andExpect(jsonPath("$.internsIds[1]", is(Integer.valueOf(quiz.getInternsIds()[1].toString()))))
+                .andExpect(jsonPath("$.internsIds[2]", is(Integer.valueOf(quiz.getInternsIds()[2].toString()))));
     }
 
     @Test
@@ -120,7 +125,8 @@ public class QuizControllerTests {
         String title = "Life";
         String summary = "Pretty important stuff.";
         Long[] questionsIds = {2L, 3L, 4L};
-        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds);
+        Long[] internsIds = {5L, 6L, 7L};
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
 
         given(quizService.saveQuiz(any())).willReturn(quiz);
 
@@ -136,7 +142,10 @@ public class QuizControllerTests {
                 //.andExpect(jsonPath("$.questionsIds", is(Arrays.toString(quiz.getQuestionsIds()))))
                 .andExpect(jsonPath("$.questionsIds[0]", is(Integer.valueOf(quiz.getQuestionsIds()[0].toString()))))
                 .andExpect(jsonPath("$.questionsIds[1]", is(Integer.valueOf(quiz.getQuestionsIds()[1].toString()))))
-                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))));
+                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))))
+                .andExpect(jsonPath("$.internsIds[0]", is(Integer.valueOf(quiz.getInternsIds()[0].toString()))))
+                .andExpect(jsonPath("$.internsIds[1]", is(Integer.valueOf(quiz.getInternsIds()[1].toString()))))
+                .andExpect(jsonPath("$.internsIds[2]", is(Integer.valueOf(quiz.getInternsIds()[2].toString()))));
     }
 
     @Test
@@ -155,7 +164,8 @@ public class QuizControllerTests {
         String title = "Life";
         String summary = "Pretty important stuff.";
         Long[] questionsIds = {2L, 3L, 4L};
-        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds);
+        Long[] internsIds = {5L, 6L, 7L};
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
 
         given(questionDAO.findById(any())).willReturn(Optional.empty());
 
@@ -173,7 +183,8 @@ public class QuizControllerTests {
         String title = "Life";
         String summary = "Pretty important stuff.";
         Long[] questionsIds = {2L, 3L, 4L};
-        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds);
+        Long[] internsIds = {5L, 6L, 7L};
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
 
         given(quizService.saveQuiz(any())).willThrow(new Exception());
 
@@ -191,7 +202,8 @@ public class QuizControllerTests {
         String title = "Life";
         String summary = "Pretty important stuff.";
         Long[] questionsIds = {2L, 3L, 4L};
-        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds);
+        Long[] internsIds = {5L, 6L, 7L};
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
 
         given(quizService.updateQuizById(any(), eq(id))).willReturn(quiz);
 
@@ -207,7 +219,10 @@ public class QuizControllerTests {
                 //.andExpect(jsonPath("$.questionsIds", is(Arrays.toString(quiz.getQuestionsIds()))))
                 .andExpect(jsonPath("$.questionsIds[0]", is(Integer.valueOf(quiz.getQuestionsIds()[0].toString()))))
                 .andExpect(jsonPath("$.questionsIds[1]", is(Integer.valueOf(quiz.getQuestionsIds()[1].toString()))))
-                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))));
+                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))))
+                .andExpect(jsonPath("$.internsIds[0]", is(Integer.valueOf(quiz.getInternsIds()[0].toString()))))
+                .andExpect(jsonPath("$.internsIds[1]", is(Integer.valueOf(quiz.getInternsIds()[1].toString()))))
+                .andExpect(jsonPath("$.internsIds[2]", is(Integer.valueOf(quiz.getInternsIds()[2].toString()))));
     }
 
     @Test
@@ -227,7 +242,8 @@ public class QuizControllerTests {
         String title = "Life";
         String summary = "Pretty important stuff.";
         Long[] questionsIds = {2L, 3L, 4L};
-        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds);
+        Long[] internsIds = {5L, 6L, 7L};
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
 
         given(quizDAO.findById(any())).willReturn(Optional.empty());
 
@@ -245,7 +261,8 @@ public class QuizControllerTests {
         String title = "Life";
         String summary = "Pretty important stuff.";
         Long[] questionsIds = {2L, 3L, 4L};
-        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds);
+        Long[] internsIds = {5L, 6L, 7L};
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
 
         given(quizService.updateQuizById(any(), eq(id))).willThrow(new Exception());
 

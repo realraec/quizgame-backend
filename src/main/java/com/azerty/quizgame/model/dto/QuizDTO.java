@@ -6,16 +6,18 @@ public class QuizDTO {
     private String title;
     private String summary;
     private Long[] questionsIds;
+    private Long[] internsIds;
 
 
     public QuizDTO() {
     }
 
-    public QuizDTO(Long id, String title, String summary, Long[] questionsIds) {
+    public QuizDTO(Long id, String title, String summary, Long[] questionsIds, Long[] internsIds) {
         this.id = id;
         this.title = title;
         this.summary = summary;
         this.questionsIds = questionsIds;
+        this.internsIds = internsIds;
     }
 
 
@@ -49,6 +51,14 @@ public class QuizDTO {
 
     public void setQuestionsIds(Long[] questionsIds) {
         this.questionsIds = questionsIds;
+    }
+
+    public Long[] getInternsIds() {
+        return internsIds;
+    }
+
+    public void setInternsIds(Long[] internsIds) {
+        this.internsIds = internsIds;
     }
 
 }

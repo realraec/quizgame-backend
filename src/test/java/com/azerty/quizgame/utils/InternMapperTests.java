@@ -2,9 +2,13 @@ package com.azerty.quizgame.utils;
 
 import com.azerty.quizgame.model.dto.InternDTO;
 import com.azerty.quizgame.model.entity.Intern;
+import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.model.enums.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class InternMapperTests {
 
@@ -20,8 +24,13 @@ public class InternMapperTests {
         String email = "mike.tyson@gmail.com";
         String company = "McDonald's";
         Role role = Role.INTERN;
+        List<Quiz> quizzes = new ArrayList<>();
+        quizzes.add(new Quiz());
+        quizzes.add(new Quiz());
+        //Long[] quizzesIds = quizzes.stream().map(Quiz::getId).toArray(Long[]::new);
 
-        Intern admin = new Intern(id, username, password, lastname, firstname, email, company, role);
+        Intern admin = new Intern(id, username, password, lastname, firstname, email, company, role, null);
+        admin.setQuizzes(quizzes);
         InternDTO internDTO = internMapper.toInternDTO(admin);
 
         Assertions.assertEquals(null, internDTO.getId());
@@ -32,6 +41,7 @@ public class InternMapperTests {
         Assertions.assertEquals(email, internDTO.getEmail());
         Assertions.assertEquals(company, internDTO.getCompany());
         Assertions.assertEquals(role, internDTO.getRole());
+        Assertions.assertEquals(quizzes.size(), internDTO.getQuizzesIds().length);
     }
 
     @Test
@@ -44,8 +54,12 @@ public class InternMapperTests {
         String email = "mike.tyson@gmail.com";
         String company = "McDonald's";
         Role role = Role.INTERN;
+        List<Quiz> quizzes = new ArrayList<>();
+        quizzes.add(new Quiz());
+        quizzes.add(new Quiz());
+        Long[] quizzesIds = quizzes.stream().map(Quiz::getId).toArray(Long[]::new);
 
-        InternDTO internDTO = new InternDTO(id, username, password, lastname, firstname, email, company, role);
+        InternDTO internDTO = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
         Intern intern = internMapper.toIntern(internDTO);
 
         Assertions.assertEquals(null, intern.getId());
@@ -56,6 +70,7 @@ public class InternMapperTests {
         Assertions.assertEquals(email, intern.getEmail());
         Assertions.assertEquals(company, intern.getCompany());
         Assertions.assertEquals(role, intern.getRole());
+        Assertions.assertEquals(0, intern.getQuizzes().size());
     }
 
 }

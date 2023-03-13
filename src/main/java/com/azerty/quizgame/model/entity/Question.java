@@ -1,6 +1,5 @@
 package com.azerty.quizgame.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,6 @@ public class Question {
     @JoinColumn(name = "fk_quiz", nullable = false)
     private Quiz quiz;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Answer> answers;
 

@@ -2,6 +2,7 @@ package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.dao.InternDAO;
 import com.azerty.quizgame.model.dto.InternDTO;
+import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.model.enums.Role;
 import com.azerty.quizgame.service.InternService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -73,7 +74,8 @@ public class InternControllerTests {
         String email = "mike.tyson@gmail.com";
         Role role = Role.INTERN;
         String company = "McDonald's";
-        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role);
+        Long[] quizzesIds = {2L, 3L, 4L};
+        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
 
         given(internService.getInternById(id)).willReturn(intern);
 
@@ -88,7 +90,10 @@ public class InternControllerTests {
                 .andExpect(jsonPath("$.firstname", is(intern.getFirstname())))
                 .andExpect(jsonPath("$.email", is(intern.getEmail())))
                 .andExpect(jsonPath("$.company", is(intern.getCompany())))
-                .andExpect(jsonPath("$.role", is(intern.getRole().toString())));
+                .andExpect(jsonPath("$.role", is(intern.getRole().toString())))
+                .andExpect(jsonPath("$.quizzesIds[0]", is(Integer.valueOf(intern.getQuizzesIds()[0].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[1]", is(Integer.valueOf(intern.getQuizzesIds()[1].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[2]", is(Integer.valueOf(intern.getQuizzesIds()[2].toString()))));
     }
 
     @Test
@@ -123,7 +128,8 @@ public class InternControllerTests {
         String email = "mike.tyson@gmail.com";
         Role role = Role.INTERN;
         String company = "McDonald's";
-        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role);
+        Long[] quizzesIds = {2L, 3L, 4L};
+        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
 
         given(internService.saveIntern(any())).willReturn(intern);
 
@@ -140,7 +146,10 @@ public class InternControllerTests {
                 .andExpect(jsonPath("$.firstname", is(intern.getFirstname())))
                 .andExpect(jsonPath("$.email", is(intern.getEmail())))
                 .andExpect(jsonPath("$.company", is(intern.getCompany())))
-                .andExpect(jsonPath("$.role", is(intern.getRole().toString())));
+                .andExpect(jsonPath("$.role", is(intern.getRole().toString())))
+                .andExpect(jsonPath("$.quizzesIds[0]", is(Integer.valueOf(intern.getQuizzesIds()[0].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[1]", is(Integer.valueOf(intern.getQuizzesIds()[1].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[2]", is(Integer.valueOf(intern.getQuizzesIds()[2].toString()))));
     }
 
     @Test
@@ -163,7 +172,8 @@ public class InternControllerTests {
         String email = "mike.tyson@gmail.com";
         Role role = Role.INTERN;
         String company = "McDonald's";
-        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role);
+        Long[] quizzesIds = {2L, 3L, 4L};
+        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
 
         given(internService.saveIntern(any())).willThrow(new Exception());
 
@@ -185,7 +195,8 @@ public class InternControllerTests {
         String email = "mike.tyson@gmail.com";
         Role role = Role.INTERN;
         String company = "McDonald's";
-        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role);
+        Long[] quizzesIds = {2L, 3L, 4L};
+        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
 
         given(internService.updateInternById(any(), eq(id))).willReturn(intern);
 
@@ -201,7 +212,10 @@ public class InternControllerTests {
                 .andExpect(jsonPath("$.lastname", is(intern.getLastname())))
                 .andExpect(jsonPath("$.firstname", is(intern.getFirstname())))
                 .andExpect(jsonPath("$.email", is(intern.getEmail())))
-                .andExpect(jsonPath("$.role", is(intern.getRole().toString())));
+                .andExpect(jsonPath("$.role", is(intern.getRole().toString())))
+                .andExpect(jsonPath("$.quizzesIds[0]", is(Integer.valueOf(intern.getQuizzesIds()[0].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[1]", is(Integer.valueOf(intern.getQuizzesIds()[1].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[2]", is(Integer.valueOf(intern.getQuizzesIds()[2].toString()))));
     }
 
     @Test
@@ -225,7 +239,8 @@ public class InternControllerTests {
         String email = "mike.tyson@gmail.com";
         Role role = Role.INTERN;
         String company = "McDonald's";
-        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role);
+        Long[] quizzesIds = {2L, 3L, 4L};
+        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
 
         given(internDAO.findById(any())).willReturn(Optional.empty());
 
@@ -247,7 +262,8 @@ public class InternControllerTests {
         String email = "mike.tyson@gmail.com";
         Role role = Role.INTERN;
         String company = "McDonald's";
-        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role);
+        Long[] quizzesIds = {2L, 3L, 4L};
+        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
 
         given(internService.updateInternById(any(), eq(id))).willThrow(new Exception());
 

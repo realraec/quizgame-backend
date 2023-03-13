@@ -39,7 +39,7 @@ public class QuestionMapperTests {
     }
 
     @Test
-    public void shouldGoFromQuestionToQuestionInQuizDTOEmpty() {
+    public void shouldGoFromObjectArraysListToQuestionInQuizDTOEmpty() {
         QuestionInQuizDTO questionDTO = questionMapper.toQuestionInQuizDTO(new ArrayList<>());
 
         Assertions.assertEquals(null, questionDTO.getId());
@@ -59,16 +59,17 @@ public class QuestionMapperTests {
         List<Answer> answers = new ArrayList<>();
         answers.add(new Answer());
         answers.add(new Answer());
-        Long[] answersIds = answers.stream().map(Answer::getId).toArray(Long[]::new);
+        //Long[] answersIds = answers.stream().map(Answer::getId).toArray(Long[]::new);
 
         Question question = new Question(id, wording, maxDurationInSeconds, quiz, answers);
+        question.setAnswers(answers);
         QuestionDTO questionDTO = questionMapper.toQuestionDTO(question);
 
         Assertions.assertEquals(null, questionDTO.getId());
         Assertions.assertEquals(wording, questionDTO.getWording());
         Assertions.assertEquals(maxDurationInSeconds, questionDTO.getMaxDurationInSeconds());
         Assertions.assertEquals(quiz.getId(), questionDTO.getQuizId());
-        Assertions.assertEquals(0, questionDTO.getAnswersIds().length);
+        Assertions.assertEquals(answers.size(), questionDTO.getAnswersIds().length);
     }
 
     @Test

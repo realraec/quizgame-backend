@@ -12,12 +12,12 @@ public class InternDTO {
     private String email;
     private String company;
     private Role role;
-
+    private Long[] quizzesIds;
 
     public InternDTO() {
     }
 
-    public InternDTO(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role) {
+    public InternDTO(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role, Long[] quizzesIds) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -26,6 +26,7 @@ public class InternDTO {
         this.email = email;
         this.company = company;
         this.role = role;
+        this.quizzesIds = quizzesIds;
     }
 
 
@@ -91,6 +92,14 @@ public class InternDTO {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Long[] getQuizzesIds() {
+        return quizzesIds;
+    }
+
+    public void setQuizzesIds(Long[] quizzesIds) {
+        this.quizzesIds = quizzesIds;
     }
 
 }
