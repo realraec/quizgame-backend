@@ -4,7 +4,6 @@ import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.dto.QuizForInternDTO;
-import com.azerty.quizgame.model.entity.Intern;
 import com.azerty.quizgame.model.enums.QuizState;
 import com.azerty.quizgame.service.QuizService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -307,7 +306,6 @@ public class QuizControllerTests {
                 .andExpect(status().isInternalServerError());
     }
 
-
     @Test
     public void shouldGetQuizWithStateByQuizIdAndInternId() throws Exception {
         Long quizId = 1L;
@@ -356,7 +354,7 @@ public class QuizControllerTests {
     }
 
     @Test
-    public void shouldGetAllQuizzesWithStateByInternId() throws Exception {
+    public void shouldGetAllQuizzesAttributedToInternWithStateByInternId() throws Exception {
         Long internId = 1L;
 
         Long id1 = 1L;
@@ -373,7 +371,7 @@ public class QuizControllerTests {
         quizzes.add(quiz1);
         quizzes.add(quiz2);
 
-        given(quizService.getAllQuizzesWithStateByInternId(internId)).willReturn(quizzes);
+        given(quizService.getAllQuizzesAttributedToInternWithStateByInternId(internId)).willReturn(quizzes);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/quizzes/forIntern/{internId}", internId))
@@ -391,9 +389,9 @@ public class QuizControllerTests {
     }
 
     @Test
-    public void shouldNotGetAllQuizzesWithStateByInternId404() throws Exception {
+    public void shouldNotGetAllQuizzesAttributedToInternWithStateByInternId404() throws Exception {
         Long internId = 1L;
-        given(quizService.getAllQuizzesWithStateByInternId(internId)).willReturn(null);
+        given(quizService.getAllQuizzesAttributedToInternWithStateByInternId(internId)).willReturn(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/quizzes/forIntern/{internId}", internId))
@@ -402,12 +400,95 @@ public class QuizControllerTests {
     }
 
     @Test
-    public void shouldNotGetAllQuizzesWithStateByInternId500() throws Exception {
+    public void shouldNotGetAllQuizzesAttributedToInternWithStateByInternId500() throws Exception {
         Long internId = 1L;
-        given(quizService.getAllQuizzesWithStateByInternId(internId)).willThrow(new Exception());
+        given(quizService.getAllQuizzesAttributedToInternWithStateByInternId(internId)).willThrow(new Exception());
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/quizzes/forIntern/{internId}", internId))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void shouldAttributeInternsToQuizByIds() throws Exception {
+        Long id = 1L;
+        String title = "Life";
+        String summary = "Pretty important stuff.";
+        Long[] questionsIds = {2L, 3L, 4L};
+        Long[] internsIds = {5L, 6L, 7L};
+        String internsIdsAsString = "5,6,7";
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, internsIds);
+
+        given(quizService.attributeInternsToQuizByIds(any(), any())).willReturn(quiz);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/attributeInterns/{internsIds}", id, internsIdsAsString)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(quiz)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(Integer.valueOf(quiz.getId().toString()))))
+                .andExpect(jsonPath("$.title", is(quiz.getTitle())))
+                .andExpect(jsonPath("$.summary", is(quiz.getSummary())))
+                //.andExpect(jsonPath("$.questionsIds", is(Arrays.toString(quiz.getQuestionsIds()))))
+                .andExpect(jsonPath("$.questionsIds[0]", is(Integer.valueOf(quiz.getQuestionsIds()[0].toString()))))
+                .andExpect(jsonPath("$.questionsIds[1]", is(Integer.valueOf(quiz.getQuestionsIds()[1].toString()))))
+                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))))
+                .andExpect(jsonPath("$.internsIds[0]", is(Integer.valueOf(quiz.getInternsIds()[0].toString()))))
+                .andExpect(jsonPath("$.internsIds[1]", is(Integer.valueOf(quiz.getInternsIds()[1].toString()))))
+                .andExpect(jsonPath("$.internsIds[2]", is(Integer.valueOf(quiz.getInternsIds()[2].toString()))));
+    }
+
+    @Test
+    public void shouldNotAttributeInternsToQuizByIds400() throws Exception {
+        Long quizId = 1L;
+        String internsIds = "xxx";
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/attributeInterns/{internsIds}", quizId, internsIds))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldNotAttributeInternsToQuizById404() throws Exception {
+        Long quizId = 1L;
+        //Long[] internsIds = {2L, 3L, 4L};
+        String internsIdsAsString = "102,103,104";
+
+        given(quizService.attributeInternsToQuizByIds(any(), any())).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/attributeInterns/{internsIds}", quizId, internsIdsAsString))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotAttributeInternsToQuizById409() throws Exception {
+        Long quizId = 1L;
+        //Long[] internsIds = {2L, 3L, 4L};
+        String internsIdsAsString = "2,3,4";
+
+        given(quizService.attributeInternsToQuizByIds(any(), any())).willReturn(new QuizDTO());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/attributeInterns/{internsIds}", quizId, internsIdsAsString))
+                .andDo(print())
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void shouldNotAttributeInternsToQuizByIds500() throws Exception {
+        Long quizId = 1L;
+        //Long[] internsIds = {2L, 3L, 4L};
+        String internsIdsAsString = "2,3,4";
+
+        given(quizService.attributeInternsToQuizByIds(any(), any())).willThrow(new Exception());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/attributeInterns/{internsIds}", quizId, internsIdsAsString))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
     }

@@ -110,11 +110,11 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public List<QuizForInternDTO> getAllQuizzesWithStateByInternId(Long internId) {
+    public List<QuizForInternDTO> getAllQuizzesAttributedToInternWithStateByInternId(Long internId) {
         Optional<Intern> checkIntern = internDAO.findById(internId);
         if (checkIntern.isPresent()) {
 
-            Iterator<Quiz> quizIterator = quizDAO.findAll().iterator();
+            Iterator<Quiz> quizIterator = quizDAO.findAllQuizzesByInternId(internId).iterator();
             List<QuizForInternDTO> quizzesForIntern = new ArrayList<>();
             while (quizIterator.hasNext()) {
                 Quiz quiz = quizIterator.next();
@@ -133,28 +133,6 @@ public class QuizServiceImplementation implements QuizService {
             return null;
         }
     }
-
-    /*@Override
-    public QuizDTO attributeInternToQuizByIds(Long quizId, Long internId) throws Exception {
-        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
-        Optional<Intern> checkIntern = internDAO.findById(internId);
-        if (checkQuiz.isPresent() && checkIntern.isPresent()) {
-            Quiz quizAsEntity = checkQuiz.get();
-            Intern internAsEntity = checkIntern.get();
-            //quizAsEntity.setId(quizId);
-            List<Intern> interns = quizAsEntity.getInterns();
-            for (int i = 0; i < interns.size(); i++) {
-                if (Objects.equals(interns.get(i).getId(), internId)) {
-                    return new QuizDTO();
-                }
-            }
-            interns.add(internAsEntity);
-            quizAsEntity.setInterns(interns);
-            return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
-        } else {
-            return null;
-        }
-    }*/
 
     @Override
     public QuizDTO attributeInternsToQuizByIds(Long quizId, Long[] internsIds) throws Exception {

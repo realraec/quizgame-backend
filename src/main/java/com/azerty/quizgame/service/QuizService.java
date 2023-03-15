@@ -19,9 +19,7 @@ public interface QuizService {
 
     QuizForInternDTO getQuizWithStateByQuizIdAndInternId(Long quizId, Long internId) throws Exception;
 
-    List<QuizForInternDTO> getAllQuizzesWithStateByInternId(Long internId) throws Exception;
-
-    //QuizDTO attributeInternToQuizByIds(Long quizId, Long internId) throws Exception;
+    List<QuizForInternDTO> getAllQuizzesAttributedToInternWithStateByInternId(Long internId) throws Exception;
 
     QuizDTO attributeInternsToQuizByIds(Long quizId, Long[] internsIds) throws Exception;
 
