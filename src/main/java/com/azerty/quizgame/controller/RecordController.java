@@ -70,7 +70,7 @@ public class RecordController {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
             } else {
-                return new ResponseEntity<>(checkRecord, HttpStatus.CONFLICT);
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         } catch (Exception e) {
             e.printStackTrace();

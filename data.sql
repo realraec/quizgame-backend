@@ -7,6 +7,7 @@ DELETE FROM public.records;
 DELETE FROM public.progresses;
 DELETE FROM public.answers;
 DELETE FROM public.questions;
+DELETE FROM public.quizzes_interns;
 DELETE FROM public.quizzes;
 DELETE FROM public.interns;
 DELETE FROM public.admins;
@@ -48,9 +49,24 @@ INSERT INTO public.interns (pk_person, email, firstname, lastname, password, rol
 
 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (1, 'This quiz is about the Java programming language', 'Java');
 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (2, 'This quiz is about the SQL programming language', 'SQL');
-INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (3, 'This quiz is about the HTML markup language', 'Java');
-INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (4, 'This quiz is about the CSS stylesheet language', 'Java');
+INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (3, 'This quiz is about the HTML markup language', 'HTML');
+INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (4, 'This quiz is about the CSS stylesheet language', 'CSS');
 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (5, 'This quiz is about the C programming language', 'C');
+
+
+--
+-- TOC entry 3013 (class 0 OID 150548)
+-- Dependencies: 214
+-- Data for Name: quizzes_interns; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+INSERT INTO public.quizzes_interns (pk_quiz, pk_intern) VALUES (1, 1);
+INSERT INTO public.quizzes_interns (pk_quiz, pk_intern) VALUES (1, 3);
+INSERT INTO public.quizzes_interns (pk_quiz, pk_intern) VALUES (2, 1);
+INSERT INTO public.quizzes_interns (pk_quiz, pk_intern) VALUES (2, 2);
+INSERT INTO public.quizzes_interns (pk_quiz, pk_intern) VALUES (2, 4);
+INSERT INTO public.quizzes_interns (pk_quiz, pk_intern) VALUES (3, 4);
+INSERT INTO public.quizzes_interns (pk_quiz, pk_intern) VALUES (4, 2);
 
 
 --
@@ -124,13 +140,13 @@ INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES 
 -- Data for Name: progresses; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (1, '2023-02-26 14:17:01.82939', 2, 1, 1);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (2, NULL, 1, 1, 2);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (3, '2023-02-26 14:17:02.626664', 1, 2, 2);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (4, '2023-02-26 14:17:02.793977', 1, 2, 4);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (5, NULL, 1, 3, 1);
 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (6, NULL, 0, 4, 2);
 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (7, NULL, 0, 4, 3);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (1, '2023-03-15 11:52:05.801588', 2, 1, 1);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (2, NULL, 1, 1, 2);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (3, '2023-03-15 11:52:05.990897', 1, 2, 2);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (4, '2023-03-15 11:52:06.025828', 1, 2, 4);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_intern, fk_quiz) VALUES (5, NULL, 1, 3, 1);
 
 
 --

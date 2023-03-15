@@ -12,10 +12,7 @@ import com.azerty.quizgame.utils.QuizMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class QuizServiceImplementation implements QuizService {
@@ -132,6 +129,62 @@ public class QuizServiceImplementation implements QuizService {
                 quizzesForIntern.add(quizMapper.toQuizForInternDTO(quiz, quizState));
             }
             return quizzesForIntern;
+        } else {
+            return null;
+        }
+    }
+
+    /*@Override
+    public QuizDTO attributeInternToQuizByIds(Long quizId, Long internId) throws Exception {
+        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
+        Optional<Intern> checkIntern = internDAO.findById(internId);
+        if (checkQuiz.isPresent() && checkIntern.isPresent()) {
+            Quiz quizAsEntity = checkQuiz.get();
+            Intern internAsEntity = checkIntern.get();
+            //quizAsEntity.setId(quizId);
+            List<Intern> interns = quizAsEntity.getInterns();
+            for (int i = 0; i < interns.size(); i++) {
+                if (Objects.equals(interns.get(i).getId(), internId)) {
+                    return new QuizDTO();
+                }
+            }
+            interns.add(internAsEntity);
+            quizAsEntity.setInterns(interns);
+            return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
+        } else {
+            return null;
+        }
+    }*/
+
+    @Override
+    public QuizDTO attributeInternsToQuizByIds(Long quizId, Long[] internsIds) throws Exception {
+        Set<Long> internsIdsAsSet = new HashSet<>(Arrays.asList(internsIds));
+        if (internsIdsAsSet.size() != internsIds.length) {
+            return new QuizDTO();
+        }
+
+        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
+        if (checkQuiz.isPresent()) {
+            List<Intern> internsToAttribute = new ArrayList<>();
+            for (int i = 0; i < internsIds.length; i++) {
+                Optional<Intern> checkIntern = internDAO.findById(internsIds[i]);
+                if (checkIntern.isEmpty()) {
+                    return null;
+                }
+                internsToAttribute.add(checkIntern.get());
+            }
+            Quiz quizAsEntity = checkQuiz.get();
+            List<Intern> interns = quizAsEntity.getInterns();
+            for (int i = 0; i < interns.size(); i++) {
+                for (int j = 0; j < internsIds.length; j++) {
+                    if (Objects.equals(interns.get(i).getId(), internsIds[j])) {
+                        return new QuizDTO();
+                    }
+                }
+            }
+            interns.addAll(internsToAttribute);
+            quizAsEntity.setInterns(interns);
+            return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
         } else {
             return null;
         }

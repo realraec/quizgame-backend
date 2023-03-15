@@ -127,4 +127,42 @@ public class QuizController {
         }
     }
 
+    /*@PatchMapping(path = "/{quizId}/attributeIntern/{internId}")
+    public ResponseEntity<QuizDTO> attributeInternToQuizByIds(@PathVariable Long quizId, @PathVariable Long internId) {
+        try {
+            QuizDTO updatedQuiz = quizService.attributeInternToQuizByIds(quizId, internId);
+            if (updatedQuiz != null) {
+                if (updatedQuiz.getId() != null) {
+                    return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }*/
+
+    @PatchMapping(path = "/{quizId}/attributeInterns/{internsIds}")
+    public ResponseEntity<QuizDTO> attributeInternsToQuizByIds(@PathVariable Long quizId, @PathVariable Long[] internsIds) {
+        try {
+            QuizDTO updatedQuiz = quizService.attributeInternsToQuizByIds(quizId, internsIds);
+            if (updatedQuiz != null) {
+                if (updatedQuiz.getId() != null) {
+                    return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
