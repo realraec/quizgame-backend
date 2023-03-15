@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -160,6 +161,29 @@ public class InternControllerTests {
                         .content(objectMapper.writeValueAsString(null)))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldNotSaveIntern409() throws Exception {
+        Long id = 1L;
+        String username = "intern1";
+        String password = "P@ssW0rd1";
+        String lastname = "Tyson";
+        String firstname = "Mike";
+        String email = "mike.tyson@gmail.com";
+        Role role = Role.INTERN;
+        String company = "McDonald's";
+        Long[] quizzesIds = {2L, 3L, 4L};
+        InternDTO intern = new InternDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
+
+        given(internService.saveIntern(any())).willThrow(DataIntegrityViolationException.class);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/interns/create")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(intern)))
+                .andDo(print())
+                .andExpect(status().isConflict());
     }
 
     @Test

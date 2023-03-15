@@ -3,6 +3,7 @@ package com.azerty.quizgame.controller;
 import com.azerty.quizgame.model.dto.InternDTO;
 import com.azerty.quizgame.service.InternService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +54,9 @@ public class InternController {
     public ResponseEntity<InternDTO> saveIntern(@RequestBody InternDTO intern) {
         try {
             return new ResponseEntity<>(internService.saveIntern(intern), HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

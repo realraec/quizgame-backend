@@ -4,6 +4,7 @@ import com.azerty.quizgame.model.dto.AdminDTO;
 import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,9 @@ public class AdminController {
     public ResponseEntity<AdminDTO> saveAdmin(@RequestBody AdminDTO admin) {
         try {
             return new ResponseEntity<>(adminService.saveAdmin(admin), HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
