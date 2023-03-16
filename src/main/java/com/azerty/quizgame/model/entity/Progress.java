@@ -3,7 +3,6 @@ package com.azerty.quizgame.model.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,7 +40,7 @@ public class Progress {
         this.score = score;
         this.person = person;
         this.quiz = quiz;
-        this.records = new ArrayList<>();
+        this.records = records;
     }
 
 

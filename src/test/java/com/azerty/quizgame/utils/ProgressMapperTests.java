@@ -68,7 +68,7 @@ public class ProgressMapperTests {
         Assertions.assertEquals(score, progress.getScore());
         Assertions.assertEquals(person.getId(), progress.getPerson().getId());
         Assertions.assertEquals(quiz.getId(), progress.getQuiz().getId());
-        Assertions.assertEquals(0, progress.getRecords().size());
+        Assertions.assertEquals(records.size(), progress.getRecords().size());
     }
 
 }

@@ -6,7 +6,10 @@ import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.dto.QuizForInternDTO;
-import com.azerty.quizgame.model.entity.*;
+import com.azerty.quizgame.model.entity.Person;
+import com.azerty.quizgame.model.entity.Progress;
+import com.azerty.quizgame.model.entity.Question;
+import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.model.enums.QuizState;
 import com.azerty.quizgame.utils.QuizMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +23,8 @@ public class QuizServiceImplementation implements QuizService {
     private final QuizDAO quizDAO;
     private final ProgressDAO progressDAO;
     private final PersonDAO personDAO;
-    private final QuizMapper quizMapper = new QuizMapper();
     private final QuestionDAO questionDAO;
+    private final QuizMapper quizMapper = new QuizMapper();
 
 
     @Autowired
@@ -36,15 +39,15 @@ public class QuizServiceImplementation implements QuizService {
 
     @Override
     public List<QuizDTO> getAllQuizzes() {
-        Iterator<Quiz> quizIterator = quizDAO.findAll().iterator();
-        List<QuizDTO> quizzes = new ArrayList<>();
-        while (quizIterator.hasNext()) {
-            quizzes.add(quizMapper.toQuizDTO(quizIterator.next()));
-        }
+        try {
+            Iterator<Quiz> quizIterator = quizDAO.findAll().iterator();
+            List<QuizDTO> quizzes = new ArrayList<>();
+            while (quizIterator.hasNext()) {
+                quizzes.add(quizMapper.toQuizDTO(quizIterator.next()));
+            }
 
-        if (!quizzes.isEmpty()) {
             return quizzes;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }

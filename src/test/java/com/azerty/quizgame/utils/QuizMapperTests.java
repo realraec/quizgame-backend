@@ -85,8 +85,8 @@ public class QuizMapperTests {
         Assertions.assertEquals(null, quiz.getId());
         Assertions.assertEquals(title, quiz.getTitle());
         Assertions.assertEquals(summary, quiz.getSummary());
-        Assertions.assertEquals(0, quiz.getQuestions().size());
-        Assertions.assertEquals(0, quiz.getPersons().size());
+        Assertions.assertEquals(questions.size(), quiz.getQuestions().size());
+        Assertions.assertEquals(persons.size(), quiz.getPersons().size());
     }
 
 }

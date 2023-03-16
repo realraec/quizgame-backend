@@ -22,7 +22,6 @@ public class PersonServiceImplementation implements PersonService {
     private final CountsMapper countsMapper = new CountsMapper();
 
 
-
     @Autowired
     public PersonServiceImplementation(PersonDAO personDAO) {
         this.personDAO = personDAO;
@@ -31,30 +30,28 @@ public class PersonServiceImplementation implements PersonService {
 
     @Override
     public List<PersonDTO> getAllAdmins() {
-        Iterator<Person> adminIterator = personDAO.findAllPersonsWithRoleAdmin().iterator();
-        List<PersonDTO> admins = new ArrayList<>();
-        while (adminIterator.hasNext()) {
-            admins.add(personMapper.toPersonDTO(adminIterator.next()));
-        }
-
-        if (!admins.isEmpty()) {
+        try {
+            Iterator<Person> adminIterator = personDAO.findAllPersonsWithRoleAdmin().iterator();
+            List<PersonDTO> admins = new ArrayList<>();
+            while (adminIterator.hasNext()) {
+                admins.add(personMapper.toPersonDTO(adminIterator.next()));
+            }
             return admins;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }
 
     @Override
     public List<PersonDTO> getAllInterns() {
-        Iterator<Person> internIterator = personDAO.findAllPersonsWithRoleIntern().iterator();
-        List<PersonDTO> interns = new ArrayList<>();
-        while (internIterator.hasNext()) {
-            interns.add(personMapper.toPersonDTO(internIterator.next()));
-        }
-
-        if (!interns.isEmpty()) {
+        try {
+            Iterator<Person> internIterator = personDAO.findAllPersonsWithRoleIntern().iterator();
+            List<PersonDTO> interns = new ArrayList<>();
+            while (internIterator.hasNext()) {
+                interns.add(personMapper.toPersonDTO(internIterator.next()));
+            }
             return interns;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }

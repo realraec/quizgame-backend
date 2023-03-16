@@ -80,7 +80,7 @@ public class PersonTests {
         Assertions.assertEquals(email, person.getEmail());
         Assertions.assertEquals(company, person.getCompany());
         Assertions.assertEquals(role, person.getRole());
-        Assertions.assertEquals(new ArrayList<>(), person.getQuizzes());
+        Assertions.assertEquals(quizzes, person.getQuizzes());
         Assertions.assertEquals("Person{" +
                 "id=" + null +
                 ", username='" + username + '\'' +
@@ -90,7 +90,7 @@ public class PersonTests {
                 ", email='" + email + '\'' +
                 ", role=" + role +
                 ", company='" + company + '\'' +
-                ", quizzes=" + new ArrayList<>() +
+                ", quizzes=" + quizzes +
                 '}', person.toString());
     }
 

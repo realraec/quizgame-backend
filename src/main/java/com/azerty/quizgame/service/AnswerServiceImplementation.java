@@ -31,15 +31,14 @@ public class AnswerServiceImplementation implements AnswerService {
 
     @Override
     public List<AnswerDTO> getAllAnswers() {
-        Iterator<Answer> answerIterator = answerDAO.findAll().iterator();
-        List<AnswerDTO> answers = new ArrayList<>();
-        while (answerIterator.hasNext()) {
-            answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
-        }
-
-        if (!answers.isEmpty()) {
+        try {
+            Iterator<Answer> answerIterator = answerDAO.findAll().iterator();
+            List<AnswerDTO> answers = new ArrayList<>();
+            while (answerIterator.hasNext()) {
+                answers.add(answerMapper.toAnswerDTO(answerIterator.next()));
+            }
             return answers;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }

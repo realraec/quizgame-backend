@@ -2,6 +2,8 @@ package com.azerty.quizgame.model.dto;
 
 import com.azerty.quizgame.model.enums.Role;
 
+import java.util.Arrays;
+
 public class PersonDTO {
 
     private Long id;
@@ -102,4 +104,18 @@ public class PersonDTO {
         this.quizzesIds = quizzesIds;
     }
 
+    @Override
+    public String toString() {
+        return "PersonDTO{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", email='" + email + '\'' +
+                ", company='" + company + '\'' +
+                ", role=" + role +
+                ", quizzesIds=" + Arrays.toString(quizzesIds) +
+                '}';
+    }
 }

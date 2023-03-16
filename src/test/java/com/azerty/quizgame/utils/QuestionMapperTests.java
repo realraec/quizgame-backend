@@ -91,7 +91,7 @@ public class QuestionMapperTests {
         Assertions.assertEquals(wording, question.getWording());
         Assertions.assertEquals(maxDurationInSeconds, question.getMaxDurationInSeconds());
         Assertions.assertEquals(quiz.getId(), question.getQuiz().getId());
-        Assertions.assertEquals(0, question.getAnswers().size());
+        Assertions.assertEquals(answers.size(), question.getAnswers().size());
     }
 
 }
