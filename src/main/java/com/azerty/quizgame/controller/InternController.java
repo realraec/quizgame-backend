@@ -1,8 +1,9 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.dto.InternDTO;
+import com.azerty.quizgame.model.dto.InternDTO;
 import com.azerty.quizgame.service.InternService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class InternController {
 
+    private final InternService internService;
+
+
     @Autowired
-    private InternService internService;
+    public InternController(InternService internService) {
+        this.internService = internService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<InternDTO>> getAllInterns() {
@@ -23,6 +30,7 @@ public class InternController {
             List<InternDTO> interns = internService.getAllInterns();
             return new ResponseEntity<>(interns, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -34,9 +42,10 @@ public class InternController {
             if (intern != null) {
                 return new ResponseEntity<>(intern, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -45,7 +54,11 @@ public class InternController {
     public ResponseEntity<InternDTO> saveIntern(@RequestBody InternDTO intern) {
         try {
             return new ResponseEntity<>(internService.saveIntern(intern), HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,9 +70,10 @@ public class InternController {
             if (updatedIntern != null) {
                 return new ResponseEntity<>(updatedIntern, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -74,6 +88,7 @@ public class InternController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

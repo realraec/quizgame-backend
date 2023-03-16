@@ -1,6 +1,6 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dto.AnswerDTO;
+import com.azerty.quizgame.model.dto.AnswerDTO;
 
 import java.util.List;
 
@@ -17,7 +17,5 @@ public interface AnswerService {
     AnswerDTO updateAnswerById(AnswerDTO answer, Long id) throws Exception;
 
     List<AnswerDTO> getAllAnswersByQuestionId(Long id) throws Exception;
-
-//    List<AnswerDTO> getAllAnswersByQuizId(Long id) throws Exception;
 
 }

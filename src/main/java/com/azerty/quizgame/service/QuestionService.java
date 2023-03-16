@@ -1,6 +1,7 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dto.QuestionDTO;
+import com.azerty.quizgame.model.dto.QuestionDTO;
+import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
 
 import java.util.List;
 
@@ -18,11 +19,6 @@ public interface QuestionService {
 
     List<QuestionDTO> getAllQuestionsByQuizId(Long quizId) throws Exception;
 
-    List<QuestionDTO> getAllQuestionsByQuizIdWithIdNotInArray(Long quizId, Long[] questionsIds) throws Exception;
-
-    List<QuestionDTO> getAllQuestionsByInternIdAndQuizId(Long internId, Long quizId) throws Exception;
-
-    QuestionDTO getSingleQuestionInQuizWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
-
+    QuestionInQuizDTO getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) throws Exception;
 
 }

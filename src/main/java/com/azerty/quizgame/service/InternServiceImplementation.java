@@ -1,8 +1,8 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.InternDAO;
-import com.azerty.quizgame.dto.InternDTO;
-import com.azerty.quizgame.model.Intern;
+import com.azerty.quizgame.model.dto.InternDTO;
+import com.azerty.quizgame.model.entity.Intern;
 import com.azerty.quizgame.utils.InternMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +15,14 @@ import java.util.Optional;
 @Service
 public class InternServiceImplementation implements InternService {
 
-    @Autowired
-    private InternDAO internDAO;
-
+    private final InternDAO internDAO;
     private final InternMapper internMapper = new InternMapper();
+
+
+    @Autowired
+    public InternServiceImplementation(InternDAO internDAO) {
+        this.internDAO = internDAO;
+    }
 
 
     @Override
@@ -39,11 +43,7 @@ public class InternServiceImplementation implements InternService {
     @Override
     public InternDTO getInternById(Long id) {
         Optional<Intern> intern = internDAO.findById(id);
-        if (intern.isPresent()) {
-            return internMapper.toInternDTO(intern.get());
-        } else {
-            return null;
-        }
+        return intern.map(internMapper::toInternDTO).orElse(null);
     }
 
     @Override
@@ -55,9 +55,9 @@ public class InternServiceImplementation implements InternService {
     public InternDTO updateInternById(InternDTO intern, Long id) {
         Optional<Intern> checkIntern = internDAO.findById(id);
         if (checkIntern.isPresent()) {
-            Intern internAsModel = internMapper.toIntern(intern);
-            internAsModel.setId(id);
-            return internMapper.toInternDTO(internDAO.save(internAsModel));
+            Intern internAsEntity = internMapper.toIntern(intern);
+            internAsEntity.setId(id);
+            return internMapper.toInternDTO(internDAO.save(internAsEntity));
         } else {
             return null;
         }

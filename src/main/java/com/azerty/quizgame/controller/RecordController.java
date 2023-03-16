@@ -1,8 +1,9 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.dto.RecordDTO;
+import com.azerty.quizgame.model.dto.RecordDTO;
 import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.RecordService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,16 @@ import java.util.List;
 @CrossOrigin("*")
 public class RecordController {
 
-    @Autowired
-    private RecordService recordService;
+    private final RecordService recordService;
+    private final ProgressService progressService;
 
-    //@Autowired
-    //private ProgressService progressService;
+
+    @Autowired
+    public RecordController(RecordService recordService, ProgressService progressService) {
+        this.recordService = recordService;
+        this.progressService = progressService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<RecordDTO>> getAllRecords() {
@@ -27,6 +33,7 @@ public class RecordController {
             List<RecordDTO> records = recordService.getAllRecords();
             return new ResponseEntity<>(records, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -38,20 +45,35 @@ public class RecordController {
             if (record != null) {
                 return new ResponseEntity<>(record, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
+    @Transactional
     @PostMapping(path = "/create")
     public ResponseEntity<RecordDTO> saveRecord(@RequestBody RecordDTO record) {
         try {
-            RecordDTO savedRecord = recordService.saveRecord(record);
-            //progressService.addRecordByIdToProgressById(savedRecord.getId(), progressId);
-            return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
+            Long progressId = record.getProgressId();
+            Long questionId = record.getQuestionId();
+            RecordDTO checkRecord = recordService.getRecordByProgressIdAndQuestionId(progressId, questionId);
+
+            if (checkRecord == null) {
+                RecordDTO savedRecord = recordService.saveRecord(record);
+                if (savedRecord != null) {
+                    progressService.updateProgressDependingOnRecord(record);
+                    return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -63,9 +85,10 @@ public class RecordController {
             if (updatedRecord != null) {
                 return new ResponseEntity<>(updatedRecord, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -80,6 +103,7 @@ public class RecordController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

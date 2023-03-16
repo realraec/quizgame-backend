@@ -4,10 +4,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class QuizgameApplicationTests {
+public class QuizgameApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
+    }
+
+    @Test
+    public void main() {
+        QuizgameApplication.main(new String[]{});
     }
 
 }

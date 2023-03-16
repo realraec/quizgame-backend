@@ -1,6 +1,6 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dto.RecordDTO;
+import com.azerty.quizgame.model.dto.RecordDTO;
 
 import java.util.List;
 
@@ -15,5 +15,7 @@ public interface RecordService {
     boolean deleteRecordById(Long id) throws Exception;
 
     RecordDTO updateRecordById(RecordDTO quiz, Long id) throws Exception;
+
+    RecordDTO getRecordByProgressIdAndQuestionId(Long internId, Long questionId) throws Exception;
 
 }

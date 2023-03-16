@@ -1,8 +1,12 @@
 package com.azerty.quizgame.service;
 
+import com.azerty.quizgame.dao.ProgressDAO;
+import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.RecordDAO;
-import com.azerty.quizgame.dto.RecordDTO;
-import com.azerty.quizgame.model.Record;
+import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.entity.Progress;
+import com.azerty.quizgame.model.entity.Question;
+import com.azerty.quizgame.model.entity.Record;
 import com.azerty.quizgame.utils.RecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +19,19 @@ import java.util.Optional;
 @Service
 public class RecordServiceImplementation implements RecordService {
 
-    @Autowired
-    private RecordDAO recordDAO;
-
+    private final RecordDAO recordDAO;
+    private final ProgressDAO progressDAO;
+    private final QuestionDAO questionDAO;
     private final RecordMapper recordMapper = new RecordMapper();
+
+    @Autowired
+    public RecordServiceImplementation(RecordDAO recordDAO,
+                                       ProgressDAO progressDAO,
+                                       QuestionDAO questionDAO) {
+        this.recordDAO = recordDAO;
+        this.progressDAO = progressDAO;
+        this.questionDAO = questionDAO;
+    }
 
 
     @Override
@@ -39,25 +52,27 @@ public class RecordServiceImplementation implements RecordService {
     @Override
     public RecordDTO getRecordById(Long id) {
         Optional<Record> record = recordDAO.findById(id);
-        if (record.isPresent()) {
-            return recordMapper.toRecordDTO(record.get());
+        return record.map(recordMapper::toRecordDTO).orElse(null);
+    }
+
+    @Override
+    public RecordDTO saveRecord(RecordDTO record) {
+        Optional<Question> checkQuestion = questionDAO.findById(record.getQuestionId());
+        Optional<Progress> checkProgress = progressDAO.findById(record.getProgressId());
+        if (checkQuestion.isPresent() && checkProgress.isPresent()) {
+            return recordMapper.toRecordDTO(recordDAO.save(recordMapper.toRecord(record)));
         } else {
             return null;
         }
     }
 
     @Override
-    public RecordDTO saveRecord(RecordDTO record) {
-        return recordMapper.toRecordDTO(recordDAO.save(recordMapper.toRecord(record)));
-    }
-
-    @Override
     public RecordDTO updateRecordById(RecordDTO record, Long id) {
         Optional<Record> checkRecord = recordDAO.findById(id);
         if (checkRecord.isPresent()) {
-            Record recordAsModel = recordMapper.toRecord(record);
-            recordAsModel.setId(id);
-            return recordMapper.toRecordDTO(recordDAO.save(recordAsModel));
+            Record recordAsEntity = recordMapper.toRecord(record);
+            recordAsEntity.setId(id);
+            return recordMapper.toRecordDTO(recordDAO.save(recordAsEntity));
         } else {
             return null;
         }
@@ -73,5 +88,12 @@ public class RecordServiceImplementation implements RecordService {
             return false;
         }
     }
+
+
+    public RecordDTO getRecordByProgressIdAndQuestionId(Long internId, Long questionId) {
+        Optional<Record> record = recordDAO.findRecordByProgressIdAndQuestionId(internId, questionId);
+        return record.map(recordMapper::toRecordDTO).orElse(null);
+    }
+
 
 }

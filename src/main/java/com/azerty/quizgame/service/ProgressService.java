@@ -1,6 +1,7 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dto.ProgressDTO;
+import com.azerty.quizgame.model.dto.ProgressDTO;
+import com.azerty.quizgame.model.dto.RecordDTO;
 
 import java.util.List;
 
@@ -16,12 +17,10 @@ public interface ProgressService {
 
     ProgressDTO updateProgressById(ProgressDTO progress, Long id) throws Exception;
 
-    List<ProgressDTO> getAllProgressesByInternId(Long id) throws Exception;
+    List<ProgressDTO> getAllProgressesByInternId(Long internId) throws Exception;
 
     ProgressDTO getProgressByInternIdAndQuizId(Long internId, Long quizId) throws Exception;
 
-    //boolean addRecordByIdToProgressById(Long recordId, Long progressId) throws Exception;
-
-    //Long[] getQuestionsIdsByProgressId(Long progressId) throws Exception;
+    boolean updateProgressDependingOnRecord(RecordDTO record) throws Exception;
 
 }

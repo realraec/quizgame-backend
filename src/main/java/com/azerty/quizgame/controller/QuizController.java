@@ -1,6 +1,7 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.dto.QuizDTO;
+import com.azerty.quizgame.model.dto.QuizDTO;
+import com.azerty.quizgame.model.dto.QuizForInternDTO;
 import com.azerty.quizgame.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +15,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class QuizController {
 
+    private final QuizService quizService;
+
+
     @Autowired
-    private QuizService quizService;
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<QuizDTO>> getAllQuizzes() {
@@ -23,6 +30,7 @@ public class QuizController {
             List<QuizDTO> quizzes = quizService.getAllQuizzes();
             return new ResponseEntity<>(quizzes, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -34,9 +42,10 @@ public class QuizController {
             if (quiz != null) {
                 return new ResponseEntity<>(quiz, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -44,8 +53,14 @@ public class QuizController {
     @PostMapping(path = "/create")
     public ResponseEntity<QuizDTO> saveQuiz(@RequestBody QuizDTO quiz) {
         try {
-            return new ResponseEntity<>(quizService.saveQuiz(quiz), HttpStatus.CREATED);
+            QuizDTO quizReturned = quizService.saveQuiz(quiz);
+            if (quizReturned != null) {
+                return new ResponseEntity<>(quizReturned, HttpStatus.CREATED);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,9 +72,10 @@ public class QuizController {
             if (updatedQuiz != null) {
                 return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -74,6 +90,58 @@ public class QuizController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping(path = "/{quizId}/forIntern/{internId}")
+    public ResponseEntity<QuizForInternDTO> getQuizWithStateByQuizIdAndInternId(@PathVariable Long quizId, @PathVariable Long internId) {
+        try {
+            QuizForInternDTO quiz = quizService.getQuizWithStateByQuizIdAndInternId(quizId, internId);
+            if (quiz != null) {
+                return new ResponseEntity<>(quiz, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/forIntern/{internId}")
+    public ResponseEntity<List<QuizForInternDTO>> getAllQuizzesAttributedToInternWithStateByInternId(@PathVariable Long internId) {
+        try {
+            List<QuizForInternDTO> quizzesForIntern = quizService.getAllQuizzesAttributedToInternWithStateByInternId(internId);
+            if (quizzesForIntern != null) {
+                //!!!!!!!!!!!!!!!!!!
+                return new ResponseEntity<>(quizzesForIntern, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping(path = "/{quizId}/attributeInterns/{internsIds}")
+    public ResponseEntity<QuizDTO> attributeInternsToQuizByIds(@PathVariable Long quizId, @PathVariable Long[] internsIds) {
+        try {
+            QuizDTO updatedQuiz = quizService.attributeInternsToQuizByIds(quizId, internsIds);
+            if (updatedQuiz != null) {
+                if (updatedQuiz.getId() != null) {
+                    return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

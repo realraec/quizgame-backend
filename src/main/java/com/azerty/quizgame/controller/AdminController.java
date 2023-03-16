@@ -1,8 +1,10 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.dto.AdminDTO;
+import com.azerty.quizgame.model.dto.AdminDTO;
+import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +16,14 @@ import java.util.List;
 @CrossOrigin("*")
 public class AdminController {
 
+    private final AdminService adminService;
+
+
     @Autowired
-    private AdminService adminService;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<AdminDTO>> getAllAdmins() {
@@ -23,6 +31,7 @@ public class AdminController {
             List<AdminDTO> admins = adminService.getAllAdmins();
             return new ResponseEntity<>(admins, HttpStatus.OK);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -34,9 +43,10 @@ public class AdminController {
             if (admin != null) {
                 return new ResponseEntity<>(admin, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -45,7 +55,11 @@ public class AdminController {
     public ResponseEntity<AdminDTO> saveAdmin(@RequestBody AdminDTO admin) {
         try {
             return new ResponseEntity<>(adminService.saveAdmin(admin), HttpStatus.CREATED);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,9 +71,10 @@ public class AdminController {
             if (updatedAdmin != null) {
                 return new ResponseEntity<>(updatedAdmin, HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -74,6 +89,18 @@ public class AdminController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/counts")
+    public ResponseEntity<CountsDTO> getInternCountAndQuizCount() {
+        try {
+            CountsDTO counts = adminService.getInternCountAndQuizCount();
+            return new ResponseEntity<>(counts, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
