@@ -60,11 +60,16 @@ public class QuestionServiceImplementation implements QuestionService {
 
     @Override
     public QuestionDTO saveQuestion(QuestionDTO question) {
-        for (int i = 0; i < question.getAnswersIds().length; i++) {
-            Optional<Answer> checkRecord = answerDAO.findById(question.getAnswersIds()[i]);
-            if (checkRecord.isEmpty()) {
-                return null;
+        Long[] answersIds = question.getAnswersIds();
+        if (answersIds != null) {
+            for (int i = 0; i < answersIds.length; i++) {
+                Optional<Answer> checkRecord = answerDAO.findById(answersIds[i]);
+                if (checkRecord.isEmpty()) {
+                    return null;
+                }
             }
+        } else {
+            question.setAnswersIds(new Long[]{});
         }
         Optional<Quiz> checkQuiz = quizDAO.findById(question.getQuizId());
         if (checkQuiz.isPresent()) {

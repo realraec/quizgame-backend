@@ -1,6 +1,5 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.model.dto.AnswerDTO;
 import com.azerty.quizgame.model.dto.ProgressDTO;
 import com.azerty.quizgame.service.ProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,9 +95,9 @@ public class ProgressController {
     }
 
     @GetMapping(path = "/intern/{id}")
-    public ResponseEntity<List<ProgressDTO>> getAllProgressesByInternId(@PathVariable Long id) {
+    public ResponseEntity<List<ProgressDTO>> getAllProgressesByPersonId(@PathVariable Long id) {
         try {
-            List<ProgressDTO> progresses = progressService.getAllProgressesByInternId(id);
+            List<ProgressDTO> progresses = progressService.getAllProgressesByPersonId(id);
             if (progresses != null) {
                 return new ResponseEntity<>(progresses, HttpStatus.OK);
             } else {
@@ -110,10 +109,10 @@ public class ProgressController {
         }
     }
 
-    @GetMapping(path = "/intern/{internId}/quiz/{quizId}")
-    public ResponseEntity<ProgressDTO> getProgressByInternIdAndQuizId(@PathVariable Long internId, @PathVariable Long quizId) {
+    @GetMapping(path = "/intern/{personId}/quiz/{quizId}")
+    public ResponseEntity<ProgressDTO> getProgressByPersonIdAndQuizId(@PathVariable Long personId, @PathVariable Long quizId) {
         try {
-            ProgressDTO progress = progressService.getProgressByInternIdAndQuizId(internId, quizId);
+            ProgressDTO progress = progressService.getProgressByPersonIdAndQuizId(personId, quizId);
             if (progress != null) {
                 return new ResponseEntity<>(progress, HttpStatus.OK);
             } else {

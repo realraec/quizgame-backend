@@ -13,10 +13,10 @@ public interface QuizDAO extends CrudRepository<Quiz, Long> {
     @Query(nativeQuery = true, value = """
             SELECT quizzes.*
             FROM quizzes
-            JOIN quizzes_interns
-            ON quizzes.pk_quiz = quizzes_interns.pk_quiz
-            WHERE quizzes_interns.pk_intern = (:id)
+            JOIN quizzes_persons
+            ON quizzes.pk_quiz = quizzes_persons.pk_quiz
+            WHERE quizzes_persons.pk_person = (:id)
             """)
-    List<Quiz> findAllQuizzesByInternId(Long id);
+    List<Quiz> findAllQuizzesByPersonId(Long id);
 
 }

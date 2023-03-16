@@ -1,6 +1,6 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dao.InternDAO;
+import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
@@ -19,17 +19,17 @@ public class QuizServiceImplementation implements QuizService {
 
     private final QuizDAO quizDAO;
     private final ProgressDAO progressDAO;
-    private final InternDAO internDAO;
+    private final PersonDAO personDAO;
     private final QuizMapper quizMapper = new QuizMapper();
     private final QuestionDAO questionDAO;
 
 
     @Autowired
-    public QuizServiceImplementation(QuizDAO quizDAO, ProgressDAO progressDAO, InternDAO internDAO,
+    public QuizServiceImplementation(QuizDAO quizDAO, ProgressDAO progressDAO, PersonDAO personDAO,
                                      QuestionDAO questionDAO) {
         this.quizDAO = quizDAO;
         this.progressDAO = progressDAO;
-        this.internDAO = internDAO;
+        this.personDAO = personDAO;
         this.questionDAO = questionDAO;
     }
 
@@ -57,12 +57,30 @@ public class QuizServiceImplementation implements QuizService {
 
     @Override
     public QuizDTO saveQuiz(QuizDTO quiz) {
-        for (int i = 0; i < quiz.getQuestionsIds().length; i++) {
-            Optional<Question> checkQuestion = questionDAO.findById(quiz.getQuestionsIds()[i]);
-            if (checkQuestion.isEmpty()) {
-                return null;
+        Long[] questionsIds = quiz.getQuestionsIds();
+        if (questionsIds != null) {
+            for (int i = 0; i < questionsIds.length; i++) {
+                Optional<Question> checkQuestion = questionDAO.findById(questionsIds[i]);
+                if (checkQuestion.isEmpty()) {
+                    return null;
+                }
             }
+        } else {
+            quiz.setQuestionsIds(new Long[]{});
         }
+
+        Long[] personsIds = quiz.getPersonsIds();
+        if (personsIds != null) {
+            for (int i = 0; i < personsIds.length; i++) {
+                Optional<Person> checkPerson = personDAO.findById(personsIds[i]);
+                if (checkPerson.isEmpty()) {
+                    return null;
+                }
+            }
+        } else {
+            quiz.setPersonsIds(new Long[]{});
+        }
+
         return quizMapper.toQuizDTO(quizDAO.save(quizMapper.toQuiz(quiz)));
     }
 
@@ -90,13 +108,13 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public QuizForInternDTO getQuizWithStateByQuizIdAndInternId(Long quizId, Long internId) {
+    public QuizForInternDTO getQuizWithStateByQuizIdAndPersonId(Long quizId, Long personId) {
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
-        Optional<Intern> checkIntern = internDAO.findById(internId);
-        if (checkQuiz.isPresent() && checkIntern.isPresent()) {
+        Optional<Person> checkPerson = personDAO.findById(personId);
+        if (checkQuiz.isPresent() && checkPerson.isPresent()) {
 
             QuizState quizState = QuizState.NOT_STARTED;
-            Progress progress = progressDAO.findProgressByInternIdAndQuizId(internId, quizId);
+            Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quizId);
             if (progress != null) {
                 quizState = QuizState.STARTED;
                 if (progress.getDateAndTimeOfCompletion() != null) {
@@ -110,16 +128,16 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public List<QuizForInternDTO> getAllQuizzesAttributedToInternWithStateByInternId(Long internId) {
-        Optional<Intern> checkIntern = internDAO.findById(internId);
-        if (checkIntern.isPresent()) {
+    public List<QuizForInternDTO> getAllQuizzesAttributedToPersonWithStateByPersonId(Long personId) {
+        Optional<Person> checkPerson = personDAO.findById(personId);
+        if (checkPerson.isPresent()) {
 
-            Iterator<Quiz> quizIterator = quizDAO.findAllQuizzesByInternId(internId).iterator();
+            Iterator<Quiz> quizIterator = quizDAO.findAllQuizzesByPersonId(personId).iterator();
             List<QuizForInternDTO> quizzesForIntern = new ArrayList<>();
             while (quizIterator.hasNext()) {
                 Quiz quiz = quizIterator.next();
                 QuizState quizState = QuizState.NOT_STARTED;
-                Progress progress = progressDAO.findProgressByInternIdAndQuizId(internId, quiz.getId());
+                Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quiz.getId());
                 if (progress != null) {
                     quizState = QuizState.STARTED;
                     if (progress.getDateAndTimeOfCompletion() != null) {
@@ -135,33 +153,33 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public QuizDTO attributeInternsToQuizByIds(Long quizId, Long[] internsIds) throws Exception {
-        Set<Long> internsIdsAsSet = new HashSet<>(Arrays.asList(internsIds));
-        if (internsIdsAsSet.size() != internsIds.length) {
+    public QuizDTO attributePersonsToQuizByIds(Long quizId, Long[] personsIds) throws Exception {
+        Set<Long> personsIdsAsSet = new HashSet<>(Arrays.asList(personsIds));
+        if (personsIdsAsSet.size() != personsIds.length) {
             return new QuizDTO();
         }
 
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
         if (checkQuiz.isPresent()) {
-            List<Intern> internsToAttribute = new ArrayList<>();
-            for (int i = 0; i < internsIds.length; i++) {
-                Optional<Intern> checkIntern = internDAO.findById(internsIds[i]);
-                if (checkIntern.isEmpty()) {
+            List<Person> personsToAttribute = new ArrayList<>();
+            for (int i = 0; i < personsIds.length; i++) {
+                Optional<Person> checkPerson = personDAO.findById(personsIds[i]);
+                if (checkPerson.isEmpty()) {
                     return null;
                 }
-                internsToAttribute.add(checkIntern.get());
+                personsToAttribute.add(checkPerson.get());
             }
             Quiz quizAsEntity = checkQuiz.get();
-            List<Intern> interns = quizAsEntity.getInterns();
-            for (int i = 0; i < interns.size(); i++) {
-                for (int j = 0; j < internsIds.length; j++) {
-                    if (Objects.equals(interns.get(i).getId(), internsIds[j])) {
+            List<Person> persons = quizAsEntity.getPersons();
+            for (int i = 0; i < persons.size(); i++) {
+                for (int j = 0; j < personsIds.length; j++) {
+                    if (Objects.equals(persons.get(i).getId(), personsIds[j])) {
                         return new QuizDTO();
                     }
                 }
             }
-            interns.addAll(internsToAttribute);
-            quizAsEntity.setInterns(interns);
+            persons.addAll(personsToAttribute);
+            quizAsEntity.setPersons(persons);
             return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
         } else {
             return null;

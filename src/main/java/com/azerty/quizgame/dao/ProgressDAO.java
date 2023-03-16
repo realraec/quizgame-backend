@@ -13,16 +13,16 @@ public interface ProgressDAO extends CrudRepository<Progress, Long> {
     @Query("""
             SELECT p
             FROM Progress p
-            WHERE p.intern.id = (:id)
+            WHERE p.person.id = (:id)
             """)
-    List<Progress> findAllProgressesByInternId(Long id);
+    List<Progress> findAllProgressesByPersonId(Long id);
 
     @Query("""
             SELECT p
             FROM Progress p
-            WHERE p.intern.id = (:internId)
+            WHERE p.person.id = (:personId)
             AND p.quiz.id = (:quizId)
             """)
-    Progress findProgressByInternIdAndQuizId(Long internId, Long quizId);
+    Progress findProgressByPersonIdAndQuizId(Long personId, Long quizId);
 
 }

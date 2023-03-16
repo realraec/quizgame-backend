@@ -17,9 +17,9 @@ public interface ProgressService {
 
     ProgressDTO updateProgressById(ProgressDTO progress, Long id) throws Exception;
 
-    List<ProgressDTO> getAllProgressesByInternId(Long internId) throws Exception;
+    List<ProgressDTO> getAllProgressesByPersonId(Long personId) throws Exception;
 
-    ProgressDTO getProgressByInternIdAndQuizId(Long internId, Long quizId) throws Exception;
+    ProgressDTO getProgressByPersonIdAndQuizId(Long personId, Long quizId) throws Exception;
 
     boolean updateProgressDependingOnRecord(RecordDTO record) throws Exception;
 

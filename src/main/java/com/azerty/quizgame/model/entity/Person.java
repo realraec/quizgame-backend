@@ -3,33 +3,57 @@ package com.azerty.quizgame.model.entity;
 import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
 @Access(AccessType.FIELD)
-@MappedSuperclass
+@Table(name = "persons")
 public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pk_person")
-    protected Long id;
+    private Long id;
 
     @Column(nullable = false, unique = true)
-    protected String username;
+    private String username;
 
     @Column(nullable = false)
-    protected String password;
+    private String password;
 
     @Column(nullable = false)
-    protected String lastname;
+    private String lastname;
 
     @Column(nullable = false)
-    protected String firstname;
+    private String firstname;
 
     @Column(nullable = false, unique = true)
-    protected String email;
+    private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    protected Role role;
+    @Column(nullable = false, updatable = false)
+    private Role role;
+
+    private String company;
+
+    @ManyToMany(mappedBy = "persons", fetch = FetchType.EAGER)
+    private List<Quiz> quizzes;
+
+
+    public Person() {
+    }
+
+    public Person(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role, List<Quiz> quizzes) {
+        this.username = username;
+        this.password = password;
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.email = email;
+        this.company = company;
+        this.role = role;
+        this.quizzes = new ArrayList<>();
+    }
 
 
     public Long getId() {
@@ -86,6 +110,37 @@ public class Person {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public List<Quiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<Quiz> quizzes) {
+        this.quizzes = quizzes;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", company='" + company + '\'' +
+                ", quizzes=" + quizzes +
+                '}';
     }
 
 }
