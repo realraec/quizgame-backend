@@ -17,11 +17,11 @@ public interface QuizService {
 
     QuizDTO updateQuizById(QuizDTO quiz, Long id) throws Exception;
 
-    QuizForInternDTO getQuizWithStateByQuizIdAndInternId(Long quizId, Long internId) throws Exception;
+    QuizForInternDTO getQuizWithStateByQuizIdAndPersonId(Long quizId, Long personId) throws Exception;
 
-    List<QuizForInternDTO> getAllQuizzesAttributedToInternWithStateByInternId(Long internId) throws Exception;
+    List<QuizForInternDTO> getAllQuizzesAttributedToPersonWithStateByPersonId(Long personId) throws Exception;
 
-    QuizDTO attributeInternsToQuizByIds(Long quizId, Long[] internsIds) throws Exception;
+    QuizDTO attributePersonsToQuizByIds(Long quizId, Long[] personsIds) throws Exception;
 
 
 }

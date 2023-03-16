@@ -1,16 +1,16 @@
 {
 	"info": {
-		"_postman_id": "e523b491-8a9e-4697-9db7-4fbcde8a609f",
-		"name": "quizgame initialization",
+		"_postman_id": "a9669842-c170-4484-b941-44bbf40b46cb",
+		"name": "initialization",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18763805"
 	},
 	"item": [
 		{
-			"name": "/api/admins",
+			"name": "/api/persons (admin)",
 			"item": [
 				{
-					"name": "/api/admins/create admin1",
+					"name": "/api/persons/create admin1",
 					"event": [
 						{
 							"listen": "test",
@@ -29,7 +29,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin1\",\r\n    \"password\": \"P@ssW0rd1\",\r\n    \"lastname\": \"LUCAS\",\r\n    \"firstname\": \"Emilie\",\r\n    \"email\": \"emilie.lucas@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin1\",\r\n    \"password\": \"P@ssW0rd1\",\r\n    \"lastname\": \"LUCAS\",\r\n    \"firstname\": \"Emilie\",\r\n    \"email\": \"emilie.lucas@gmail.com\",\r\n    \"role\": \"ADMIN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -37,13 +37,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/admins/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"admins",
+								"persons",
 								"create"
 							]
 						}
@@ -51,7 +51,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/admins/create admin2",
+					"name": "/api/persons/create admin2",
 					"event": [
 						{
 							"listen": "test",
@@ -70,7 +70,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin2\",\r\n    \"password\": \"P@ssW0rd2\",\r\n    \"lastname\": \"SALIGNY\",\r\n    \"firstname\": \"Thomas\",\r\n    \"email\": \"thomas.saligny@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin2\",\r\n    \"password\": \"P@ssW0rd2\",\r\n    \"lastname\": \"SALIGNY\",\r\n    \"firstname\": \"Thomas\",\r\n    \"email\": \"thomas.saligny@gmail.com\",\r\n    \"role\": \"ADMIN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -78,13 +78,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/admins/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"admins",
+								"persons",
 								"create"
 							]
 						}
@@ -92,7 +92,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/admins/create admin3",
+					"name": "/api/persons/create admin3",
 					"event": [
 						{
 							"listen": "test",
@@ -111,7 +111,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin3\",\r\n    \"password\": \"P@ssW0rd3\",\r\n    \"lastname\": \"BERNARD\",\r\n    \"firstname\": \"Louis\",\r\n    \"email\": \"louis.bernard@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"admin3\",\r\n    \"password\": \"P@ssW0rd3\",\r\n    \"lastname\": \"BERNARD\",\r\n    \"firstname\": \"Louis\",\r\n    \"email\": \"louis.bernard@gmail.com\",\r\n    \"role\": \"ADMIN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -119,13 +119,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/admins/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"admins",
+								"persons",
 								"create"
 							]
 						}
@@ -133,7 +133,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/admins",
+					"name": "/api/persons/admins",
 					"event": [
 						{
 							"listen": "test",
@@ -166,12 +166,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/api/admins",
+							"raw": "{{URL}}/api/persons/admins",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
+								"persons",
 								"admins"
 							]
 						}
@@ -181,10 +182,10 @@
 			]
 		},
 		{
-			"name": "/api/interns",
+			"name": "/api/persons (interns)",
 			"item": [
 				{
-					"name": "/api/interns/create intern1",
+					"name": "/api/persons/create intern4",
 					"event": [
 						{
 							"listen": "test",
@@ -203,7 +204,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern1\",\r\n    \"password\": \"P@ssW0rd1\",\r\n    \"lastname\": \"LOMPECH\",\r\n    \"firstname\": \"Thimothée\",\r\n    \"email\": \"timothée.lompech@gmail.com\",\r\n    \"company\": \"Amazon\",\r\n\t\"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern4\",\r\n    \"password\": \"P@ssW0rd1\",\r\n    \"lastname\": \"LOMPECH\",\r\n    \"firstname\": \"Thimothée\",\r\n    \"email\": \"timothée.lompech@gmail.com\",\r\n    \"company\": \"Amazon\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -211,13 +212,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -225,7 +226,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern2",
+					"name": "/api/persons/create intern5",
 					"event": [
 						{
 							"listen": "test",
@@ -244,7 +245,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern2\",\r\n    \"password\": \"P@ssW0rd2\",\r\n    \"lastname\": \"GUILLAUME\",\r\n    \"firstname\": \"Mathias\",\r\n    \"email\": \"mathias.guillaume@gmail.com\",\r\n    \"company\": \"Apple\",\r\n\t\"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern5\",\r\n    \"password\": \"P@ssW0rd2\",\r\n    \"lastname\": \"GUILLAUME\",\r\n    \"firstname\": \"Mathias\",\r\n    \"email\": \"mathias.guillaume@gmail.com\",\r\n    \"company\": \"Apple\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -252,13 +253,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -266,7 +267,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern3",
+					"name": "/api/persons/create intern6",
 					"event": [
 						{
 							"listen": "test",
@@ -285,7 +286,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern3\",\r\n    \"password\": \"P@ssW0rd3\",\r\n    \"lastname\": \"ROYER\",\r\n    \"firstname\": \"Camille\",\r\n    \"email\": \"camille.royer@gmail.com\",\r\n    \"company\": \"Alphabet Inc.\",\r\n    \"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern6\",\r\n    \"password\": \"P@ssW0rd3\",\r\n    \"lastname\": \"ROYER\",\r\n    \"firstname\": \"Camille\",\r\n    \"email\": \"camille.royer@gmail.com\",\r\n    \"company\": \"Alphabet Inc.\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -293,13 +294,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -307,7 +308,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern4",
+					"name": "/api/persons/create intern7",
 					"event": [
 						{
 							"listen": "test",
@@ -326,7 +327,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern4\",\r\n    \"password\": \"P@ssW0rd4\",\r\n    \"lastname\": \"PERRIN\",\r\n    \"firstname\": \"Léandre\",\r\n    \"email\": \"leandre.perrin@gmail.com\",\r\n    \"company\": \"Microsoft\",\r\n\t\"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern7\",\r\n    \"password\": \"P@ssW0rd4\",\r\n    \"lastname\": \"PERRIN\",\r\n    \"firstname\": \"Léandre\",\r\n    \"email\": \"leandre.perrin@gmail.com\",\r\n    \"company\": \"Microsoft\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -334,13 +335,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -348,7 +349,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern5",
+					"name": "/api/persons/create intern8",
 					"event": [
 						{
 							"listen": "test",
@@ -367,7 +368,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern5\",\r\n    \"password\": \"P@ssW0rd5\",\r\n    \"lastname\": \"COOLEN\",\r\n    \"firstname\": \"Marie\",\r\n    \"email\": \"marie.coolen@gmail.com\",\r\n    \"company\": \"Samsung Group\",\r\n    \"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern8\",\r\n    \"password\": \"P@ssW0rd5\",\r\n    \"lastname\": \"COOLEN\",\r\n    \"firstname\": \"Marie\",\r\n    \"email\": \"marie.coolen@gmail.com\",\r\n    \"company\": \"Samsung Group\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -375,13 +376,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -389,7 +390,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern6",
+					"name": "/api/persons/create intern9",
 					"event": [
 						{
 							"listen": "test",
@@ -408,7 +409,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern6\",\r\n    \"password\": \"P@ssW0rd6\",\r\n    \"lastname\": \"LECLERC\",\r\n    \"firstname\": \"Théodore\",\r\n    \"email\": \"theodore.leclerc@gmail.com\",\r\n    \"company\": \"Tencent Holdings\",\r\n\t\"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern9\",\r\n    \"password\": \"P@ssW0rd6\",\r\n    \"lastname\": \"LECLERC\",\r\n    \"firstname\": \"Théodore\",\r\n    \"email\": \"theodore.leclerc@gmail.com\",\r\n    \"company\": \"Tencent Holdings\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -416,13 +417,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -430,7 +431,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern7",
+					"name": "/api/persons/create intern10",
 					"event": [
 						{
 							"listen": "test",
@@ -449,7 +450,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern7\",\r\n    \"password\": \"P@ssW0rd7\",\r\n    \"lastname\": \"MEUNIER\",\r\n    \"firstname\": \"Célestine\",\r\n    \"email\": \"celestine.meunier@gmail.com\",\r\n    \"company\": \"Meta Platforms\",\r\n\t\"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern10\",\r\n    \"password\": \"P@ssW0rd7\",\r\n    \"lastname\": \"MEUNIER\",\r\n    \"firstname\": \"Célestine\",\r\n    \"email\": \"celestine.meunier@gmail.com\",\r\n    \"company\": \"Meta Platforms\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -457,13 +458,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -471,7 +472,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern8",
+					"name": "/api/persons/create intern11",
 					"event": [
 						{
 							"listen": "test",
@@ -490,7 +491,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern8\",\r\n    \"password\": \"P@ssW0rd8\",\r\n    \"lastname\": \"CARPENTIER\",\r\n    \"firstname\": \"Chloé\",\r\n    \"email\": \"chloe.carpentier@gmail.com\",\r\n    \"company\": \"Cisco Systems\",\r\n\t\"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern11\",\r\n    \"password\": \"P@ssW0rd8\",\r\n    \"lastname\": \"CARPENTIER\",\r\n    \"firstname\": \"Chloé\",\r\n    \"email\": \"chloe.carpentier@gmail.com\",\r\n    \"company\": \"Cisco Systems\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -498,13 +499,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -512,7 +513,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns/create intern9",
+					"name": "/api/persons/create intern12",
 					"event": [
 						{
 							"listen": "test",
@@ -531,7 +532,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"intern9\",\r\n    \"password\": \"P@ssW0rd9\",\r\n    \"lastname\": \"CAUDRON\",\r\n    \"firstname\": \"Diane\",\r\n    \"email\": \"diane.caudron@gmail.com\",\r\n    \"company\": \"Oracle Corporation\",\r\n\t\"quizzesIds\": []\r\n}",
+							"raw": "{\r\n    \"username\": \"intern12\",\r\n    \"password\": \"P@ssW0rd9\",\r\n    \"lastname\": \"CAUDRON\",\r\n    \"firstname\": \"Diane\",\r\n    \"email\": \"diane.caudron@gmail.com\",\r\n    \"company\": \"Oracle Corporation\",\r\n    \"role\": \"INTERN\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -539,13 +540,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/interns/create",
+							"raw": "{{URL}}/api/persons/create",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
-								"interns",
+								"persons",
 								"create"
 							]
 						}
@@ -553,7 +554,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/interns",
+					"name": "/api/persons/interns",
 					"event": [
 						{
 							"listen": "test",
@@ -586,12 +587,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{URL}}/api/interns",
+							"raw": "{{URL}}/api/persons/interns",
 							"host": [
 								"{{URL}}"
 							],
 							"path": [
 								"api",
+								"persons",
 								"interns"
 							]
 						}
@@ -623,7 +625,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"Java\",\r\n    \"summary\": \"This quiz is about the Java programming language\",\r\n    \"questionsIds\": [],\r\n    \"internsIds\": []\r\n}",
+							"raw": "{\r\n    \"title\": \"Java\",\r\n    \"summary\": \"This quiz is about the Java programming language\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -664,7 +666,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"SQL\",\r\n    \"summary\": \"This quiz is about the SQL programming language\",\r\n    \"questionsIds\": [],\r\n    \"internsIds\": []\r\n}",
+							"raw": "{\r\n    \"title\": \"SQL\",\r\n    \"summary\": \"This quiz is about the SQL programming language\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -705,7 +707,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"HTML\",\r\n    \"summary\": \"This quiz is about the HTML markup language\",\r\n    \"questionsIds\": [],\r\n    \"internsIds\": []\r\n}",
+							"raw": "{\r\n    \"title\": \"HTML\",\r\n    \"summary\": \"This quiz is about the HTML markup language\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -746,7 +748,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"CSS\",\r\n    \"summary\": \"This quiz is about the CSS stylesheet language\",\r\n    \"questionsIds\": [],\r\n    \"internsIds\": []\r\n}",
+							"raw": "{\r\n    \"title\": \"CSS\",\r\n    \"summary\": \"This quiz is about the CSS stylesheet language\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -787,7 +789,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"title\": \"C\",\r\n    \"summary\": \"This quiz is about the C programming language\",\r\n    \"questionsIds\": [],\r\n    \"internsIds\": []\r\n}",
+							"raw": "{\r\n    \"title\": \"C\",\r\n    \"summary\": \"This quiz is about the C programming language\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -809,7 +811,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/quizzes/1/attributeInterns/1,3",
+					"name": "/api/quizzes/1/attributePersons/4,6",
 					"event": [
 						{
 							"listen": "test",
@@ -836,7 +838,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/quizzes/1/attributeInterns/1,3",
+							"raw": "{{URL}}/api/quizzes/1/attributePersons/4,6",
 							"host": [
 								"{{URL}}"
 							],
@@ -844,15 +846,15 @@
 								"api",
 								"quizzes",
 								"1",
-								"attributeInterns",
-								"1,3"
+								"attributePersons",
+								"4,6"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/api/quizzes/2/attributeInterns/1,2,4",
+					"name": "/api/quizzes/2/attributePersons/4,5,7",
 					"event": [
 						{
 							"listen": "test",
@@ -879,7 +881,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/quizzes/2/attributeInterns/1,2,4",
+							"raw": "{{URL}}/api/quizzes/2/attributePersons/4,5,7",
 							"host": [
 								"{{URL}}"
 							],
@@ -887,15 +889,15 @@
 								"api",
 								"quizzes",
 								"2",
-								"attributeInterns",
-								"1,2,4"
+								"attributePersons",
+								"4,5,7"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/api/quizzes/3/attributeInterns/4",
+					"name": "/api/quizzes/3/attributePersons/7",
 					"event": [
 						{
 							"listen": "test",
@@ -922,7 +924,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/quizzes/3/attributeInterns/4",
+							"raw": "{{URL}}/api/quizzes/3/attributePersons/7",
 							"host": [
 								"{{URL}}"
 							],
@@ -930,15 +932,15 @@
 								"api",
 								"quizzes",
 								"3",
-								"attributeInterns",
-								"4"
+								"attributePersons",
+								"7"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/api/quizzes/4/attributeInterns/2",
+					"name": "/api/quizzes/4/attributePersons/5",
 					"event": [
 						{
 							"listen": "test",
@@ -965,7 +967,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/quizzes/4/attributeInterns/2",
+							"raw": "{{URL}}/api/quizzes/4/attributePersons/5",
 							"host": [
 								"{{URL}}"
 							],
@@ -973,8 +975,8 @@
 								"api",
 								"quizzes",
 								"4",
-								"attributeInterns",
-								"2"
+								"attributePersons",
+								"5"
 							]
 						}
 					},
@@ -1051,7 +1053,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What is the symbol used at the end of a command in Java?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 1,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What is the symbol used at the end of a command in Java?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1092,7 +1094,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What does OOP stand for?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 1,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What does OOP stand for?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1133,7 +1135,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What are all the possible values that a boolean [as a primitive variable] can take?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 1,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What are all the possible values that a boolean [as a primitive variable] can take?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1174,7 +1176,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What are some IDEs that can be used to write Java code?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 1,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What are some IDEs that can be used to write Java code?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1215,7 +1217,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What are some of the keywords that can be used in SQL queries?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 2,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What are some of the keywords that can be used in SQL queries?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1256,7 +1258,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What command is used to create a new table in SQL?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 2,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What command is used to create a new table in SQL?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1297,7 +1299,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What does the following statement in SQL do? ```DROP TABLE customers;```\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 2,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What does the following statement in SQL do? ```DROP TABLE customers;```\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1338,7 +1340,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What kind of language is HTML?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 3,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What kind of language is HTML?\",\r\n    \"maxDurationInSeconds\": 30,\r\n    \"quizId\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1379,7 +1381,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"What is the main HTML tag that is opened at the beginning and closed at the end of every HTML file?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 3,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"What is the main HTML tag that is opened at the beginning and closed at the end of every HTML file?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1420,7 +1422,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"wording\": \"Is CSS a stylesheet language?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 4,\r\n    \"answersIds\": []\r\n}",
+							"raw": "{\r\n    \"wording\": \"Is CSS a stylesheet language?\",\r\n    \"maxDurationInSeconds\": 15,\r\n    \"quizId\": 4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3162,7 +3164,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"internId\": 1,\r\n    \"quizId\": 1,\r\n    \"recordsIds\": []\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 1,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3203,7 +3205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"internId\": 1,\r\n    \"quizId\": 2,\r\n    \"recordsIds\": []\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 1,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3244,7 +3246,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"internId\": 2,\r\n    \"quizId\": 2,\r\n    \"recordsIds\": []\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 2,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3285,7 +3287,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"internId\": 2,\r\n    \"quizId\": 4,\r\n    \"recordsIds\": []\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 2,\r\n    \"quizId\": 4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3326,7 +3328,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"internId\": 3,\r\n    \"quizId\": 1,\r\n    \"recordsIds\": []\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 3,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3367,7 +3369,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"internId\": 4,\r\n    \"quizId\": 2,\r\n    \"recordsIds\": []\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 4,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3408,7 +3410,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"internId\": 4,\r\n    \"quizId\": 3,\r\n    \"recordsIds\": []\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 4,\r\n    \"quizId\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

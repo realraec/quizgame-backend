@@ -96,10 +96,10 @@ public class QuizController {
     }
 
 
-    @GetMapping(path = "/{quizId}/forIntern/{internId}")
-    public ResponseEntity<QuizForInternDTO> getQuizWithStateByQuizIdAndInternId(@PathVariable Long quizId, @PathVariable Long internId) {
+    @GetMapping(path = "/{quizId}/forIntern/{personId}")
+    public ResponseEntity<QuizForInternDTO> getQuizWithStateByQuizIdAndPersonId(@PathVariable Long quizId, @PathVariable Long personId) {
         try {
-            QuizForInternDTO quiz = quizService.getQuizWithStateByQuizIdAndInternId(quizId, internId);
+            QuizForInternDTO quiz = quizService.getQuizWithStateByQuizIdAndPersonId(quizId, personId);
             if (quiz != null) {
                 return new ResponseEntity<>(quiz, HttpStatus.OK);
             } else {
@@ -111,10 +111,10 @@ public class QuizController {
         }
     }
 
-    @GetMapping(path = "/forIntern/{internId}")
-    public ResponseEntity<List<QuizForInternDTO>> getAllQuizzesAttributedToInternWithStateByInternId(@PathVariable Long internId) {
+    @GetMapping(path = "/forIntern/{personId}")
+    public ResponseEntity<List<QuizForInternDTO>> getAllQuizzesAttributedToPersonWithStateByPersonId(@PathVariable Long personId) {
         try {
-            List<QuizForInternDTO> quizzesForIntern = quizService.getAllQuizzesAttributedToInternWithStateByInternId(internId);
+            List<QuizForInternDTO> quizzesForIntern = quizService.getAllQuizzesAttributedToPersonWithStateByPersonId(personId);
             if (quizzesForIntern != null) {
                 //!!!!!!!!!!!!!!!!!!
                 return new ResponseEntity<>(quizzesForIntern, HttpStatus.OK);
@@ -127,10 +127,10 @@ public class QuizController {
         }
     }
 
-    @PatchMapping(path = "/{quizId}/attributeInterns/{internsIds}")
-    public ResponseEntity<QuizDTO> attributeInternsToQuizByIds(@PathVariable Long quizId, @PathVariable Long[] internsIds) {
+    @PatchMapping(path = "/{quizId}/attributePersons/{personsIds}")
+    public ResponseEntity<QuizDTO> attributePersonsToQuizByIds(@PathVariable Long quizId, @PathVariable Long[] personsIds) {
         try {
-            QuizDTO updatedQuiz = quizService.attributeInternsToQuizByIds(quizId, internsIds);
+            QuizDTO updatedQuiz = quizService.attributePersonsToQuizByIds(quizId, personsIds);
             if (updatedQuiz != null) {
                 if (updatedQuiz.getId() != null) {
                     return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);

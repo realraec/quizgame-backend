@@ -1,11 +1,11 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.dao.InternDAO;
+import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.dao.RecordDAO;
 import com.azerty.quizgame.model.dto.ProgressDTO;
-import com.azerty.quizgame.model.entity.Intern;
+import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.service.ProgressService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +42,7 @@ public class ProgressControllerTests {
     @MockBean
     private ProgressDAO progressDAO;
     @MockBean
-    private InternDAO internDAO;
+    private PersonDAO personDAO;
     @MockBean
     private QuizDAO quizDAO;
     @MockBean
@@ -81,10 +81,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
         String dateAndTimeOfCompletionAsString = progress.getDateAndTimeOfCompletion().toString();
         dateAndTimeOfCompletionAsString = (
                 dateAndTimeOfCompletionAsString.charAt(dateAndTimeOfCompletionAsString.length() - 1) == '0' ?
@@ -100,7 +100,7 @@ public class ProgressControllerTests {
                 .andExpect(jsonPath("$.id", is(Integer.valueOf(progress.getId().toString()))))
                 .andExpect(jsonPath("$.dateAndTimeOfCompletion", is(dateAndTimeOfCompletionAsString)))
                 .andExpect(jsonPath("$.score", is(progress.getScore())))
-                .andExpect(jsonPath("$.internId", is(Integer.valueOf(progress.getInternId().toString()))))
+                .andExpect(jsonPath("$.personId", is(Integer.valueOf(progress.getPersonId().toString()))))
                 .andExpect(jsonPath("$.quizId", is(Integer.valueOf(progress.getQuizId().toString()))))
                 //.andExpect(jsonPath("$.recordsIds", is(Arrays.toString(progress.getRecordsIds()))))
                 .andExpect(jsonPath("$.recordsIds[0]", is(Integer.valueOf(progress.getRecordsIds()[0].toString()))))
@@ -135,10 +135,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
         String dateAndTimeOfCompletionAsString = progress.getDateAndTimeOfCompletion().toString();
         dateAndTimeOfCompletionAsString = (
                 dateAndTimeOfCompletionAsString.charAt(dateAndTimeOfCompletionAsString.length() - 1) == '0' ?
@@ -156,7 +156,7 @@ public class ProgressControllerTests {
                 .andExpect(jsonPath("$.id", is(Integer.valueOf(progress.getId().toString()))))
                 .andExpect(jsonPath("$.dateAndTimeOfCompletion", is(dateAndTimeOfCompletionAsString)))
                 .andExpect(jsonPath("$.score", is(progress.getScore())))
-                .andExpect(jsonPath("$.internId", is(Integer.valueOf(progress.getInternId().toString()))))
+                .andExpect(jsonPath("$.personId", is(Integer.valueOf(progress.getPersonId().toString()))))
                 .andExpect(jsonPath("$.quizId", is(Integer.valueOf(progress.getQuizId().toString()))))
                 //.andExpect(jsonPath("$.recordsIds", is(Arrays.toString(progress.getRecordsIds()))))
                 .andExpect(jsonPath("$.recordsIds[0]", is(Integer.valueOf(progress.getRecordsIds()[0].toString()))))
@@ -179,12 +179,12 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
-        given(internDAO.findById(any())).willReturn(Optional.empty());
+        given(personDAO.findById(any())).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/progresses/create")
@@ -199,10 +199,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
         given(quizDAO.findById(any())).willReturn(Optional.empty());
 
@@ -219,10 +219,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
         given(recordDAO.findById(any())).willReturn(Optional.empty());
 
@@ -239,10 +239,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
         given(progressService.saveProgress(any())).willThrow(new Exception());
 
@@ -259,10 +259,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
         String dateAndTimeOfCompletionAsString = progress.getDateAndTimeOfCompletion().toString();
         dateAndTimeOfCompletionAsString = (
                 dateAndTimeOfCompletionAsString.charAt(dateAndTimeOfCompletionAsString.length() - 1) == '0' ?
@@ -280,7 +280,7 @@ public class ProgressControllerTests {
                 .andExpect(jsonPath("$.id", is(Integer.valueOf(progress.getId().toString()))))
                 .andExpect(jsonPath("$.dateAndTimeOfCompletion", is(dateAndTimeOfCompletionAsString)))
                 .andExpect(jsonPath("$.score", is(progress.getScore())))
-                .andExpect(jsonPath("$.internId", is(Integer.valueOf(progress.getInternId().toString()))))
+                .andExpect(jsonPath("$.personId", is(Integer.valueOf(progress.getPersonId().toString()))))
                 .andExpect(jsonPath("$.quizId", is(Integer.valueOf(progress.getQuizId().toString()))))
                 //.andExpect(jsonPath("$.recordsIds", is(Arrays.toString(progress.getRecordsIds()))))
                 .andExpect(jsonPath("$.recordsIds[0]", is(Integer.valueOf(progress.getRecordsIds()[0].toString()))))
@@ -304,10 +304,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
         given(progressDAO.findById(any())).willReturn(Optional.empty());
 
@@ -324,10 +324,10 @@ public class ProgressControllerTests {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
         given(progressService.updateProgressById(any(), eq(id))).willThrow(new Exception());
 
@@ -374,7 +374,7 @@ public class ProgressControllerTests {
     }
 
     @Test
-    public void shouldGetAllProgressesByInternId() throws Exception {
+    public void shouldGetAllProgressesByPersonId() throws Exception {
         Long id = 1L;
 
         mvc.perform(MockMvcRequestBuilders
@@ -384,10 +384,10 @@ public class ProgressControllerTests {
     }
 
     @Test
-    public void shouldNotGetAllProgressesByInternId404() throws Exception {
+    public void shouldNotGetAllProgressesByPersonId404() throws Exception {
         Long id = 1L;
 
-        given(progressService.getAllProgressesByInternId(any())).willReturn(null);
+        given(progressService.getAllProgressesByPersonId(any())).willReturn(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/progresses/intern/{id}", id))
@@ -396,9 +396,9 @@ public class ProgressControllerTests {
     }
 
     @Test
-    public void shouldNotGetAllProgressesByInternId500() throws Exception {
+    public void shouldNotGetAllProgressesByPersonId500() throws Exception {
         Long id = 1L;
-        given(progressService.getAllProgressesByInternId(id)).willThrow(new Exception());
+        given(progressService.getAllProgressesByPersonId(id)).willThrow(new Exception());
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/progresses/intern/{id}", id))
@@ -407,54 +407,54 @@ public class ProgressControllerTests {
     }
 
     @Test
-    public void shouldGetProgressByInternIdAndQuizId() throws Exception {
+    public void shouldGetProgressByPersonIdAndQuizId() throws Exception {
         Long id = 1L;
         LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
         int score = 0;
-        Long internId = 2L;
+        Long personId = 2L;
         Long quizId = 3L;
         Long[] recordsIds = {4L, 5L, 6L};
-        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, recordsIds);
+        ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
         String dateAndTimeOfCompletionAsString = progress.getDateAndTimeOfCompletion().toString();
         dateAndTimeOfCompletionAsString = (
                 dateAndTimeOfCompletionAsString.charAt(dateAndTimeOfCompletionAsString.length() - 1) == '0' ?
                         dateAndTimeOfCompletionAsString.substring(0, dateAndTimeOfCompletionAsString.length() - 1) :
                         dateAndTimeOfCompletionAsString);
 
-        given(internDAO.findById(internId)).willReturn(Optional.of(new Intern()));
-        given(quizDAO.findById(internId)).willReturn(Optional.of(new Quiz()));
-        given(progressService.getProgressByInternIdAndQuizId(internId, quizId)).willReturn(progress);
+        given(personDAO.findById(personId)).willReturn(Optional.of(new Person()));
+        given(quizDAO.findById(personId)).willReturn(Optional.of(new Quiz()));
+        given(progressService.getProgressByPersonIdAndQuizId(personId, quizId)).willReturn(progress);
 
         mvc.perform(MockMvcRequestBuilders
-                        .get("/api/progresses/intern/{internId}/quiz/{quizId}", internId, quizId))
+                        .get("/api/progresses/intern/{personId}/quiz/{quizId}", personId, quizId))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(Integer.valueOf(progress.getId().toString()))))
                 .andExpect(jsonPath("$.dateAndTimeOfCompletion", is(dateAndTimeOfCompletionAsString)))
                 .andExpect(jsonPath("$.score", is(progress.getScore())))
-                .andExpect(jsonPath("$.internId", is(Integer.valueOf(progress.getInternId().toString()))))
+                .andExpect(jsonPath("$.personId", is(Integer.valueOf(progress.getPersonId().toString()))))
                 .andExpect(jsonPath("$.quizId", is(Integer.valueOf(progress.getQuizId().toString()))));
     }
 
     @Test
-    public void shouldNotGetProgressByInternIdAndQuizId404() throws Exception {
-        Long internId = 1L;
+    public void shouldNotGetProgressByPersonIdAndQuizId404() throws Exception {
+        Long personId = 1L;
         Long quizId = 2L;
 
         mvc.perform(MockMvcRequestBuilders
-                        .get("/api/progresses/intern/{internId}/quiz/{quizId}", internId, quizId))
+                        .get("/api/progresses/intern/{personId}/quiz/{quizId}", personId, quizId))
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void shouldNotGetProgressByInternIdAndQuizId500() throws Exception {
-        Long internId = 1L;
+    public void shouldNotGetProgressByPersonIdAndQuizId500() throws Exception {
+        Long personId = 1L;
         Long quizId = 2L;
-        given(progressService.getProgressByInternIdAndQuizId(internId, quizId)).willThrow(new Exception());
+        given(progressService.getProgressByPersonIdAndQuizId(personId, quizId)).willThrow(new Exception());
 
         mvc.perform(MockMvcRequestBuilders
-                        .get("/api/progresses/intern/{internId}/quiz/{quizId}", internId, quizId))
+                        .get("/api/progresses/intern/{personId}/quiz/{quizId}", personId, quizId))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
     }

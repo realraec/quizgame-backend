@@ -1,7 +1,7 @@
 package com.azerty.quizgame.utils;
 
 import com.azerty.quizgame.model.dto.ProgressDTO;
-import com.azerty.quizgame.model.entity.Intern;
+import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.model.entity.Record;
@@ -18,16 +18,16 @@ public class ProgressMapper {
         Long id = progress.getId();
         LocalDateTime dateAndTimeOfCompletion = progress.getDateAndTimeOfCompletion();
         int score = progress.getScore();
-        Long internId = progress.getIntern().getId();
+        Long personId = progress.getPerson().getId();
         Long quizId = progress.getQuiz().getId();
         Long[] records = progress.getRecords().stream().map(Record::getId).toArray(Long[]::new);
 
-        return new ProgressDTO(id, dateAndTimeOfCompletion, score, internId, quizId, records);
+        return new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, records);
     }
 
     public Progress toProgress(ProgressDTO progressDTO) {
-        Intern intern = new Intern();
-        intern.setId(progressDTO.getInternId());
+        Person person = new Person();
+        person.setId(progressDTO.getPersonId());
         Quiz quiz = new Quiz();
         quiz.setId(progressDTO.getQuizId());
         List<Record> records = new ArrayList<>();
@@ -38,7 +38,7 @@ public class ProgressMapper {
             records.add(record);
         }
 
-        return new Progress(progressDTO.getId(), progressDTO.getDateAndTimeOfCompletion(), progressDTO.getScore(), intern, quiz, records);
+        return new Progress(progressDTO.getId(), progressDTO.getDateAndTimeOfCompletion(), progressDTO.getScore(), person, quiz, records);
     }
 
 }

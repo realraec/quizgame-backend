@@ -1,6 +1,6 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.dao.InternDAO;
+import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.dao.RecordDAO;
@@ -22,17 +22,17 @@ import java.util.Optional;
 public class ProgressServiceImplementation implements ProgressService {
 
     private final ProgressDAO progressDAO;
-    private final InternDAO internDAO;
+    private final PersonDAO personDAO;
     private final QuizDAO quizDAO;
     private final ProgressMapper progressMapper = new ProgressMapper();
     private final RecordDAO recordDAO;
 
 
     @Autowired
-    public ProgressServiceImplementation(ProgressDAO progressDAO, InternDAO internDAO, QuizDAO quizDAO,
+    public ProgressServiceImplementation(ProgressDAO progressDAO, PersonDAO personDAO, QuizDAO quizDAO,
                                          RecordDAO recordDAO) {
         this.progressDAO = progressDAO;
-        this.internDAO = internDAO;
+        this.personDAO = personDAO;
         this.quizDAO = quizDAO;
         this.recordDAO = recordDAO;
     }
@@ -62,18 +62,24 @@ public class ProgressServiceImplementation implements ProgressService {
 
     @Override
     public ProgressDTO saveProgress(ProgressDTO progress) {
-        for (int i = 0; i < progress.getRecordsIds().length; i++) {
-            Optional<Record> checkRecord = recordDAO.findById(progress.getRecordsIds()[i]);
-            if (checkRecord.isEmpty()) {
-                return null;
+        Long[] recordsIds = progress.getRecordsIds();
+        if (recordsIds != null) {
+            for (int i = 0; i < recordsIds.length; i++) {
+                Optional<Record> checkRecord = recordDAO.findById(recordsIds[i]);
+                if (checkRecord.isEmpty()) {
+                    return null;
+                }
             }
-        }
-        Optional<Intern> checkIntern = internDAO.findById(progress.getInternId());
-        Optional<Quiz> checkQuiz = quizDAO.findById(progress.getQuizId());
-        if (checkIntern.isPresent() && checkQuiz.isPresent()) {
-            return progressMapper.toProgressDTO(progressDAO.save(progressMapper.toProgress(progress)));
         } else {
+            progress.setRecordsIds(new Long[]{});
+        }
+
+        Optional<Person> checkPerson = personDAO.findById(progress.getPersonId());
+        Optional<Quiz> checkQuiz = quizDAO.findById(progress.getQuizId());
+        if (checkPerson.isEmpty() || checkQuiz.isEmpty()) {
             return null;
+        } else {
+            return progressMapper.toProgressDTO(progressDAO.save(progressMapper.toProgress(progress)));
         }
     }
 
@@ -101,8 +107,8 @@ public class ProgressServiceImplementation implements ProgressService {
     }
 
     @Override
-    public List<ProgressDTO> getAllProgressesByInternId(Long internId) {
-        Iterator<Progress> progressIterator = progressDAO.findAllProgressesByInternId(internId).iterator();
+    public List<ProgressDTO> getAllProgressesByPersonId(Long personId) {
+        Iterator<Progress> progressIterator = progressDAO.findAllProgressesByPersonId(personId).iterator();
         List<ProgressDTO> progresses = new ArrayList<>();
         while (progressIterator.hasNext()) {
             progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
@@ -116,12 +122,12 @@ public class ProgressServiceImplementation implements ProgressService {
     }
 
     @Override
-    public ProgressDTO getProgressByInternIdAndQuizId(Long internId, Long quizId) {
-        Optional<Intern> checkIntern = internDAO.findById(internId);
+    public ProgressDTO getProgressByPersonIdAndQuizId(Long personId, Long quizId) {
+        Optional<Person> checkPerson = personDAO.findById(personId);
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
-        if (checkIntern.isPresent() && checkQuiz.isPresent()) {
+        if (checkPerson.isPresent() && checkQuiz.isPresent()) {
 
-            Progress progress = progressDAO.findProgressByInternIdAndQuizId(internId, quizId);
+            Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quizId);
             if (progress != null) {
                 return progressMapper.toProgressDTO(progress);
             } else {

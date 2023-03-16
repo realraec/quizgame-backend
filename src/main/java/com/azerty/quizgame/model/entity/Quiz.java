@@ -26,23 +26,23 @@ public class Quiz {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "quizzes_interns",
+            name = "quizzes_persons",
             joinColumns = { @JoinColumn(name = "pk_quiz") },
-            inverseJoinColumns = { @JoinColumn(name = "pk_intern") }
+            inverseJoinColumns = { @JoinColumn(name = "pk_person") }
     )
-    private List<Intern> interns;
+    private List<Person> persons;
 
 
     public Quiz() {
         this.questions = new ArrayList<>();
-        this.interns = new ArrayList<>();
+        this.persons = new ArrayList<>();
     }
 
-    public Quiz(Long id, String title, String summary, List<Question> questions, List<Intern> interns) {
+    public Quiz(Long id, String title, String summary, List<Question> questions, List<Person> persons) {
         this.title = title;
         this.summary = summary;
         this.questions = new ArrayList<>();
-        this.interns = new ArrayList<>();
+        this.persons = new ArrayList<>();
     }
 
     public Long getId() {
@@ -77,12 +77,12 @@ public class Quiz {
         this.questions = questions;
     }
 
-    public List<Intern> getInterns() {
-        return interns;
+    public List<Person> getPersons() {
+        return persons;
     }
 
-    public void setInterns(List<Intern> interns) {
-        this.interns = interns;
+    public void setPersons(List<Person> persons) {
+        this.persons = persons;
     }
 
 
@@ -93,7 +93,7 @@ public class Quiz {
                 ", title='" + title + '\'' +
                 ", summary='" + summary + '\'' +
                 //", questions=" + questions +
+                //", persons=" + persons +
                 '}';
     }
-
 }
