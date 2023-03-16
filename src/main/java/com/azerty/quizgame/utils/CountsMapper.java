@@ -7,8 +7,19 @@ import org.springframework.stereotype.Component;
 public class CountsMapper {
 
     public CountsDTO toCountsDTO(Long[] counts) {
-        Long internCount = counts[0];
-        Long quizCount = counts[1];
+        Long internCount;
+        try {
+            internCount = counts[0];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            internCount = 0L;
+        }
+
+        Long quizCount;
+        try {
+            quizCount = counts[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            quizCount = 0L;
+        }
 
         return new CountsDTO(internCount, quizCount);
     }

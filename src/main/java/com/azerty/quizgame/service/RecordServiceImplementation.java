@@ -90,8 +90,8 @@ public class RecordServiceImplementation implements RecordService {
     }
 
 
-    public RecordDTO getRecordByProgressIdAndQuestionId(Long internId, Long questionId) {
-        Optional<Record> record = recordDAO.findRecordByProgressIdAndQuestionId(internId, questionId);
+    public RecordDTO getRecordByProgressIdAndQuestionId(Long personId, Long questionId) {
+        Optional<Record> record = recordDAO.findRecordByProgressIdAndQuestionId(personId, questionId);
         return record.map(recordMapper::toRecordDTO).orElse(null);
     }
 

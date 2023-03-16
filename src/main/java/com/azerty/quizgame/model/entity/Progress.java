@@ -22,8 +22,8 @@ public class Progress {
     private int score;
 
     @ManyToOne
-    @JoinColumn(name = "fk_intern", nullable = false)
-    private Intern intern;
+    @JoinColumn(name = "fk_person", nullable = false)
+    private Person person;
 
     @ManyToOne
     @JoinColumn(name = "fk_quiz", nullable = false)
@@ -36,10 +36,10 @@ public class Progress {
     public Progress() {
     }
 
-    public Progress(Long id, LocalDateTime dateAndTimeOfCompletion, int score, Intern intern, Quiz quiz, List<Record> records) {
+    public Progress(Long id, LocalDateTime dateAndTimeOfCompletion, int score, Person person, Quiz quiz, List<Record> records) {
         this.dateAndTimeOfCompletion = dateAndTimeOfCompletion;
         this.score = score;
-        this.intern = intern;
+        this.person = person;
         this.quiz = quiz;
         this.records = new ArrayList<>();
     }
@@ -69,12 +69,12 @@ public class Progress {
         this.score = score;
     }
 
-    public Intern getIntern() {
-        return intern;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setIntern(Intern intern) {
-        this.intern = intern;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public Quiz getQuiz() {
@@ -100,7 +100,7 @@ public class Progress {
                 "id=" + id +
                 ", dateAndTimeOfCompletion=" + dateAndTimeOfCompletion +
                 ", score=" + score +
-                ", intern=" + intern +
+                ", person=" + person +
                 ", quiz=" + quiz +
                 ", records=" + records +
                 '}';

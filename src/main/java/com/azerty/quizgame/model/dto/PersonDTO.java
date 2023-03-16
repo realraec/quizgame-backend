@@ -2,7 +2,7 @@ package com.azerty.quizgame.model.dto;
 
 import com.azerty.quizgame.model.enums.Role;
 
-public class InternDTO {
+public class PersonDTO {
 
     private Long id;
     private String username;
@@ -14,10 +14,10 @@ public class InternDTO {
     private Role role;
     private Long[] quizzesIds;
 
-    public InternDTO() {
+    public PersonDTO() {
     }
 
-    public InternDTO(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role, Long[] quizzesIds) {
+    public PersonDTO(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role, Long[] quizzesIds) {
         this.id = id;
         this.username = username;
         this.password = password;
