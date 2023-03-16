@@ -57,6 +57,17 @@ public class AnswerControllerTests {
     }
 
     @Test
+    public void shouldGetAllAnswers204() throws Exception {
+        given(answerService.getAllAnswers()).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/answers")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
     public void shouldNotGetAllAnswers500() throws Exception {
         given(answerService.getAllAnswers()).willThrow(new Exception());
 

@@ -58,8 +58,8 @@ public class QuizTests {
         Assertions.assertEquals(null, quiz.getId());
         Assertions.assertEquals(title, quiz.getTitle());
         Assertions.assertEquals(summary, quiz.getSummary());
-        Assertions.assertEquals(new ArrayList<>(), quiz.getQuestions());
-        Assertions.assertEquals(new ArrayList<>(), quiz.getPersons());
+        Assertions.assertEquals(questions, quiz.getQuestions());
+        Assertions.assertEquals(persons, quiz.getPersons());
         Assertions.assertEquals("Quiz{" +
                 "id=" + null +
                 ", title='" + title + '\'' +

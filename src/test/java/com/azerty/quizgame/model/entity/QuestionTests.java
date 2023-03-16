@@ -55,13 +55,13 @@ public class QuestionTests {
         Assertions.assertEquals(wording, question.getWording());
         Assertions.assertEquals(maxDurationInSeconds, question.getMaxDurationInSeconds());
         Assertions.assertEquals(quiz, question.getQuiz());
-        Assertions.assertEquals(new ArrayList<>(), question.getAnswers());
+        Assertions.assertEquals(answers, question.getAnswers());
         Assertions.assertEquals("Question{" +
                 "id=" + null +
                 ", wording='" + wording + '\'' +
                 ", maxDurationInSeconds=" + maxDurationInSeconds +
                 ", quiz=" + quiz +
-                ", answers=" + new ArrayList<>() +
+                ", answers=" + answers +
                 '}', question.toString());
     }
 

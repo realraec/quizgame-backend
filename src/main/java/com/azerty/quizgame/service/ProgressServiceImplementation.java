@@ -24,8 +24,8 @@ public class ProgressServiceImplementation implements ProgressService {
     private final ProgressDAO progressDAO;
     private final PersonDAO personDAO;
     private final QuizDAO quizDAO;
-    private final ProgressMapper progressMapper = new ProgressMapper();
     private final RecordDAO recordDAO;
+    private final ProgressMapper progressMapper = new ProgressMapper();
 
 
     @Autowired
@@ -40,16 +40,14 @@ public class ProgressServiceImplementation implements ProgressService {
 
     @Override
     public List<ProgressDTO> getAllProgresses() {
-        Iterator<Progress> progressIterator = progressDAO.findAll().iterator();
-        List<ProgressDTO> progresses = new ArrayList<>();
-
-        while (progressIterator.hasNext()) {
-            progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
-        }
-
-        if (!progresses.isEmpty()) {
+        try {
+            Iterator<Progress> progressIterator = progressDAO.findAll().iterator();
+            List<ProgressDTO> progresses = new ArrayList<>();
+            while (progressIterator.hasNext()) {
+                progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
+            }
             return progresses;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }

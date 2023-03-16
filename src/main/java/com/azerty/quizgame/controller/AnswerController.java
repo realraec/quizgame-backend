@@ -27,7 +27,11 @@ public class AnswerController {
     public ResponseEntity<List<AnswerDTO>> getAllAnswers() {
         try {
             List<AnswerDTO> answers = answerService.getAllAnswers();
-            return new ResponseEntity<>(answers, HttpStatus.OK);
+            if (answers != null) {
+                return new ResponseEntity<>(answers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

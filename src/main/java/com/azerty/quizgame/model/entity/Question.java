@@ -2,7 +2,6 @@ package com.azerty.quizgame.model.entity;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -36,7 +35,7 @@ public class Question {
         this.wording = wording;
         this.maxDurationInSeconds = maxDurationInSeconds;
         this.quiz = quiz;
-        this.answers = new ArrayList<>();
+        this.answers = answers;
     }
 
 

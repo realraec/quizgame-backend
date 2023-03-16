@@ -62,14 +62,14 @@ public class ProgressTests {
         Assertions.assertEquals(score, progress.getScore());
         Assertions.assertEquals(person, progress.getPerson());
         Assertions.assertEquals(quiz, progress.getQuiz());
-        Assertions.assertEquals(new ArrayList<>(), progress.getRecords());
+        Assertions.assertEquals(records, progress.getRecords());
         Assertions.assertEquals("Progress{" +
                 "id=" + null +
                 ", dateAndTimeOfCompletion=" + dateAndTimeOfCompletion +
                 ", score=" + score +
                 ", person=" + person +
                 ", quiz=" + quiz +
-                ", records=" + new ArrayList<>() +
+                ", records=" + records +
                 '}', progress.toString());
     }
 

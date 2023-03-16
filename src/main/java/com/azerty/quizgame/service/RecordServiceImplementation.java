@@ -36,15 +36,14 @@ public class RecordServiceImplementation implements RecordService {
 
     @Override
     public List<RecordDTO> getAllRecords() {
-        Iterator<Record> recordIterator = recordDAO.findAll().iterator();
-        List<RecordDTO> records = new ArrayList<>();
-        while (recordIterator.hasNext()) {
-            records.add(recordMapper.toRecordDTO(recordIterator.next()));
-        }
-
-        if (!records.isEmpty()) {
+        try {
+            Iterator<Record> recordIterator = recordDAO.findAll().iterator();
+            List<RecordDTO> records = new ArrayList<>();
+            while (recordIterator.hasNext()) {
+                records.add(recordMapper.toRecordDTO(recordIterator.next()));
+            }
             return records;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }

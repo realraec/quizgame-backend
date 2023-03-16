@@ -3,7 +3,6 @@ package com.azerty.quizgame.model.entity;
 import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -52,7 +51,7 @@ public class Person {
         this.email = email;
         this.company = company;
         this.role = role;
-        this.quizzes = new ArrayList<>();
+        this.quizzes = quizzes;
     }
 
 
