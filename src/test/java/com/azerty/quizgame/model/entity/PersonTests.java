@@ -10,7 +10,7 @@ import java.util.List;
 public class PersonTests {
 
     @Test
-    public void shouldGetAndSetAllAttributesForPerson() {
+    public void shouldInstantiatePersonNoArgConstructor() {
         Long id = 1L;
         String username = "user1";
         String password = "P@ssword1";
@@ -21,7 +21,7 @@ public class PersonTests {
         Role role = Role.INTERN;
         List<Quiz> quizzes = new ArrayList<>();
         quizzes.add(new Quiz());
-        quizzes.add((new Quiz()));
+        quizzes.add(new Quiz());
 
         Person person = new Person();
         person.setId(id);
@@ -53,6 +53,44 @@ public class PersonTests {
                 ", role=" + role +
                 ", company='" + company + '\'' +
                 ", quizzes=" + quizzes +
+                '}', person.toString());
+    }
+
+    @Test
+    public void shouldInstantiatePersonAllArgsConstructor() {
+        Long id = 1L;
+        String username = "user1";
+        String password = "P@ssword1";
+        String lastname = "Tyson";
+        String firstname = "Mike";
+        String email = "mike.tyson@gmail.com";
+        String company = "McDonald's";
+        Role role = Role.INTERN;
+        List<Quiz> quizzes = new ArrayList<>();
+        quizzes.add(new Quiz());
+        quizzes.add(new Quiz());
+
+        Person person = new Person(id, username, password, lastname, firstname, email, company, role, quizzes);
+
+        Assertions.assertEquals(null, person.getId());
+        Assertions.assertEquals(username, person.getUsername());
+        Assertions.assertEquals(password, person.getPassword());
+        Assertions.assertEquals(lastname, person.getLastname());
+        Assertions.assertEquals(firstname, person.getFirstname());
+        Assertions.assertEquals(email, person.getEmail());
+        Assertions.assertEquals(company, person.getCompany());
+        Assertions.assertEquals(role, person.getRole());
+        Assertions.assertEquals(new ArrayList<>(), person.getQuizzes());
+        Assertions.assertEquals("Person{" +
+                "id=" + null +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", company='" + company + '\'' +
+                ", quizzes=" + new ArrayList<>() +
                 '}', person.toString());
     }
 

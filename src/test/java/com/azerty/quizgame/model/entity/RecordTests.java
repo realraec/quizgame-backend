@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class RecordTests {
 
     @Test
-    public void shouldGetAndSetAllAttributesForRecord() {
+    public void shouldInstantiateRecordNoArgConstructor() {
         Long id = 1L;
         boolean isSuccess = true;
         Question question = new Question();
@@ -24,6 +24,27 @@ public class RecordTests {
         Assertions.assertEquals(progress, record.getProgress());
         Assertions.assertEquals("Record{" +
                 "id=" + id +
+                ", isSuccess=" + isSuccess +
+                ", question=" + question +
+                ", progress=" + progress +
+                '}', record.toString());
+    }
+
+    @Test
+    public void shouldInstantiateRecordAllArgsConstructor() {
+        Long id = 1L;
+        boolean isSuccess = true;
+        Question question = new Question();
+        Progress progress = new Progress();
+
+        Record record = new Record(id, isSuccess, question, progress);
+
+        Assertions.assertEquals(null, record.getId());
+        Assertions.assertEquals(isSuccess, record.isSuccess());
+        Assertions.assertEquals(question, record.getQuestion());
+        Assertions.assertEquals(progress, record.getProgress());
+        Assertions.assertEquals("Record{" +
+                "id=" + null +
                 ", isSuccess=" + isSuccess +
                 ", question=" + question +
                 ", progress=" + progress +

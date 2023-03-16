@@ -9,7 +9,7 @@ import java.util.List;
 public class QuestionTests {
 
     @Test
-    public void shouldGetAndSetAllAttributesForQuestion() {
+    public void shouldInstantiateQuestionNoArgConstructor() {
         Long id = 1L;
         String wording = "What is the meaning of life?";
         int maxDurationInSeconds = 30;
@@ -38,5 +38,32 @@ public class QuestionTests {
                 ", answers=" + answers +
                 '}', question.toString());
     }
+
+    @Test
+    public void shouldInstantiateQuestionAllArgsConstructor() {
+        Long id = 1L;
+        String wording = "What is the meaning of life?";
+        int maxDurationInSeconds = 30;
+        Quiz quiz = new Quiz();
+        List<Answer> answers = new ArrayList<>();
+        answers.add(new Answer());
+        answers.add(new Answer());
+
+        Question question = new Question(id, wording, maxDurationInSeconds, quiz, answers);
+
+        Assertions.assertEquals(null, question.getId());
+        Assertions.assertEquals(wording, question.getWording());
+        Assertions.assertEquals(maxDurationInSeconds, question.getMaxDurationInSeconds());
+        Assertions.assertEquals(quiz, question.getQuiz());
+        Assertions.assertEquals(new ArrayList<>(), question.getAnswers());
+        Assertions.assertEquals("Question{" +
+                "id=" + null +
+                ", wording='" + wording + '\'' +
+                ", maxDurationInSeconds=" + maxDurationInSeconds +
+                ", quiz=" + quiz +
+                ", answers=" + new ArrayList<>() +
+                '}', question.toString());
+    }
+
 
 }
