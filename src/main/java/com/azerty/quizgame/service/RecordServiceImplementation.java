@@ -63,19 +63,18 @@ public class RecordServiceImplementation implements RecordService {
             recordAsEntity.setId(record.getId());
             return recordMapper.toRecordDTO(recordDAO.save(recordAsEntity));
         } else {
-            return false;
+            return null;
         }
     }
 
     @Override
-    public RecordDTO updateRecordById(RecordDTO record, Long id) {
+    public boolean deleteRecordById(Long id) {
         Optional<Record> checkRecord = recordDAO.findById(id);
         if (checkRecord.isPresent()) {
-            Record recordAsEntity = recordMapper.toRecord(record);
-            recordAsEntity.setId(id);
-            return saveRecord(recordMapper.toRecordDTO(recordAsEntity));
+            recordDAO.deleteById(id);
+            return true;
         } else {
-            return null;
+            return false;
         }
     }
 
