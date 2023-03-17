@@ -58,7 +58,7 @@ public interface PersonDAO extends CrudRepository<Person, Long> {
 			""")
 	Long[] findPersonWithRoleInternCountAndQuizCount();
 
-	@Query(nativeQuery = true, value = """
+	@Query(value = """
 			SELECT p
 			FROM Person p
 			WHERE p.username = (:username)

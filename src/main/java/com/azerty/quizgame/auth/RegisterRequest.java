@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RegisterRequest
 {
+	private String username;
 	private String firstname;
 	private String lastname;
 	private String email;

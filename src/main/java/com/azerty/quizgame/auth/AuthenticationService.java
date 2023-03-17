@@ -26,6 +26,7 @@ public class AuthenticationService
 	{
 		// TODO créer un username
 		Person person = new Person();
+		person.setUsername(request.getUsername());
 		person.setFirstname(request.getFirstname());
 		person.setLastname(request.getLastname());
 		person.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -41,7 +42,7 @@ public class AuthenticationService
 	public AuthenticationResponse authenticate(AuthenticationRequest request)
 	{
 		authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(((UserDetails) request).getUsername(), request.getPassword()));
+				new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 		Person user = personDao.findAnyPersonByUsername(request.getUsername()).orElseThrow();
 		String jwtToken = jwtService.generateToken(user);
 		return AuthenticationResponse.builder().token(jwtToken).build();
