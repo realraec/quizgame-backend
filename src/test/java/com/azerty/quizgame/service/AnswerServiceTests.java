@@ -5,6 +5,7 @@ import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.model.dto.AnswerDTO;
 import com.azerty.quizgame.model.entity.Answer;
 import com.azerty.quizgame.model.entity.Question;
+import com.azerty.quizgame.utils.AnswerMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class AnswerServiceTests {
@@ -26,6 +30,9 @@ public class AnswerServiceTests {
     private AnswerDAO answerDAO;
     @Mock
     private QuestionDAO questionDAO;
+
+    private final AnswerMapper answerMapper = new AnswerMapper();
+
 
     @Test
     public void shouldGetAllAnswers() {
@@ -61,7 +68,7 @@ public class AnswerServiceTests {
         List<AnswerDTO> answers = answerService.getAllAnswers();
 
         //Then
-        assertEquals(null, answers);
+        assertNull(answers);
     }
 
     @Test
@@ -71,7 +78,8 @@ public class AnswerServiceTests {
         String wording = "The number 42.";
         boolean isCorrect = true;
         Question question = new Question();
-        question.setId(2L);
+        Long questionId = 2L;
+        question.setId(questionId);
         Answer answerToReturn = new Answer(id, wording, isCorrect, question);
         Mockito.when(answerDAO.findById(id)).thenReturn(Optional.of(answerToReturn));
 
@@ -95,7 +103,126 @@ public class AnswerServiceTests {
         AnswerDTO answer = answerService.getAnswerById(id);
 
         //Then
-        assertEquals(null, answer);
+        assertNull(answer);
+    }
+
+    @Test
+    public void shouldSaveAnswer() {
+        // Given
+        Long id = 1L;
+        String wording = "The number 42.";
+        boolean isCorrect = true;
+        Question question = new Question();
+        Long questionId = 2L;
+        question.setId(questionId);
+        Answer answerToReturn = new Answer(id, wording, isCorrect, question);
+        Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.of(question));
+        Mockito.when(answerDAO.save(any())).thenReturn(answerToReturn);
+
+        // When
+        AnswerDTO answer = answerService.saveAnswer(answerMapper.toAnswerDTO(answerToReturn));
+
+        // Then
+        assertEquals(answerToReturn.getId(), answer.getId());
+        assertEquals(answerToReturn.getWording(), answer.getWording());
+        assertEquals(answerToReturn.isCorrect(), answer.isCorrect());
+        assertEquals(answerToReturn.getQuestion().getId(), answer.getQuestionId());
+    }
+
+    @Test
+    public void shouldNotSaveAnswer() {
+        // Given
+        Long id = 1L;
+        String wording = "The number 42.";
+        boolean isCorrect = true;
+        Question question = new Question();
+        Long questionId = 2L;
+        question.setId(questionId);
+        Answer answerToReturn = new Answer(id, wording, isCorrect, question);
+        Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.empty());
+
+        // When
+        AnswerDTO answer = answerService.saveAnswer(answerMapper.toAnswerDTO(answerToReturn));
+
+        // Then
+        assertNull(answer);
+    }
+
+    @Test
+    public void shouldDeleteAnswerById() {
+        // Given
+        Long id = 1L;
+        String wording = "The number 42.";
+        boolean isCorrect = true;
+        Question question = new Question();
+        question.setId(2L);
+        Answer answerToReturn = new Answer(id, wording, isCorrect, question);
+        Mockito.when(answerDAO.findById(id)).thenReturn(Optional.of(answerToReturn));
+
+        // When
+        boolean isDeleted = answerService.deleteAnswerById(id);
+
+        // Then
+        assertTrue(isDeleted);
+    }
+
+    @Test
+    public void shouldNotDeleteAnswerById() {
+        // Given
+        Long id = 1L;
+        Mockito.when(answerDAO.findById(id)).thenReturn(Optional.empty());
+
+        // When
+        boolean isDeleted = answerService.deleteAnswerById(id);
+
+        // Then
+        assertFalse(isDeleted);
+    }
+
+
+    @Test
+    public void shouldUpdateAnswerById() {
+        // Given
+        Long id = 1L;
+        String wording = "The number 42.";
+        boolean isCorrect = true;
+        Question question = new Question();
+        Long questionId = 2L;
+        question.setId(questionId);
+        Answer answerToReturn = new Answer(id, wording, isCorrect, question);
+        String wording2 = "The number 42.0.";
+        Answer updatedAnswer = new Answer(id, wording2, isCorrect, question);
+        Mockito.when(answerDAO.findById(id)).thenReturn(Optional.of(answerToReturn));
+        Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.of(question));
+        Mockito.when(answerDAO.save(any())).thenReturn(updatedAnswer);
+
+        // When
+        AnswerDTO answer = answerService.updateAnswerById(answerMapper.toAnswerDTO(updatedAnswer), id);
+
+        //Then
+        assertEquals(updatedAnswer.getId(), answer.getId());
+        assertEquals(updatedAnswer.getWording(), answer.getWording());
+        assertEquals(updatedAnswer.isCorrect(), answer.isCorrect());
+        assertEquals(updatedAnswer.getQuestion().getId(), answer.getQuestionId());
+    }
+
+    @Test
+    public void shouldNotUpdateAnswerById() {
+        // Given
+        Long id = 1L;
+        String wording = "The number 42.0.";
+        boolean isCorrect = true;
+        Question question = new Question();
+        Long questionId = 2L;
+        question.setId(questionId);
+        Answer updatedAnswer = new Answer(id, wording, isCorrect, question);
+        Mockito.when(answerDAO.findById(id)).thenReturn(Optional.empty());
+
+        // When
+        AnswerDTO answer = answerService.updateAnswerById(answerMapper.toAnswerDTO(updatedAnswer), id);
+
+        //Then
+        assertNull(answer);
     }
 
 }

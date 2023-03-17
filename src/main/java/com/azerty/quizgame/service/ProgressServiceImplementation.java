@@ -61,7 +61,7 @@ public class ProgressServiceImplementation implements ProgressService {
     @Override
     public ProgressDTO saveProgress(ProgressDTO progress) {
         Long[] recordsIds = progress.getRecordsIds();
-        if (recordsIds != null) {
+        if (recordsIds != null && recordsIds.length > 0) {
             for (int i = 0; i < recordsIds.length; i++) {
                 Optional<Record> checkRecord = recordDAO.findById(recordsIds[i]);
                 if (checkRecord.isEmpty()) {
@@ -82,18 +82,6 @@ public class ProgressServiceImplementation implements ProgressService {
     }
 
     @Override
-    public ProgressDTO updateProgressById(ProgressDTO progress, Long id) {
-        Optional<Progress> checkProgress = progressDAO.findById(id);
-        if (checkProgress.isPresent()) {
-            Progress progressAsEntity = progressMapper.toProgress(progress);
-            progressAsEntity.setId(id);
-            return progressMapper.toProgressDTO(progressDAO.save(progressAsEntity));
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public boolean deleteProgressById(Long id) {
         Optional<Progress> checkProgress = progressDAO.findById(id);
         if (checkProgress.isPresent()) {
@@ -101,6 +89,18 @@ public class ProgressServiceImplementation implements ProgressService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public ProgressDTO updateProgressById(ProgressDTO progress, Long id) {
+        Optional<Progress> checkProgress = progressDAO.findById(id);
+        if (checkProgress.isPresent()) {
+            Progress progressAsEntity = progressMapper.toProgress(progress);
+            progressAsEntity.setId(id);
+            return saveProgress(progressMapper.toProgressDTO(progressAsEntity));
+        } else {
+            return null;
         }
     }
 

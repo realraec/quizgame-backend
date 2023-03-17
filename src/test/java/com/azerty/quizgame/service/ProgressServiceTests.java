@@ -9,6 +9,7 @@ import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.model.entity.Record;
+import com.azerty.quizgame.utils.ProgressMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class ProgressServiceTests {
@@ -35,6 +40,8 @@ public class ProgressServiceTests {
     private QuizDAO quizDAO;
     @Mock
     private RecordDAO recordDAO;
+
+    private final ProgressMapper progressMapper = new ProgressMapper();
 
 
     @Test
@@ -79,7 +86,7 @@ public class ProgressServiceTests {
         List<ProgressDTO> progresses = progressService.getAllProgresses();
 
         //Then
-        assertEquals(null, progresses);
+        assertNull(progresses);
     }
 
     @Test
@@ -118,7 +125,225 @@ public class ProgressServiceTests {
         ProgressDTO progress = progressService.getProgressById(id);
 
         //Then
-        assertEquals(null, progress);
+        assertNull(progress);
     }
+
+    @Test
+    public void shouldSaveProgress() {
+        // Given
+        Long id = 1L;
+        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
+        int score = 3;
+        Person person = new Person();
+        Long personId = 2L;
+        person.setId(personId);
+        Quiz quiz = new Quiz();
+        Long quizId = 3L;
+        quiz.setId(quizId);
+        Record record1 = new Record();
+        Long recordId1 = 4L;
+        record1.setId(recordId1);
+        Record record2 = new Record();
+        Long recordId2 = 5L;
+        record2.setId(recordId2);
+        List<Record> records = new ArrayList<>();
+        records.add(record1);
+        records.add(record2);
+        Long[] recordsIds = records.stream().map(Record::getId).toArray(Long[]::new);
+        Progress progressToReturn = new Progress(id, dateAndTimeOfCompletion, score, person, quiz, records);
+        Mockito.when(personDAO.findById(personId)).thenReturn(Optional.of(person));
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quiz));
+        Mockito.when(recordDAO.findById(recordId1)).thenReturn(Optional.of(record1));
+        Mockito.when(recordDAO.findById(recordId2)).thenReturn(Optional.of(record2));
+        Mockito.when(progressDAO.save(any())).thenReturn(progressToReturn);
+
+        // When
+        ProgressDTO progress = progressService.saveProgress(progressMapper.toProgressDTO(progressToReturn));
+
+        // Then
+        assertEquals(progressToReturn.getId(), progress.getId());
+        assertEquals(progressToReturn.getDateAndTimeOfCompletion(), progress.getDateAndTimeOfCompletion());
+        assertEquals(progressToReturn.getScore(), progress.getScore());
+        assertEquals(progressToReturn.getQuiz().getId(), progress.getQuizId());
+        assertEquals(recordsIds.length, progress.getRecordsIds().length);
+    }
+
+    @Test
+    public void shouldSaveProgressNoRecords() {
+        // Given
+        Long id = 1L;
+        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
+        int score = 3;
+        Person person = new Person();
+        Long personId = 2L;
+        person.setId(personId);
+        Quiz quiz = new Quiz();
+        Long quizId = 3L;
+        quiz.setId(quizId);
+        List<Record> records = new ArrayList<>();
+        Long[] recordsIds = records.stream().map(Record::getId).toArray(Long[]::new);
+        Progress progressToReturn = new Progress(id, dateAndTimeOfCompletion, score, person, quiz, records);
+        Mockito.when(personDAO.findById(personId)).thenReturn(Optional.of(person));
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quiz));
+        Mockito.when(progressDAO.save(any())).thenReturn(progressToReturn);
+
+        // When
+        ProgressDTO progress = progressService.saveProgress(progressMapper.toProgressDTO(progressToReturn));
+
+        // Then
+        assertEquals(progressToReturn.getId(), progress.getId());
+        assertEquals(progressToReturn.getDateAndTimeOfCompletion(), progress.getDateAndTimeOfCompletion());
+        assertEquals(progressToReturn.getScore(), progress.getScore());
+        assertEquals(progressToReturn.getQuiz().getId(), progress.getQuizId());
+        assertEquals(recordsIds.length, progress.getRecordsIds().length);
+    }
+
+    @Test
+    public void shouldNotSaveProgressRecord() {
+        // Given
+        Long id = 1L;
+        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
+        int score = 3;
+        Person person = new Person();
+        Long personId = 2L;
+        person.setId(personId);
+        Quiz quiz = new Quiz();
+        Long quizId = 3L;
+        quiz.setId(quizId);
+        Record record1 = new Record();
+        Long recordId1 = 4L;
+        record1.setId(recordId1);
+        Record record2 = new Record();
+        Long recordId2 = 5L;
+        record2.setId(recordId2);
+        List<Record> records = new ArrayList<>();
+        records.add(record1);
+        records.add(record2);
+        Progress progressToReturn = new Progress(id, dateAndTimeOfCompletion, score, person, quiz, records);
+        Mockito.when(recordDAO.findById(recordId1)).thenReturn(Optional.of(record1));
+
+        // When
+        ProgressDTO progress = progressService.saveProgress(progressMapper.toProgressDTO(progressToReturn));
+
+        // Then
+        assertNull(progress);
+    }
+
+    @Test
+    public void shouldNotSaveProgressPersonQuiz() {
+        // Given
+        Long id = 1L;
+        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
+        int score = 3;
+        Person person = new Person();
+        Long personId = 2L;
+        person.setId(personId);
+        Quiz quiz = new Quiz();
+        Long quizId = 3L;
+        quiz.setId(quizId);
+        List<Record> records = new ArrayList<>();
+        Progress progressToReturn = new Progress(id, dateAndTimeOfCompletion, score, person, quiz, records);
+        Mockito.when(personDAO.findById(personId)).thenReturn(Optional.empty());
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.empty());
+
+        // When
+        ProgressDTO progress = progressService.saveProgress(progressMapper.toProgressDTO(progressToReturn));
+
+        // Then
+        assertNull(progress);
+    }
+
+    @Test
+    public void shouldDeleteProgressById() {
+        // Given
+        Long id = 1L;
+        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
+        int score = 3;
+        Person person = new Person();
+        Quiz quiz = new Quiz();
+        List<Record> records = new ArrayList<>();
+        records.add(new Record());
+        records.add(new Record());
+        Progress progressToReturn = new Progress(id, dateAndTimeOfCompletion, score, person, quiz, records);
+        Mockito.when(progressDAO.findById(id)).thenReturn(Optional.of(progressToReturn));
+
+        // When
+        boolean isDeleted = progressService.deleteProgressById(id);
+
+        // Then
+        assertTrue(isDeleted);
+    }
+
+    @Test
+    public void shouldNotDeleteProgressById() {
+        // Given
+        Long id = 1L;
+        Mockito.when(progressDAO.findById(id)).thenReturn(Optional.empty());
+
+        // When
+        boolean isDeleted = progressService.deleteProgressById(id);
+
+        // Then
+        assertFalse(isDeleted);
+    }
+
+    @Test
+    public void shouldUpdateProgressById() {
+        // Given
+        Long id = 1L;
+        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
+        int score = 3;
+        Person person = new Person();
+        Long personId = 2L;
+        person.setId(personId);
+        Quiz quiz = new Quiz();
+        Long quizId = 3L;
+        quiz.setId(quizId);
+        List<Record> records = new ArrayList<>();
+        Long[] recordsIds = records.stream().map(Record::getId).toArray(Long[]::new);
+        Progress progressToReturn = new Progress(id, dateAndTimeOfCompletion, score, person, quiz, records);
+        int score2 = 5;
+        Progress updatedProgress = new Progress(id, dateAndTimeOfCompletion, score2, person, quiz, records);
+        Mockito.when(progressDAO.findById(id)).thenReturn(Optional.of(progressToReturn));
+        Mockito.when(personDAO.findById(personId)).thenReturn(Optional.of(person));
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quiz));
+        Mockito.when(progressDAO.save(any())).thenReturn(updatedProgress);
+
+        // When
+        ProgressDTO progress = progressService.updateProgressById(progressMapper.toProgressDTO(updatedProgress), id);
+
+        //Then
+        assertEquals(updatedProgress.getId(), progress.getId());
+        assertEquals(updatedProgress.getDateAndTimeOfCompletion(), progress.getDateAndTimeOfCompletion());
+        assertEquals(updatedProgress.getScore(), progress.getScore());
+        assertEquals(updatedProgress.getQuiz().getId(), progress.getQuizId());
+        assertEquals(recordsIds.length, progress.getRecordsIds().length);
+    }
+
+    @Test
+    public void shouldNotUpdateProgressById() {
+        // Given
+        Long id = 1L;
+        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
+        Person person = new Person();
+        Long personId = 2L;
+        person.setId(personId);
+        Quiz quiz = new Quiz();
+        Long quizId = 3L;
+        quiz.setId(quizId);
+        List<Record> records = new ArrayList<>();
+        records.add(new Record());
+        records.add(new Record());
+        int score2 = 5;
+        Progress updatedProgress = new Progress(id, dateAndTimeOfCompletion, score2, person, quiz, records);
+        Mockito.when(progressDAO.findById(id)).thenReturn(Optional.empty());
+
+        // When
+        ProgressDTO progress = progressService.updateProgressById(progressMapper.toProgressDTO(updatedProgress), id);
+
+        //Then
+        assertNull(progress);
+    }
+
 
 }

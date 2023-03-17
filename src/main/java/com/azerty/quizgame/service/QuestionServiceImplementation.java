@@ -62,31 +62,20 @@ public class QuestionServiceImplementation implements QuestionService {
     @Override
     public QuestionDTO saveQuestion(QuestionDTO question) {
         Long[] answersIds = question.getAnswersIds();
-        if (answersIds != null) {
+        if (answersIds != null && answersIds.length > 0) {
             for (int i = 0; i < answersIds.length; i++) {
-                Optional<Answer> checkRecord = answerDAO.findById(answersIds[i]);
-                if (checkRecord.isEmpty()) {
+                Optional<Answer> checkAnswer = answerDAO.findById(answersIds[i]);
+                if (checkAnswer.isEmpty()) {
                     return null;
                 }
             }
         } else {
             question.setAnswersIds(new Long[]{});
         }
+
         Optional<Quiz> checkQuiz = quizDAO.findById(question.getQuizId());
         if (checkQuiz.isPresent()) {
             return questionMapper.toQuestionDTO(questionDAO.save(questionMapper.toQuestion(question)));
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public QuestionDTO updateQuestionById(QuestionDTO question, Long id) {
-        Optional<Question> checkQuestion = questionDAO.findById(id);
-        if (checkQuestion.isPresent()) {
-            Question questionAsEntity = questionMapper.toQuestion(question);
-            questionAsEntity.setId(id);
-            return questionMapper.toQuestionDTO(questionDAO.save(questionAsEntity));
         } else {
             return null;
         }
@@ -100,6 +89,18 @@ public class QuestionServiceImplementation implements QuestionService {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public QuestionDTO updateQuestionById(QuestionDTO question, Long id) {
+        Optional<Question> checkQuestion = questionDAO.findById(id);
+        if (checkQuestion.isPresent()) {
+            Question questionAsEntity = questionMapper.toQuestion(question);
+            questionAsEntity.setId(id);
+            return saveQuestion(questionMapper.toQuestionDTO(questionAsEntity));
+        } else {
+            return null;
         }
     }
 
