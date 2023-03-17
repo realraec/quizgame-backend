@@ -1,5 +1,12 @@
 package com.azerty.quizgame.model.entity;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -9,132 +16,164 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Access;
+import jakarta.persistence.AccessType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+
 @Entity
 @Access(AccessType.FIELD)
 @Table(name = "persons")
-public class Person {
+public class Person implements UserDetails
+{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pk_person")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "pk_person")
+	private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+	@Column(nullable = false, unique = true)
+	private String username;
 
-    @Column(nullable = false)
-    private String password;
+	@Column(nullable = false)
+	private String password;
 
-    @Column(nullable = false)
-    private String lastname;
+	@Column(nullable = false)
+	private String lastname;
 
-    @Column(nullable = false)
-    private String firstname;
+	@Column(nullable = false)
+	private String firstname;
 
     @Email
-    @Column(nullable = false, unique = true)
-    private String email;
+	@Column(nullable = false, unique = true)
+	private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, updatable = false)
-    private Role role;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false, updatable = false)
+	private Role role;
 
-    private String company;
+	private String company;
 
-    @ManyToMany(mappedBy = "persons", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany(mappedBy = "persons", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    private List<Quiz> quizzes;
+	private List<Quiz> quizzes;
 
+	public Person()
+	{
+	}
 
-    public Person() {
-    }
+	public Person(Long id, String username, String password, String lastname, String firstname, String email,
+			String company, Role role, List<Quiz> quizzes)
+	{
+		this.username = username;
+		this.password = password;
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.email = email;
+		this.company = company;
+		this.role = role;
+		this.quizzes = quizzes;
+	}
 
-    public Person(Long id, String username, String password, String lastname, String firstname, String email, String company, Role role, List<Quiz> quizzes) {
-        this.username = username;
-        this.password = password;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.email = email;
-        this.company = company;
-        this.role = role;
-        this.quizzes = quizzes;
-    }
+	public Long getId()
+	{
+		return id;
+	}
 
+	public void setId(Long pk_id)
+	{
+		this.id = pk_id;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getUsername()
+	{
+		return username;
+	}
 
-    public void setId(Long pk_id) {
-        this.id = pk_id;
-    }
+	public void setUsername(String username)
+	{
+		this.username = username;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getPassword()
+	{
+		return password;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setPassword(String password)
+	{
+		this.password = password;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getLastname()
+	{
+		return lastname;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setLastname(String nom)
+	{
+		this.lastname = nom;
+	}
 
-    public String getLastname() {
-        return lastname;
-    }
+	public String getFirstname()
+	{
+		return firstname;
+	}
 
-    public void setLastname(String nom) {
-        this.lastname = nom;
-    }
+	public void setFirstname(String prenom)
+	{
+		this.firstname = prenom;
+	}
 
-    public String getFirstname() {
-        return firstname;
-    }
+	public String getEmail()
+	{
+		return email;
+	}
 
-    public void setFirstname(String prenom) {
-        this.firstname = prenom;
-    }
+	public void setEmail(String telephone)
+	{
+		this.email = telephone;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Role getRole()
+	{
+		return role;
+	}
 
-    public void setEmail(String telephone) {
-        this.email = telephone;
-    }
+	public void setRole(Role role)
+	{
+		this.role = role;
+	}
 
-    public Role getRole() {
-        return role;
-    }
+	public String getCompany()
+	{
+		return company;
+	}
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
+	public void setCompany(String company)
+	{
+		this.company = company;
+	}
 
-    public String getCompany() {
-        return company;
-    }
+	public List<Quiz> getQuizzes()
+	{
+		return quizzes;
+	}
 
-    public void setCompany(String company) {
-        this.company = company;
-    }
+	public void setQuizzes(List<Quiz> quizzes)
+	{
+		this.quizzes = quizzes;
+	}
 
-    public List<Quiz> getQuizzes() {
-        return quizzes;
-    }
-
-    public void setQuizzes(List<Quiz> quizzes) {
-        this.quizzes = quizzes;
-    }
-
-
-    @Override
+ @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -147,19 +186,43 @@ public class Person {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", company='" + company + '\'' +
-                ", quizzes=" + quizzes +
-                '}';
-    }
+	
+	@Override
+	public String toString()
+	{
+		return "Person{" + "id=" + id + ", username='" + username + '\'' + ", password='" + password + '\''
+				+ ", lastname='" + lastname + '\'' + ", firstname='" + firstname + '\'' + ", email='" + email + '\''
+				+ ", role=" + role + ", company='" + company + '\'' + ", quizzes=" + quizzes + '}';
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities()
+	{
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+
+	@Override
+	public boolean isAccountNonExpired()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired()
+	{
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled()
+	{
+		return true;
+	}
 
 }
