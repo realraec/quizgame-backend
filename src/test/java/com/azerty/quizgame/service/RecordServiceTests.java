@@ -61,7 +61,7 @@ public class RecordServiceTests {
         // When
         List<RecordDTO> records = recordService.getAllRecords();
 
-        //Then
+        // Then
         assertEquals(recordsToReturn.size(), records.size());
     }
 
@@ -73,7 +73,7 @@ public class RecordServiceTests {
         // When
         List<RecordDTO> records = recordService.getAllRecords();
 
-        //Then
+        // Then
         assertNull(records);
     }
 
@@ -90,7 +90,7 @@ public class RecordServiceTests {
         // When
         RecordDTO record = recordService.getRecordById(id);
 
-        //Then
+        // Then
         assertEquals(recordToReturn.getId(), record.getId());
         assertEquals(recordToReturn.isSuccess(), record.isSuccess());
         Assertions.assertEquals(recordToReturn.getQuestion().getId(), record.getQuestionId());
@@ -106,7 +106,7 @@ public class RecordServiceTests {
         // When
         RecordDTO record = recordService.getRecordById(id);
 
-        //Then
+        // Then
         assertNull(record);
     }
 
@@ -187,7 +187,6 @@ public class RecordServiceTests {
         assertFalse(isDeleted);
     }
 
-
     @Test
     public void shouldUpdateRecordById() {
         // Given
@@ -210,7 +209,7 @@ public class RecordServiceTests {
         // When
         RecordDTO record = recordService.updateRecordById(recordMapper.toRecordDTO(updatedRecord), id);
 
-        //Then
+        // Then
         assertEquals(updatedRecord.getId(), record.getId());
         assertEquals(updatedRecord.isSuccess(), record.isSuccess());
         Assertions.assertEquals(updatedRecord.getQuestion().getId(), record.getQuestionId());
@@ -234,9 +233,46 @@ public class RecordServiceTests {
         // When
         RecordDTO record = recordService.updateRecordById(recordMapper.toRecordDTO(updatedRecord), id);
 
-        //Then
+        // Then
         assertNull(record);
     }
 
+    @Test
+    public void shouldGetRecordByProgressIdAndQuestionId() {
+        // Given
+        Long progressId = 1L;
+        Long questionId = 2L;
+        Long recordId = 3L;
+        boolean isSuccess = true;
+        Question question = new Question();
+        question.setId(questionId);
+        Progress progress = new Progress();
+        progress.setId(progressId);
+        Record recordToReturn = new Record(recordId, isSuccess, question, progress);
+        Mockito.when(recordDAO.findRecordByProgressIdAndQuestionId(progressId, questionId)).thenReturn(Optional.of(recordToReturn));
+
+        // When
+        RecordDTO record = recordService.getRecordByProgressIdAndQuestionId(progressId, questionId);
+
+        // Then
+        assertEquals(recordToReturn.getId(), record.getId());
+        assertEquals(recordToReturn.isSuccess(), record.isSuccess());
+        Assertions.assertEquals(recordToReturn.getQuestion().getId(), record.getQuestionId());
+        Assertions.assertEquals(recordToReturn.getProgress().getId(), record.getProgressId());
+    }
+
+    @Test
+    public void shouldNotGetRecordByProgressIdAndQuestionId() {
+        // Given
+        Long progressId = 1L;
+        Long questionId = 2L;
+        Mockito.when(recordDAO.findRecordByProgressIdAndQuestionId(progressId, questionId)).thenReturn(Optional.empty());
+
+        // When
+        RecordDTO record = recordService.getRecordByProgressIdAndQuestionId(progressId, questionId);
+
+        // Then
+        assertNull(record);
+    }
 
 }

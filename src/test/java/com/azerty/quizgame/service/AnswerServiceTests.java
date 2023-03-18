@@ -55,7 +55,7 @@ public class AnswerServiceTests {
         // When
         List<AnswerDTO> answers = answerService.getAllAnswers();
 
-        //Then
+        // Then
         assertEquals(answersToReturn.size(), answers.size());
     }
 
@@ -67,7 +67,7 @@ public class AnswerServiceTests {
         // When
         List<AnswerDTO> answers = answerService.getAllAnswers();
 
-        //Then
+        // Then
         assertNull(answers);
     }
 
@@ -86,7 +86,7 @@ public class AnswerServiceTests {
         // When
         AnswerDTO answer = answerService.getAnswerById(id);
 
-        //Then
+        // Then
         assertEquals(answerToReturn.getId(), answer.getId());
         assertEquals(answerToReturn.getWording(), answer.getWording());
         assertEquals(answerToReturn.isCorrect(), answer.isCorrect());
@@ -102,7 +102,7 @@ public class AnswerServiceTests {
         // When
         AnswerDTO answer = answerService.getAnswerById(id);
 
-        //Then
+        // Then
         assertNull(answer);
     }
 
@@ -179,7 +179,6 @@ public class AnswerServiceTests {
         assertFalse(isDeleted);
     }
 
-
     @Test
     public void shouldUpdateAnswerById() {
         // Given
@@ -199,7 +198,7 @@ public class AnswerServiceTests {
         // When
         AnswerDTO answer = answerService.updateAnswerById(answerMapper.toAnswerDTO(updatedAnswer), id);
 
-        //Then
+        // Then
         assertEquals(updatedAnswer.getId(), answer.getId());
         assertEquals(updatedAnswer.getWording(), answer.getWording());
         assertEquals(updatedAnswer.isCorrect(), answer.isCorrect());
@@ -221,8 +220,49 @@ public class AnswerServiceTests {
         // When
         AnswerDTO answer = answerService.updateAnswerById(answerMapper.toAnswerDTO(updatedAnswer), id);
 
-        //Then
+        // Then
         assertNull(answer);
+    }
+
+    @Test
+    public void shouldGetAllAnswersByQuestionId() {
+        // Given
+        Long questionId = 1L;
+        Question question = new Question();
+        question.setId(questionId);
+
+        Long answerId1 = 2L;
+        String wording1 = "The number 42.";
+        boolean isCorrect1 = true;
+        Answer answer1 = new Answer(answerId1, wording1, isCorrect1, question);
+        Long answerId2 = 3L;
+        String wording2 = "Any other number.";
+        boolean isCorrect2 = false;
+        Answer answer2 = new Answer(answerId2, wording2, isCorrect2, question);
+        List<Answer> answersToReturn = new ArrayList<>();
+        answersToReturn.add(answer1);
+        answersToReturn.add(answer2);
+        Mockito.when(answerDAO.findAllAnswersByQuestionId(questionId)).thenReturn(answersToReturn);
+        Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.of(question));
+
+        // When
+        List<AnswerDTO> answers = answerService.getAllAnswersByQuestionId(questionId);
+
+        // Then
+        assertEquals(answersToReturn.size(), answers.size());
+    }
+
+    @Test
+    public void shouldNotGetAllAnswersByQuestionId() {
+        // Given
+        Long questionId = 1L;
+        Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.empty());
+
+        // When
+        List<AnswerDTO> answers = answerService.getAllAnswersByQuestionId(questionId);
+
+        // Then
+        assertNull(answers);
     }
 
 }

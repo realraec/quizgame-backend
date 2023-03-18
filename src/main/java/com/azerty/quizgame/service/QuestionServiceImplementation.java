@@ -108,7 +108,6 @@ public class QuestionServiceImplementation implements QuestionService {
     public List<QuestionDTO> getAllQuestionsByQuizId(Long quizId) {
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
         if (checkQuiz.isPresent()) {
-
             Iterator<Question> questionIterator = questionDAO.findAllByQuizId(quizId).iterator();
             List<QuestionDTO> questions = new ArrayList<>();
             while (questionIterator.hasNext()) {
@@ -124,7 +123,6 @@ public class QuestionServiceImplementation implements QuestionService {
     public QuestionInQuizDTO getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) {
         Optional<Progress> checkProgress = progressDAO.findById(progressId);
         if (checkProgress.isPresent()) {
-
             List<Object[]> objectArraysList = questionDAO.findOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
             return questionMapper.toQuestionInQuizDTO(objectArraysList);
         } else {

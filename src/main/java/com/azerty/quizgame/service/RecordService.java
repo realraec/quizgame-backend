@@ -16,6 +16,6 @@ public interface RecordService {
 
     RecordDTO updateRecordById(RecordDTO quiz, Long id) throws Exception;
 
-    RecordDTO getRecordByProgressIdAndQuestionId(Long personId, Long questionId) throws Exception;
+    RecordDTO getRecordByProgressIdAndQuestionId(Long progressId, Long questionId) throws Exception;
 
 }

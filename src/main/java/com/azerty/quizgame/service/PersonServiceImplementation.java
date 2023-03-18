@@ -84,7 +84,6 @@ public class PersonServiceImplementation implements PersonService {
         } else {
             person.setQuizzesIds(new Long[]{});
         }
-
         return personMapper.toPersonDTO(personDAO.save(personMapper.toPerson(person)));
     }
 
@@ -116,6 +115,5 @@ public class PersonServiceImplementation implements PersonService {
         Long[] counts = personDAO.findPersonWithRoleInternCountAndQuizCount();
         return countsMapper.toCountsDTO(counts);
     }
-
 
 }

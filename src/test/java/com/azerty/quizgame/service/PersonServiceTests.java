@@ -2,6 +2,7 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.dao.QuizDAO;
+import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.dto.PersonDTO;
 import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Quiz;
@@ -48,6 +49,7 @@ public class PersonServiceTests {
         Role role1 = Role.ADMIN;
         List<Quiz> quizzes1 = new ArrayList<>();
         Person admin1 = new Person(id1, username1, password1, lastname1, firstname1, email1, null, role1, quizzes1);
+
         Long id2 = 1L;
         String username2 = "user2";
         String password2 = "P@ssword2";
@@ -66,7 +68,7 @@ public class PersonServiceTests {
         // When
         List<PersonDTO> admins = personService.getAllAdmins();
 
-        //Then
+        // Then
         assertEquals(adminsToReturn.size(), admins.size());
     }
 
@@ -78,7 +80,7 @@ public class PersonServiceTests {
         // When
         List<PersonDTO> admins = personService.getAllAdmins();
 
-        //Then
+        // Then
         assertNull(admins);
     }
 
@@ -96,6 +98,7 @@ public class PersonServiceTests {
         quizzes1.add(new Quiz());
         quizzes1.add(new Quiz());
         Person intern1 = new Person(id1, username1, password1, lastname1, firstname1, email1, null, role1, quizzes1);
+
         Long id2 = 2L;
         String username2 = "user2";
         String password2 = "P@ssword2";
@@ -107,6 +110,7 @@ public class PersonServiceTests {
         quizzes2.add(new Quiz());
         quizzes2.add(new Quiz());
         Person intern2 = new Person(id2, username2, password2, lastname2, firstname2, email2, null, role2, quizzes2);
+
         List<Person> internsToReturn = new ArrayList<>();
         internsToReturn.add(intern1);
         internsToReturn.add(intern2);
@@ -115,7 +119,7 @@ public class PersonServiceTests {
         // When
         List<PersonDTO> interns = personService.getAllInterns();
 
-        //Then
+        // Then
         assertEquals(internsToReturn.size(), interns.size());
     }
 
@@ -127,10 +131,9 @@ public class PersonServiceTests {
         // When
         List<PersonDTO> interns = personService.getAllInterns();
 
-        //Then
+        // Then
         assertNull(interns);
     }
-
 
     @Test
     public void shouldGetPersonById() {
@@ -157,7 +160,7 @@ public class PersonServiceTests {
         // When
         PersonDTO person = personService.getPersonById(id);
 
-        //Then
+        // Then
         assertEquals(personToReturn.getId(), person.getId());
         assertEquals(personToReturn.getUsername(), person.getUsername());
         assertEquals(personToReturn.getPassword(), person.getPassword());
@@ -178,7 +181,7 @@ public class PersonServiceTests {
         // When
         PersonDTO person = personService.getPersonById(id);
 
-        //Then
+        // Then
         assertNull(person);
     }
 
@@ -345,7 +348,7 @@ public class PersonServiceTests {
         // When
         PersonDTO person = personService.updatePersonById(personMapper.toPersonDTO(updatedPerson), id);
 
-        //Then
+        // Then
         assertEquals(updatedPerson.getId(), person.getId());
         assertEquals(updatedPerson.getUsername(), person.getUsername());
         assertEquals(updatedPerson.getPassword(), person.getPassword());
@@ -381,8 +384,40 @@ public class PersonServiceTests {
         // When
         PersonDTO person = personService.updatePersonById(personMapper.toPersonDTO(updatedPerson), id);
 
-        //Then
+        // Then
         assertNull(person);
+    }
+
+    @Test
+    public void shouldGetInternCountAndQuizCount() {
+        // Given
+        long internCount = 10L;
+        long quizCount = 5L;
+        Long[] countsToReturn = {internCount, quizCount};
+        Mockito.when(personDAO.findPersonWithRoleInternCountAndQuizCount()).thenReturn(countsToReturn);
+
+        // When
+        CountsDTO counts = personService.getInternCountAndQuizCount();
+
+        // Then
+        assertEquals(countsToReturn[0], counts.getInternCount());
+        assertEquals(countsToReturn[1], counts.getQuizCount());
+    }
+
+    @Test
+    public void shouldNotGetInternCountAndQuizCount() {
+        // Given
+        Long internCount = 0L;
+        Long quizCount = 0L;
+        Long[] countsToReturn = {};
+        Mockito.when(personDAO.findPersonWithRoleInternCountAndQuizCount()).thenReturn(countsToReturn);
+
+        // When
+        CountsDTO counts = personService.getInternCountAndQuizCount();
+
+        // Then
+        assertEquals(internCount, counts.getInternCount());
+        assertEquals(quizCount, counts.getQuizCount());
     }
 
 }

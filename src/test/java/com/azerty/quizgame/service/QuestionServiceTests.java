@@ -4,8 +4,11 @@ import com.azerty.quizgame.dao.AnswerDAO;
 import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
+import com.azerty.quizgame.model.dto.AnswerInQuizDTO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
+import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
 import com.azerty.quizgame.model.entity.Answer;
+import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.utils.QuestionMapper;
@@ -53,6 +56,7 @@ public class QuestionServiceTests {
         answers1.add(new Answer());
         answers1.add(new Answer());
         Question question1 = new Question(id1, wording1, maxDurationInSeconds1, quiz1, answers1);
+
         Long id2 = 2L;
         String wording2 = "What is the meaning of life?";
         int maxDurationInSeconds2 = 30;
@@ -69,7 +73,7 @@ public class QuestionServiceTests {
         // When
         List<QuestionDTO> questions = questionService.getAllQuestions();
 
-        //Then
+        // Then
         assertEquals(questionsToReturn.size(), questions.size());
     }
 
@@ -81,7 +85,7 @@ public class QuestionServiceTests {
         // When
         List<QuestionDTO> questions = questionService.getAllQuestions();
 
-        //Then
+        // Then
         assertNull(questions);
     }
 
@@ -108,7 +112,7 @@ public class QuestionServiceTests {
         // When
         QuestionDTO question = questionService.getQuestionById(id);
 
-        //Then
+        // Then
         assertEquals(questionToReturn.getId(), question.getId());
         assertEquals(questionToReturn.getWording(), question.getWording());
         assertEquals(questionToReturn.getMaxDurationInSeconds(), question.getMaxDurationInSeconds());
@@ -125,7 +129,7 @@ public class QuestionServiceTests {
         // When
         QuestionDTO question = questionService.getQuestionById(id);
 
-        //Then
+        // Then
         assertNull(question);
     }
 
@@ -293,12 +297,12 @@ public class QuestionServiceTests {
         Question updatedQuestion = new Question(id, wording2, maxDurationInSeconds, quiz, answers);
         Mockito.when(questionDAO.findById(id)).thenReturn(Optional.of(questionToReturn));
         Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quiz));
-        Mockito.when(questionDAO.save(any())).thenReturn(questionToReturn);
+        Mockito.when(questionDAO.save(any())).thenReturn(updatedQuestion);
 
         // When
         QuestionDTO question = questionService.updateQuestionById(questionMapper.toQuestionDTO(updatedQuestion), id);
 
-        //Then
+        // Then
         assertEquals(updatedQuestion.getId(), question.getId());
         assertEquals(updatedQuestion.getWording(), question.getWording());
         assertEquals(updatedQuestion.getMaxDurationInSeconds(), question.getMaxDurationInSeconds());
@@ -322,8 +326,125 @@ public class QuestionServiceTests {
         // When
         QuestionDTO question = questionService.updateQuestionById(questionMapper.toQuestionDTO(updatedQuestion), id);
 
-        //Then
+        // Then
         assertNull(question);
+    }
+
+    @Test
+    public void shouldGetAllQuestionsByQuizId() {
+        // Given
+        Quiz quiz = new Quiz();
+        Long quizId = 5L;
+        quiz.setId(quizId);
+
+        Long questionId1 = 1L;
+        String wording1 = "What is the meaning of life?";
+        int maxDurationInSeconds1 = 30;
+        List<Answer> answers1 = new ArrayList<>();
+        answers1.add(new Answer());
+        answers1.add(new Answer());
+        Question question1 = new Question(questionId1, wording1, maxDurationInSeconds1, quiz, answers1);
+
+        Long questionId2 = 2L;
+        String wording2 = "What is the meaning of life?";
+        int maxDurationInSeconds2 = 30;
+        List<Answer> answers2 = new ArrayList<>();
+        answers2.add(new Answer());
+        answers2.add(new Answer());
+        Question question2 = new Question(questionId2, wording2, maxDurationInSeconds2, quiz, answers2);
+
+        ArrayList<Question> questionsToReturn = new ArrayList<>();
+        questionsToReturn.add(question1);
+        questionsToReturn.add(question2);
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quiz));
+        Mockito.when(questionDAO.findAllByQuizId(quizId)).thenReturn(questionsToReturn);
+
+        // When
+        List<QuestionDTO> questions = questionService.getAllQuestionsByQuizId(quizId);
+
+        // Then
+        assertEquals(questionsToReturn.size(), questions.size());
+    }
+
+    @Test
+    public void shouldNotGetAllQuestionsByQuizId() {
+        // Given
+        Long quizId = 5L;
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.empty());
+
+        // When
+        List<QuestionDTO> questions = questionService.getAllQuestionsByQuizId(quizId);
+
+        // Then
+        assertNull(questions);
+    }
+
+    @Test
+    public void shouldGetOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId() {
+        // Given
+        Long questionId = 1L;
+        String questionWording = "What is the meaning of life?";
+        int questionMaxDurationInSeconds = 30;
+        String answerWording1 = "Everything.";
+        String answerWording2 = "Nothing.";
+        Long answerId1 = 3L;
+        Long answerId2 = 4L;
+        boolean answerIsCorrect1 = true;
+        boolean answerIsCorrect2 = false;
+        Long numberOfQuestionsLeft = 1L;
+
+        List<Object[]> objectArraysListToReturn = new ArrayList<>();
+        Object[] object2 = {questionId, questionWording, questionMaxDurationInSeconds, answerId1, answerIsCorrect1, answerWording1, numberOfQuestionsLeft};
+        Object[] object3 = {questionId, questionWording, questionMaxDurationInSeconds, answerId2, answerIsCorrect2, answerWording2, numberOfQuestionsLeft};
+        objectArraysListToReturn.add(object2);
+        objectArraysListToReturn.add(object3);
+
+        Progress progressToReturn = new Progress();
+        Long progressId = 5L;
+        progressToReturn.setId(progressId);
+
+        Quiz quiz = new Quiz();
+        Long quizId = 2L;
+        quiz.setId(quizId);
+        AnswerInQuizDTO answer1 = new AnswerInQuizDTO();
+        answer1.setId(answerId1);
+        answer1.setWording(answerWording1);
+        answer1.setCorrect(answerIsCorrect1);
+        AnswerInQuizDTO answer2 = new AnswerInQuizDTO();
+        answer2.setId(answerId2);
+        answer2.setWording(answerWording2);
+        answer2.setCorrect(answerIsCorrect2);
+        List<AnswerInQuizDTO> answers = new ArrayList<>();
+        answers.add(answer1);
+        answers.add(answer2);
+        AnswerInQuizDTO[] answersAsArray = answers.toArray(AnswerInQuizDTO[]::new);
+        QuestionInQuizDTO questionToReturn = new QuestionInQuizDTO(questionId, questionWording, questionMaxDurationInSeconds, answersAsArray, numberOfQuestionsLeft);
+        Mockito.when(progressDAO.findById(progressId)).thenReturn(Optional.of(progressToReturn));
+        Mockito.when(questionDAO.findOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId))
+                .thenReturn(objectArraysListToReturn);
+
+        // When
+        QuestionInQuizDTO questionWithExtra = questionService.getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
+
+        // Then
+        assertEquals(questionToReturn.getId(), questionWithExtra.getId());
+        assertEquals(questionToReturn.getWording(), questionWithExtra.getWording());
+        assertEquals(questionToReturn.getMaxDurationInSeconds(), questionWithExtra.getMaxDurationInSeconds());
+        assertEquals(questionToReturn.getAnswers().length, questionWithExtra.getAnswers().length);
+        assertEquals(questionToReturn.getNumberOfQuestionsLeft(), questionWithExtra.getNumberOfQuestionsLeft());
+    }
+
+    @Test
+    public void shouldNotGetOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId() {
+        // Given
+        Long progressId = 5L;
+        Mockito.when(progressDAO.findById(progressId)).thenReturn(Optional.empty());
+
+        // When
+        QuestionInQuizDTO questionWithExtra = questionService.getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
+
+        // Then
+        assertNull(questionWithExtra);
     }
 
 }

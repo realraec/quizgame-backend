@@ -117,10 +117,10 @@ public class QuizServiceImplementation implements QuizService {
         if (checkQuiz.isPresent() && checkPerson.isPresent()) {
 
             QuizState quizState = QuizState.NOT_STARTED;
-            Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quizId);
-            if (progress != null) {
+            Optional<Progress> progress = progressDAO.findProgressByPersonIdAndQuizId(quizId, personId);
+            if (progress.isPresent()) {
                 quizState = QuizState.STARTED;
-                if (progress.getDateAndTimeOfCompletion() != null) {
+                if (progress.get().getDateAndTimeOfCompletion() != null) {
                     quizState = QuizState.COMPLETED;
                 }
             }
@@ -140,10 +140,10 @@ public class QuizServiceImplementation implements QuizService {
             while (quizIterator.hasNext()) {
                 Quiz quiz = quizIterator.next();
                 QuizState quizState = QuizState.NOT_STARTED;
-                Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quiz.getId());
-                if (progress != null) {
+                Optional<Progress> progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quiz.getId());
+                if (progress.isPresent()) {
                     quizState = QuizState.STARTED;
-                    if (progress.getDateAndTimeOfCompletion() != null) {
+                    if (progress.get().getDateAndTimeOfCompletion() != null) {
                         quizState = QuizState.COMPLETED;
                     }
                 }
@@ -183,7 +183,7 @@ public class QuizServiceImplementation implements QuizService {
             }
             persons.addAll(personsToAttribute);
             quizAsEntity.setPersons(persons);
-            return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
+            return saveQuiz(quizMapper.toQuizDTO(quizAsEntity));
         } else {
             return null;
         }

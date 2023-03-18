@@ -86,7 +86,6 @@ public class AnswerServiceImplementation implements AnswerService {
     public List<AnswerDTO> getAllAnswersByQuestionId(Long questionId) {
         Optional<Question> checkQuestion = questionDAO.findById(questionId);
         if (checkQuestion.isPresent()) {
-
             Iterator<Answer> answerIterator = answerDAO.findAllAnswersByQuestionId(questionId).iterator();
             List<AnswerDTO> answers = new ArrayList<>();
             while (answerIterator.hasNext()) {
