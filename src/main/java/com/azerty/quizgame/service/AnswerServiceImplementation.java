@@ -51,22 +51,9 @@ public class AnswerServiceImplementation implements AnswerService {
 
     @Override
     public AnswerDTO saveAnswer(AnswerDTO answer) {
-
         Optional<Question> checkQuestion = questionDAO.findById(answer.getQuestionId());
         if (checkQuestion.isPresent()) {
             return answerMapper.toAnswerDTO(answerDAO.save(answerMapper.toAnswer(answer)));
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public AnswerDTO updateAnswerById(AnswerDTO answer, Long id) {
-        Optional<Answer> checkAnswer = answerDAO.findById(id);
-        if (checkAnswer.isPresent()) {
-            Answer answerAsEntity = answerMapper.toAnswer(answer);
-            answerAsEntity.setId(id);
-            return answerMapper.toAnswerDTO(answerDAO.save(answerAsEntity));
         } else {
             return null;
         }
@@ -84,10 +71,21 @@ public class AnswerServiceImplementation implements AnswerService {
     }
 
     @Override
+    public AnswerDTO updateAnswerById(AnswerDTO answer, Long id) {
+        Optional<Answer> checkAnswer = answerDAO.findById(id);
+        if (checkAnswer.isPresent()) {
+            Answer answerAsEntity = answerMapper.toAnswer(answer);
+            answerAsEntity.setId(id);
+            return saveAnswer(answerMapper.toAnswerDTO(answerAsEntity));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public List<AnswerDTO> getAllAnswersByQuestionId(Long questionId) {
         Optional<Question> checkQuestion = questionDAO.findById(questionId);
         if (checkQuestion.isPresent()) {
-
             Iterator<Answer> answerIterator = answerDAO.findAllAnswersByQuestionId(questionId).iterator();
             List<AnswerDTO> answers = new ArrayList<>();
             while (answerIterator.hasNext()) {

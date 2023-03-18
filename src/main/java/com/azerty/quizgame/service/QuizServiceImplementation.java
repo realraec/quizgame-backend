@@ -61,7 +61,7 @@ public class QuizServiceImplementation implements QuizService {
     @Override
     public QuizDTO saveQuiz(QuizDTO quiz) {
         Long[] questionsIds = quiz.getQuestionsIds();
-        if (questionsIds != null) {
+        if (questionsIds != null && questionsIds.length > 0) {
             for (int i = 0; i < questionsIds.length; i++) {
                 Optional<Question> checkQuestion = questionDAO.findById(questionsIds[i]);
                 if (checkQuestion.isEmpty()) {
@@ -73,7 +73,7 @@ public class QuizServiceImplementation implements QuizService {
         }
 
         Long[] personsIds = quiz.getPersonsIds();
-        if (personsIds != null) {
+        if (personsIds != null && personsIds.length > 0) {
             for (int i = 0; i < personsIds.length; i++) {
                 Optional<Person> checkPerson = personDAO.findById(personsIds[i]);
                 if (checkPerson.isEmpty()) {
@@ -88,18 +88,6 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public QuizDTO updateQuizById(QuizDTO quiz, Long id) {
-        Optional<Quiz> checkQuiz = quizDAO.findById(id);
-        if (checkQuiz.isPresent()) {
-            Quiz quizAsEntity = quizMapper.toQuiz(quiz);
-            quizAsEntity.setId(id);
-            return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public boolean deleteQuizById(Long id) {
         Optional<Quiz> checkQuiz = quizDAO.findById(id);
         if (checkQuiz.isPresent()) {
@@ -111,16 +99,28 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
+    public QuizDTO updateQuizById(QuizDTO quiz, Long id) {
+        Optional<Quiz> checkQuiz = quizDAO.findById(id);
+        if (checkQuiz.isPresent()) {
+            Quiz quizAsEntity = quizMapper.toQuiz(quiz);
+            quizAsEntity.setId(id);
+            return saveQuiz(quizMapper.toQuizDTO(quizAsEntity));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public QuizForInternDTO getQuizWithStateByQuizIdAndPersonId(Long quizId, Long personId) {
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
         Optional<Person> checkPerson = personDAO.findById(personId);
         if (checkQuiz.isPresent() && checkPerson.isPresent()) {
 
             QuizState quizState = QuizState.NOT_STARTED;
-            Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quizId);
-            if (progress != null) {
+            Optional<Progress> progress = progressDAO.findProgressByPersonIdAndQuizId(quizId, personId);
+            if (progress.isPresent()) {
                 quizState = QuizState.STARTED;
-                if (progress.getDateAndTimeOfCompletion() != null) {
+                if (progress.get().getDateAndTimeOfCompletion() != null) {
                     quizState = QuizState.COMPLETED;
                 }
             }
@@ -140,10 +140,10 @@ public class QuizServiceImplementation implements QuizService {
             while (quizIterator.hasNext()) {
                 Quiz quiz = quizIterator.next();
                 QuizState quizState = QuizState.NOT_STARTED;
-                Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quiz.getId());
-                if (progress != null) {
+                Optional<Progress> progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quiz.getId());
+                if (progress.isPresent()) {
                     quizState = QuizState.STARTED;
-                    if (progress.getDateAndTimeOfCompletion() != null) {
+                    if (progress.get().getDateAndTimeOfCompletion() != null) {
                         quizState = QuizState.COMPLETED;
                     }
                 }
@@ -183,7 +183,7 @@ public class QuizServiceImplementation implements QuizService {
             }
             persons.addAll(personsToAttribute);
             quizAsEntity.setPersons(persons);
-            return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
+            return saveQuiz(quizMapper.toQuizDTO(quizAsEntity));
         } else {
             return null;
         }

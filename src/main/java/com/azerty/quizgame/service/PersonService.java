@@ -13,9 +13,9 @@ public interface PersonService {
 
     PersonDTO getPersonById(Long id) throws Exception;
 
-    boolean deletePersonById(Long id) throws Exception;
-
     PersonDTO savePerson(PersonDTO person) throws Exception;
+
+    boolean deletePersonById(Long id) throws Exception;
 
     PersonDTO updatePersonById(PersonDTO person, Long id) throws Exception;
 
