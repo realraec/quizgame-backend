@@ -53,7 +53,9 @@ public class AnswerServiceImplementation implements AnswerService {
     public AnswerDTO saveAnswer(AnswerDTO answer) {
         Optional<Question> checkQuestion = questionDAO.findById(answer.getQuestionId());
         if (checkQuestion.isPresent()) {
-            return answerMapper.toAnswerDTO(answerDAO.save(answerMapper.toAnswer(answer)));
+            Answer answerAsEntity = answerMapper.toAnswer(answer);
+            answerAsEntity.setId(answer.getId());
+            return answerMapper.toAnswerDTO(answerDAO.save(answerAsEntity));
         } else {
             return null;
         }

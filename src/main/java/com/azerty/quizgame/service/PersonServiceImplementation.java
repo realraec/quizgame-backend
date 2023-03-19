@@ -64,11 +64,26 @@ public class PersonServiceImplementation implements PersonService {
     @Override
     public PersonDTO getPersonById(Long id) {
         Optional<Person> person = personDAO.findById(id);
-        if (person.isPresent()) {
-            return personMapper.toPersonDTO(person.get());
+        return person.map(personMapper::toPersonDTO).orElse(null);
+    }
+
+    @Override
+    public PersonDTO savePerson(PersonDTO person) {
+        Long[] quizzesIds = person.getQuizzesIds();
+        if (quizzesIds != null && quizzesIds.length > 0) {
+            for (int i = 0; i < quizzesIds.length; i++) {
+                Optional<Quiz> checkRecord = quizDAO.findById(quizzesIds[i]);
+                if (checkRecord.isEmpty()) {
+                    return null;
+                }
+            }
+
         } else {
-            return null;
+            person.setQuizzesIds(new Long[]{});
         }
+        Person personAsEntity = personMapper.toPerson(person);
+        personAsEntity.setId(person.getId());
+        return personMapper.toPersonDTO(personDAO.save(personAsEntity));
     }
 
     @Override

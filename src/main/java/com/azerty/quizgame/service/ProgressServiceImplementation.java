@@ -74,21 +74,24 @@ public class ProgressServiceImplementation implements ProgressService {
 
         Optional<Person> checkPerson = personDAO.findById(progress.getPersonId());
         Optional<Quiz> checkQuiz = quizDAO.findById(progress.getQuizId());
-        if (checkPerson.isEmpty() || checkQuiz.isEmpty()) {
-            return null;
+        if (checkPerson.isPresent() && checkQuiz.isPresent()) {
+            Progress progressAsEntity = progressMapper.toProgress(progress);
+            progressAsEntity.setId(progress.getId());
+            return progressMapper.toProgressDTO(progressDAO.save(progressAsEntity));
         } else {
-            return progressMapper.toProgressDTO(progressDAO.save(progressMapper.toProgress(progress)));
+            return false;
         }
     }
 
     @Override
-    public boolean deleteProgressById(Long id) {
+    public ProgressDTO updateProgressById(ProgressDTO progress, Long id) {
         Optional<Progress> checkProgress = progressDAO.findById(id);
         if (checkProgress.isPresent()) {
-            progressDAO.deleteById(id);
-            return true;
+            Progress progressAsEntity = progressMapper.toProgress(progress);
+            progressAsEntity.setId(id);
+            return saveProgress(progressMapper.toProgressDTO(progressAsEntity));
         } else {
-            return false;
+            return null;
         }
     }
 
