@@ -79,18 +79,19 @@ public class ProgressServiceImplementation implements ProgressService {
             progressAsEntity.setId(progress.getId());
             return progressMapper.toProgressDTO(progressDAO.save(progressAsEntity));
         } else {
-            return null;
+            return false;
         }
     }
 
     @Override
-    public boolean deleteProgressById(Long id) {
+    public ProgressDTO updateProgressById(ProgressDTO progress, Long id) {
         Optional<Progress> checkProgress = progressDAO.findById(id);
         if (checkProgress.isPresent()) {
-            progressDAO.deleteById(id);
-            return true;
+            Progress progressAsEntity = progressMapper.toProgress(progress);
+            progressAsEntity.setId(id);
+            return saveProgress(progressMapper.toProgressDTO(progressAsEntity));
         } else {
-            return false;
+            return null;
         }
     }
 
