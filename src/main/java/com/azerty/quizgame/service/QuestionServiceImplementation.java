@@ -75,7 +75,9 @@ public class QuestionServiceImplementation implements QuestionService {
 
         Optional<Quiz> checkQuiz = quizDAO.findById(question.getQuizId());
         if (checkQuiz.isPresent()) {
-            return questionMapper.toQuestionDTO(questionDAO.save(questionMapper.toQuestion(question)));
+            Question questionAsEntity = questionMapper.toQuestion(question);
+            questionAsEntity.setId(question.getId());
+            return questionMapper.toQuestionDTO(questionDAO.save(questionAsEntity));
         } else {
             return null;
         }

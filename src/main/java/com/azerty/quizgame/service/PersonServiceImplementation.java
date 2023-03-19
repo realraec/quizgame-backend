@@ -64,11 +64,7 @@ public class PersonServiceImplementation implements PersonService {
     @Override
     public PersonDTO getPersonById(Long id) {
         Optional<Person> person = personDAO.findById(id);
-        if (person.isPresent()) {
-            return personMapper.toPersonDTO(person.get());
-        } else {
-            return null;
-        }
+        return person.map(personMapper::toPersonDTO).orElse(null);
     }
 
     @Override
@@ -84,7 +80,9 @@ public class PersonServiceImplementation implements PersonService {
         } else {
             person.setQuizzesIds(new Long[]{});
         }
-        return personMapper.toPersonDTO(personDAO.save(personMapper.toPerson(person)));
+        Person personAsEntity = personMapper.toPerson(person);
+        personAsEntity.setId(person.getId());
+        return personMapper.toPersonDTO(personDAO.save(personAsEntity));
     }
 
     @Override

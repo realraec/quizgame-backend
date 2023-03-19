@@ -45,7 +45,6 @@ public class QuizServiceImplementation implements QuizService {
             while (quizIterator.hasNext()) {
                 quizzes.add(quizMapper.toQuizDTO(quizIterator.next()));
             }
-
             return quizzes;
         } catch (NullPointerException e) {
             return null;
@@ -84,7 +83,9 @@ public class QuizServiceImplementation implements QuizService {
             quiz.setPersonsIds(new Long[]{});
         }
 
-        return quizMapper.toQuizDTO(quizDAO.save(quizMapper.toQuiz(quiz)));
+        Quiz quizAsEntity = quizMapper.toQuiz(quiz);
+        quizAsEntity.setId(quiz.getId());
+        return quizMapper.toQuizDTO(quizDAO.save(quizAsEntity));
     }
 
     @Override

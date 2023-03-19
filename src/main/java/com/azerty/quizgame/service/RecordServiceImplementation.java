@@ -59,7 +59,10 @@ public class RecordServiceImplementation implements RecordService {
         Optional<Question> checkQuestion = questionDAO.findById(record.getQuestionId());
         Optional<Progress> checkProgress = progressDAO.findById(record.getProgressId());
         if (checkQuestion.isPresent() && checkProgress.isPresent()) {
-            return recordMapper.toRecordDTO(recordDAO.save(recordMapper.toRecord(record)));
+
+            Record recordAsEntity = recordMapper.toRecord(record);
+            recordAsEntity.setId(record.getId());
+            return recordMapper.toRecordDTO(recordDAO.save(recordAsEntity));
         } else {
             return null;
         }
