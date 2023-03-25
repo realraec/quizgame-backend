@@ -22,6 +22,24 @@ public class MiscControllerTests {
 
 
     @Test
+    public void shouldClearDatabase() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/misc/clear"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldNotClearDatabase500() throws Exception {
+        given(miscService.clearDatabase()).willThrow(new Exception());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/misc/clear"))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
     public void shouldResetDatabase() throws Exception {
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/misc/reset"))

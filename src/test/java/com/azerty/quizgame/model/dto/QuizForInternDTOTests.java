@@ -12,17 +12,20 @@ public class QuizForInternDTOTests {
         String title = "Life";
         String summary = "Pretty deep stuff.";
         QuizState state = QuizState.STARTED;
+        Long progressId = 2L;
 
         QuizForInternDTO quizDTO = new QuizForInternDTO();
         quizDTO.setId(id);
         quizDTO.setTitle(title);
         quizDTO.setSummary(summary);
         quizDTO.setState(state);
+        quizDTO.setProgressId(progressId);
 
         Assertions.assertEquals(id, quizDTO.getId());
         Assertions.assertEquals(title, quizDTO.getTitle());
         Assertions.assertEquals(summary, quizDTO.getSummary());
         Assertions.assertEquals(state, quizDTO.getState());
+        Assertions.assertEquals(progressId, quizDTO.getProgressId());
     }
 
     @Test
@@ -31,13 +34,15 @@ public class QuizForInternDTOTests {
         String title = "Life";
         String summary = "Pretty deep stuff.";
         QuizState state = QuizState.STARTED;
+        Long personId = 2L;
 
-        QuizForInternDTO quizDTO = new QuizForInternDTO(id, title, summary, state);
+        QuizForInternDTO quizDTO = new QuizForInternDTO(id, title, summary, state, personId);
 
         Assertions.assertEquals(id, quizDTO.getId());
         Assertions.assertEquals(title, quizDTO.getTitle());
         Assertions.assertEquals(summary, quizDTO.getSummary());
         Assertions.assertEquals(state, quizDTO.getState());
+        Assertions.assertEquals(personId, quizDTO.getProgressId());
     }
 
 }

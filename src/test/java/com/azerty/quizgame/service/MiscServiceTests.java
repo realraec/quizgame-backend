@@ -30,6 +30,61 @@ public class MiscServiceTests {
 
 
     @Test
+    public void shouldClearDatabase() {
+        // Given
+        String sql = """
+                DELETE FROM public.records;
+                DELETE FROM public.progresses;
+                DELETE FROM public.answers;
+                DELETE FROM public.questions;
+                DELETE FROM public.quizzes_persons;
+                DELETE FROM public.quizzes;
+                DELETE FROM public.persons;
+                ALTER SEQUENCE public.persons_pk_person_seq RESTART WITH 1;
+                ALTER SEQUENCE public.quizzes_pk_quiz_seq RESTART WITH 1;
+                ALTER SEQUENCE public.questions_pk_question_seq RESTART WITH 1;
+                ALTER SEQUENCE public.answers_pk_answer_seq RESTART WITH 1;
+                ALTER SEQUENCE public.progresses_pk_progress_seq RESTART WITH 1;
+                ALTER SEQUENCE public.records_pk_record_seq RESTART WITH 1;
+                """;
+        Mockito.when(entityManager.createNativeQuery(sql)).thenReturn(query);
+        Mockito.when(query.executeUpdate()).thenReturn(0);
+
+        // When
+        boolean isDatabaseCleared = miscService.clearDatabase();
+
+        // Then
+        assertTrue(isDatabaseCleared);
+    }
+
+    @Test
+    public void shouldNotClearDatabase() {
+        // Given
+        String sql = """
+                DELETE FROM public.records;
+                DELETE FROM public.progresses;
+                DELETE FROM public.answers;
+                DELETE FROM public.questions;
+                DELETE FROM public.quizzes_persons;
+                DELETE FROM public.quizzes;
+                DELETE FROM public.persons;
+                ALTER SEQUENCE public.persons_pk_person_seq RESTART WITH 1;
+                ALTER SEQUENCE public.quizzes_pk_quiz_seq RESTART WITH 1;
+                ALTER SEQUENCE public.questions_pk_question_seq RESTART WITH 1;
+                ALTER SEQUENCE public.answers_pk_answer_seq RESTART WITH 1;
+                ALTER SEQUENCE public.progresses_pk_progress_seq RESTART WITH 1;
+                ALTER SEQUENCE public.records_pk_record_seq RESTART WITH 1;
+                """;
+        Mockito.when(entityManager.createNativeQuery(sql)).thenReturn(null);
+
+        // When
+        boolean isDatabaseCleared = miscService.clearDatabase();
+
+        // Then
+        assertFalse(isDatabaseCleared);
+    }
+
+    @Test
     public void shouldResetDatabase() {
         // Given
         String sql1 = """
@@ -64,6 +119,7 @@ public class MiscServiceTests {
                             
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 4);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 6);
+                INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 8);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (2, 4);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (2, 5);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (2, 7);
@@ -121,13 +177,13 @@ public class MiscServiceTests {
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (38, true, 'Yes it is', 10);
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (39, false, 'No it isn''t', 10);
                             
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (6, NULL, 0, 4, 2);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (7, NULL, 0, 4, 3);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (1, '2023-03-16 11:45:38.077122', 2, 1, 1);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (2, NULL, 1, 1, 2);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (3, '2023-03-16 11:45:38.261547', 1, 2, 2);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (4, '2023-03-16 11:45:38.29906', 1, 2, 4);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (5, NULL, 1, 3, 1);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (6, NULL, 0, 7, 2);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (7, NULL, 0, 7, 3);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (1, '2023-03-20 23:23:38.505344', 2, 4, 1);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (2, NULL, 1, 4, 2);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (3, '2023-03-20 23:23:38.692162', 1, 5, 2);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (4, '2023-03-20 23:23:38.728681', 1, 5, 4);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (5, NULL, 1, 6, 1);
                             
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (1, true, 1, 1);
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (2, false, 1, 2);
@@ -155,7 +211,7 @@ public class MiscServiceTests {
                 UNION ALL
                 SELECT pg_catalog.setval('public.progresses_pk_progress_seq', 7, true)
                 UNION ALL
-                SELECT pg_catalog.setval('public.records_seq', 14, true);
+                SELECT pg_catalog.setval('public.records_pk_record_seq', 14, true);
                 """;
 
         List<Object[]> objects = new ArrayList<>();
@@ -180,7 +236,7 @@ public class MiscServiceTests {
     @Test
     public void shouldNotResetDatabase() {
         // Given
-        String sql1 = """
+        String sql = """
                 DELETE FROM public.records;
                 DELETE FROM public.progresses;
                 DELETE FROM public.answers;
@@ -212,6 +268,7 @@ public class MiscServiceTests {
                             
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 4);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 6);
+                INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 8);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (2, 4);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (2, 5);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (2, 7);
@@ -269,13 +326,13 @@ public class MiscServiceTests {
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (38, true, 'Yes it is', 10);
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (39, false, 'No it isn''t', 10);
                             
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (6, NULL, 0, 4, 2);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (7, NULL, 0, 4, 3);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (1, '2023-03-16 11:45:38.077122', 2, 1, 1);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (2, NULL, 1, 1, 2);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (3, '2023-03-16 11:45:38.261547', 1, 2, 2);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (4, '2023-03-16 11:45:38.29906', 1, 2, 4);
-                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (5, NULL, 1, 3, 1);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (6, NULL, 0, 7, 2);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (7, NULL, 0, 7, 3);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (1, '2023-03-20 23:23:38.505344', 2, 4, 1);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (2, NULL, 1, 4, 2);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (3, '2023-03-20 23:23:38.692162', 1, 5, 2);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (4, '2023-03-20 23:23:38.728681', 1, 5, 4);
+                INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (5, NULL, 1, 6, 1);
                             
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (1, true, 1, 1);
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (2, false, 1, 2);
@@ -292,20 +349,7 @@ public class MiscServiceTests {
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (13, false, 5, 3);
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (14, false, 6, 5);
                 """;
-        String sql2 = """
-                SELECT pg_catalog.setval('public.persons_pk_person_seq', 12, true)
-                UNION ALL
-                SELECT pg_catalog.setval('public.quizzes_pk_quiz_seq', 5, true)
-                UNION ALL
-                SELECT pg_catalog.setval('public.questions_pk_question_seq', 10, true)
-                UNION ALL
-                SELECT pg_catalog.setval('public.answers_pk_answer_seq', 39, true)
-                UNION ALL
-                SELECT pg_catalog.setval('public.progresses_pk_progress_seq', 7, true)
-                UNION ALL
-                SELECT pg_catalog.setval('public.records_seq', 14, true);
-                """;
-        Mockito.when(entityManager.createNativeQuery(sql1)).thenReturn(null);
+        Mockito.when(entityManager.createNativeQuery(sql)).thenReturn(null);
 
         // When
         boolean isDatabaseReset = miscService.resetDatabase();

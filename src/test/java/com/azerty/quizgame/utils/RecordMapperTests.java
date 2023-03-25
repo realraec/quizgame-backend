@@ -1,6 +1,7 @@
 package com.azerty.quizgame.utils;
 
 import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.dto.RecordWithPickedAnswersDTO;
 import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.model.entity.Record;
@@ -45,6 +46,22 @@ public class RecordMapperTests {
         Assertions.assertEquals(isSuccess, record.isSuccess());
         Assertions.assertEquals(question.getId(), record.getQuestion().getId());
         Assertions.assertEquals(progress.getId(), record.getProgress().getId());
+    }
+
+    @Test
+    public void shouldGoFromRecordWithPickedAnswersDTOToRecord() {
+        Long questionId = 2L;
+        Long progressId = 3L;
+        Long[] pickedAnswersIds = {4L, 5L};
+        boolean isSuccess = true;
+
+        RecordWithPickedAnswersDTO recordDTO = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
+        Record record = recordMapper.toRecord(recordDTO, isSuccess);
+
+        Assertions.assertEquals(null, record.getId());
+        Assertions.assertEquals(isSuccess, record.isSuccess());
+        Assertions.assertEquals(questionId, record.getQuestion().getId());
+        Assertions.assertEquals(progressId, record.getProgress().getId());
     }
 
 }

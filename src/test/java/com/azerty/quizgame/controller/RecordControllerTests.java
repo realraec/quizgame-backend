@@ -4,6 +4,7 @@ import com.azerty.quizgame.dao.ProgressDAO;
 import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.RecordDAO;
 import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.dto.RecordWithPickedAnswersDTO;
 import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.RecordService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -155,7 +156,7 @@ public class RecordControllerTests {
         Long progressId = 3L;
         RecordDTO record = new RecordDTO(id, isSuccess, questionId, progressId);
 
-        given(progressDAO.findById(any())).willReturn(null);
+        given(progressDAO.findById(progressId)).willReturn(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/records/create")
@@ -173,7 +174,7 @@ public class RecordControllerTests {
         Long progressId = 3L;
         RecordDTO record = new RecordDTO(id, isSuccess, questionId, progressId);
 
-        given(questionDAO.findById(any())).willReturn(null);
+        given(questionDAO.findById(questionId)).willReturn(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/records/create")
@@ -191,7 +192,7 @@ public class RecordControllerTests {
         Long progressId = 3L;
         RecordDTO record = new RecordDTO(id, isSuccess, questionId, progressId);
 
-        given(recordService.getRecordByProgressIdAndQuestionId(any(), any())).willReturn(record);
+        given(recordService.getRecordByProgressIdAndQuestionId(progressId, questionId)).willReturn(record);
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/records/create")
@@ -260,7 +261,7 @@ public class RecordControllerTests {
         Long progressId = 3L;
         RecordDTO record = new RecordDTO(id, isSuccess, questionId, progressId);
 
-        given(recordDAO.findById(any())).willReturn(Optional.empty());
+        given(recordDAO.findById(id)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .put("/api/records/{id}", id)
@@ -317,6 +318,111 @@ public class RecordControllerTests {
 
         mvc.perform(MockMvcRequestBuilders
                         .delete("/api/records/{id}", id))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void shouldSaveRecordAndCheckAnswers() throws Exception {
+        Long id = 1L;
+        boolean isSuccess = true;
+        Long questionId = 2L;
+        Long progressId = 3L;
+        Long[] pickedAnswersIds = {4L, 5L};
+        RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
+        RecordDTO record = new RecordDTO(id, isSuccess, questionId, progressId);
+
+        given(recordService.saveRecordAndCheckAnswers(any())).willReturn(record);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/records/createAndCheck")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(recordWithPickedAnswers)))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id", is(Integer.valueOf(record.getId().toString()))))
+                .andExpect(jsonPath("$.success", is(record.isSuccess())))
+                .andExpect(jsonPath("$.questionId", is(Integer.valueOf(record.getQuestionId().toString()))))
+                .andExpect(jsonPath("$.progressId", is(Integer.valueOf(record.getProgressId().toString()))));
+    }
+
+    @Test
+    public void shouldNotSaveRecordAndCheckAnswers400() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/records/createAndCheck")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(null)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldNotSaveRecordAndCheckAnswers404Progress() throws Exception {
+        Long questionId = 2L;
+        Long progressId = 3L;
+        Long[] pickedAnswersIds = {4L, 5L};
+        RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
+
+        given(progressDAO.findById(progressId)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/records/createAndCheck")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(recordWithPickedAnswers)))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotSaveRecordAndCheckAnswers404Question() throws Exception {
+        Long questionId = 2L;
+        Long progressId = 3L;
+        Long[] pickedAnswersIds = {4L, 5L};
+        RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
+
+        given(questionDAO.findById(questionId)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/records/createAndCheck")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(recordWithPickedAnswers)))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotSaveRecordAndCheckAnswers409() throws Exception {
+        Long id = 1L;
+        boolean isSuccess = true;
+        Long questionId = 2L;
+        Long progressId = 3L;
+        Long[] pickedAnswersIds = {4L, 5L};
+        RecordDTO record = new RecordDTO(id, isSuccess, questionId, progressId);
+        RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
+
+        given(recordService.getRecordByProgressIdAndQuestionId(progressId, questionId)).willReturn(record);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/records/createAndCheck")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(recordWithPickedAnswers)))
+                .andDo(print())
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void shouldNotSaveRecordAndCheckAnswers500() throws Exception {
+        Long questionId = 2L;
+        Long progressId = 3L;
+        Long[] pickedAnswersIds = {4L, 5L};
+        RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
+
+        given(recordService.saveRecordAndCheckAnswers(any())).willThrow(new Exception());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/records/createAndCheck")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(recordWithPickedAnswers)))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
     }
