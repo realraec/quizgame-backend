@@ -111,7 +111,7 @@ public class QuizServiceImplementation implements QuizService {
         }
     }
 
-    @Override
+/*    @Override
     public QuizForInternDTO getQuizWithStateByQuizIdAndPersonId(Long quizId, Long personId) {
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
         Optional<Person> checkPerson = personDAO.findById(personId);
@@ -129,7 +129,7 @@ public class QuizServiceImplementation implements QuizService {
         } else {
             return null;
         }
-    }
+    }*/
 
     @Override
     public List<QuizForInternDTO> getAllQuizzesAttributedToPersonWithStateByPersonId(Long personId) {
@@ -142,13 +142,15 @@ public class QuizServiceImplementation implements QuizService {
                 Quiz quiz = quizIterator.next();
                 QuizState quizState = QuizState.NOT_STARTED;
                 Optional<Progress> progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quiz.getId());
+                Long progressId = null;
                 if (progress.isPresent()) {
                     quizState = QuizState.STARTED;
+                    progressId = progress.get().getId();
                     if (progress.get().getDateAndTimeOfCompletion() != null) {
                         quizState = QuizState.COMPLETED;
                     }
                 }
-                quizzesForIntern.add(quizMapper.toQuizForInternDTO(quiz, quizState));
+                quizzesForIntern.add(quizMapper.toQuizForInternDTO(quiz, quizState, progressId));
             }
             return quizzesForIntern;
         } else {

@@ -13,8 +13,16 @@ public interface AnswerDAO extends CrudRepository<Answer, Long> {
     @Query("""
             SELECT a
             FROM Answer a
-            WHERE a.question.id = (:id)
+            WHERE a.question.id = (:questionId)
             """)
-    List<Answer> findAllAnswersByQuestionId(Long id);
+    List<Answer> findAllAnswersByQuestionId(Long questionId);
+
+    @Query("""
+            SELECT a.id
+            FROM Answer a
+            WHERE a.question.id = (:questionId)
+            AND a.isCorrect = true
+            """)
+    List<Answer> findCorrectAnswersIdsByQuestionId(Long questionId);
 
 }
