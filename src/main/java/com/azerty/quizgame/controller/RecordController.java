@@ -1,6 +1,7 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.dto.RecordWithPickedAnswersDTO;
 import com.azerty.quizgame.service.ProgressService;
 import com.azerty.quizgame.service.RecordService;
 import jakarta.transaction.Transactional;
@@ -101,6 +102,31 @@ public class RecordController {
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Transactional
+    @PostMapping(path = "/createAndCheck")
+    public ResponseEntity<RecordDTO> saveRecordAndCheckAnswers(@RequestBody RecordWithPickedAnswersDTO record) {
+        try {
+            Long progressId = record.getProgressId();
+            Long questionId = record.getQuestionId();
+            RecordDTO checkRecord = recordService.getRecordByProgressIdAndQuestionId(progressId, questionId);
+
+            if (checkRecord == null) {
+                RecordDTO savedRecord = recordService.saveRecordAndCheckAnswers(record);
+                if (savedRecord != null) {
+                    progressService.updateProgressDependingOnRecord(savedRecord);
+                    return new ResponseEntity<>(savedRecord, HttpStatus.CREATED);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
             }
         } catch (Exception e) {
             e.printStackTrace();

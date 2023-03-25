@@ -8,16 +8,18 @@ public class QuizForInternDTO {
     private String title;
     private String summary;
     private QuizState state;
+    private Long progressId;
 
 
     public QuizForInternDTO() {
     }
 
-    public QuizForInternDTO(Long id, String title, String summary, QuizState state) {
+    public QuizForInternDTO(Long id, String title, String summary, QuizState state, Long progressId) {
         this.id = id;
         this.title = title;
         this.summary = summary;
         this.state = state;
+        this.progressId = progressId;
     }
 
 
@@ -51,6 +53,14 @@ public class QuizForInternDTO {
 
     public void setState(QuizState state) {
         this.state = state;
+    }
+
+    public Long getProgressId() {
+        return progressId;
+    }
+
+    public void setProgressId(Long progressId) {
+        this.progressId = progressId;
     }
 
 }
