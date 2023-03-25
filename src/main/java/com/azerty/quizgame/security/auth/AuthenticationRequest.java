@@ -1,4 +1,4 @@
-package com.azerty.quizgame.auth;
+package com.azerty.quizgame.security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest
-{
-	private String username;
-	private String password;
+public class AuthenticationRequest {
+
+    private String username;
+    private String password;
+
 }
