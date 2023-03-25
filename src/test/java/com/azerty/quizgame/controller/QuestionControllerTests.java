@@ -165,7 +165,7 @@ public class QuestionControllerTests {
         Long[] answersIds = {3L, 4L, 5L};
         QuestionDTO question = new QuestionDTO(id, wording, maxDurationInSeconds, quizId, answersIds);
 
-        given(quizDAO.findById(any())).willReturn(Optional.empty());
+        given(quizDAO.findById(quizId)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/questions/create")
@@ -184,7 +184,7 @@ public class QuestionControllerTests {
         Long[] answersIds = {3L, 4L, 5L};
         QuestionDTO question = new QuestionDTO(id, wording, maxDurationInSeconds, quizId, answersIds);
 
-        given(answerDAO.findById(any())).willReturn(Optional.empty());
+        given(answerDAO.findById(answersIds[0])).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/questions/create")
@@ -261,7 +261,7 @@ public class QuestionControllerTests {
         Long[] answersIds = {3L, 4L, 5L};
         QuestionDTO question = new QuestionDTO(id, wording, maxDurationInSeconds, quizId, answersIds);
 
-        given(questionDAO.findById(any())).willReturn(Optional.empty());
+        given(questionDAO.findById(id)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .put("/api/questions/{id}", id)
@@ -408,7 +408,7 @@ public class QuestionControllerTests {
         AnswerInQuizDTO[] answers = {answer1, answer2};
         QuestionInQuizDTO question = new QuestionInQuizDTO(id, wording, maxDurationInSeconds, answers, numberOfQuestionsLeft);
 
-        given(questionService.getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(any())).willReturn(question);
+        given(questionService.getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId)).willReturn(question);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/questions/notInProgress/{id}", progressId))
@@ -432,7 +432,7 @@ public class QuestionControllerTests {
         Long progressId = 1L;
         QuestionInQuizDTO question = new QuestionInQuizDTO();
 
-        given(questionService.getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(any())).willReturn(question);
+        given(questionService.getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId)).willReturn(question);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/questions/notInProgress/{id}", progressId))

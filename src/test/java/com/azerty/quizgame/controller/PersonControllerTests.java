@@ -293,7 +293,7 @@ public class PersonControllerTests {
         Long[] quizzesIds = {2L, 3L, 4L};
         PersonDTO person = new PersonDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
 
-        given(personDAO.findById(any())).willReturn(Optional.empty());
+        given(personDAO.findById(id)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .put("/api/persons/{id}", id)

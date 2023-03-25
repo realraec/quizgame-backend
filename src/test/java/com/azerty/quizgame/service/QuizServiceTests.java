@@ -350,62 +350,6 @@ public class QuizServiceTests {
     }
 
     @Test
-    public void shouldGetQuizWithStateByQuizIdAndPersonId() {
-        // Given
-        String title = "Life";
-        String summary = "Pretty deep stuff.";
-        Question question1 = new Question();
-        question1.setId(2L);
-        Question question2 = new Question();
-        question2.setId(3L);
-        List<Question> questions = new ArrayList<>();
-        questions.add(question1);
-        questions.add(question2);
-        Person person = new Person();
-        Long personId = 4L;
-        person.setId(personId);
-        List<Person> persons = new ArrayList<>();
-        persons.add(person);
-
-        Long progressId = 1L;
-        LocalDateTime dateAndTimeOfCompletion = LocalDateTime.now();
-        int score = 3;
-        Long quizId = 5L;
-        Quiz quizToReturn = new Quiz(quizId, title, summary, questions, persons);
-        quizToReturn.setId(quizId);
-        List<Record> records = new ArrayList<>();
-        Progress progressToReturn = new Progress(progressId, dateAndTimeOfCompletion, score, person, quizToReturn, records);
-        QuizState quizState = QuizState.COMPLETED;
-        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quizToReturn));
-        Mockito.when(personDAO.findById(personId)).thenReturn(Optional.of(person));
-        Mockito.when(progressDAO.findProgressByPersonIdAndQuizId(quizId, personId)).thenReturn(Optional.of(progressToReturn));
-
-        // When
-        QuizForInternDTO quiz = quizService.getQuizWithStateByQuizIdAndPersonId(quizId, personId);
-
-        // Then
-        assertEquals(quizToReturn.getId(), quiz.getId());
-        assertEquals(quizToReturn.getTitle(), quiz.getTitle());
-        assertEquals(quizToReturn.getSummary(), quiz.getSummary());
-        assertEquals(quizState, quiz.getState());
-    }
-
-    @Test
-    public void shouldNotGetQuizWithStateByQuizIdAndPersonId() {
-        // Given
-        Long quizId = 1L;
-        Long personId = 2L;
-        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.empty());
-        Mockito.when(personDAO.findById(personId)).thenReturn(Optional.empty());
-
-        // When
-        QuizForInternDTO quiz = quizService.getQuizWithStateByQuizIdAndPersonId(quizId, personId);
-
-        // Then
-        assertNull(quiz);
-    }
-
-    @Test
     public void shouldGetAllQuizzesAttributedToPersonWithStateByPersonId() {
         // Given
         Person person = new Person();

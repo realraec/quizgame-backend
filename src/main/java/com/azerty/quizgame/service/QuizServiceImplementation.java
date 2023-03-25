@@ -111,26 +111,6 @@ public class QuizServiceImplementation implements QuizService {
         }
     }
 
-/*    @Override
-    public QuizForInternDTO getQuizWithStateByQuizIdAndPersonId(Long quizId, Long personId) {
-        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
-        Optional<Person> checkPerson = personDAO.findById(personId);
-        if (checkQuiz.isPresent() && checkPerson.isPresent()) {
-
-            QuizState quizState = QuizState.NOT_STARTED;
-            Optional<Progress> progress = progressDAO.findProgressByPersonIdAndQuizId(quizId, personId);
-            if (progress.isPresent()) {
-                quizState = QuizState.STARTED;
-                if (progress.get().getDateAndTimeOfCompletion() != null) {
-                    quizState = QuizState.COMPLETED;
-                }
-            }
-            return quizMapper.toQuizForInternDTO(checkQuiz.get(), quizState);
-        } else {
-            return null;
-        }
-    }*/
-
     @Override
     public List<QuizForInternDTO> getAllQuizzesAttributedToPersonWithStateByPersonId(Long personId) {
         Optional<Person> checkPerson = personDAO.findById(personId);

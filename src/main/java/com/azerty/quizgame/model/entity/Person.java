@@ -2,6 +2,7 @@ package com.azerty.quizgame.model.entity;
 
 import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class Person {
     @Column(nullable = false)
     private String firstname;
 
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
 

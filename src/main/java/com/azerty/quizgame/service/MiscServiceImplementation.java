@@ -18,6 +18,33 @@ public class MiscServiceImplementation implements MiscService {
 
     @Override
     @Transactional
+    public boolean clearDatabase() {
+        try {
+            String sql = """
+                    DELETE FROM public.records;
+                    DELETE FROM public.progresses;
+                    DELETE FROM public.answers;
+                    DELETE FROM public.questions;
+                    DELETE FROM public.quizzes_persons;
+                    DELETE FROM public.quizzes;
+                    DELETE FROM public.persons;
+                    ALTER SEQUENCE public.persons_pk_person_seq RESTART WITH 1;
+                    ALTER SEQUENCE public.quizzes_pk_quiz_seq RESTART WITH 1;
+                    ALTER SEQUENCE public.questions_pk_question_seq RESTART WITH 1;
+                    ALTER SEQUENCE public.answers_pk_answer_seq RESTART WITH 1;
+                    ALTER SEQUENCE public.progresses_pk_progress_seq RESTART WITH 1;
+                    ALTER SEQUENCE public.records_pk_record_seq RESTART WITH 1;
+                    """;
+            Query query = entityManager.createNativeQuery(sql);
+            query.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
     public boolean resetDatabase() {
         try {
             String sql1 = """
@@ -147,7 +174,7 @@ public class MiscServiceImplementation implements MiscService {
                     UNION ALL
                     SELECT pg_catalog.setval('public.progresses_pk_progress_seq', 7, true)
                     UNION ALL
-                    SELECT pg_catalog.setval('public.records_seq', 14, true);
+                    SELECT pg_catalog.setval('public.records_pk_record_seq', 14, true);
                     """;
             Query query2 = entityManager.createNativeQuery(sql2);
             query2.getResultList();

@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Record {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pk_record")
     private Long id;
 

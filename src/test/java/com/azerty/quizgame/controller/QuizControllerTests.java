@@ -166,7 +166,7 @@ public class QuizControllerTests {
         Long[] personsIds = {5L, 6L, 7L};
         QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, personsIds);
 
-        given(questionDAO.findById(any())).willReturn(Optional.empty());
+        given(questionDAO.findById(questionsIds[0])).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/quizzes/create")
@@ -244,7 +244,7 @@ public class QuizControllerTests {
         Long[] personsIds = {5L, 6L, 7L};
         QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, personsIds);
 
-        given(quizDAO.findById(any())).willReturn(Optional.empty());
+        given(quizDAO.findById(id)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .put("/api/quizzes/{id}", id)
@@ -307,53 +307,6 @@ public class QuizControllerTests {
     }
 
     @Test
-    public void shouldGetQuizWithStateByQuizIdAndPersonId() throws Exception {
-        Long quizId = 1L;
-        Long personId = 1L;
-
-        Long id = 1L;
-        String title = "Life";
-        String summary = "Pretty important stuff.";
-        QuizState state = QuizState.STARTED;
-        QuizForInternDTO quiz = new QuizForInternDTO(id, title, summary, state);
-
-        given(quizService.getQuizWithStateByQuizIdAndPersonId(quizId, personId)).willReturn(quiz);
-
-        mvc.perform(MockMvcRequestBuilders
-                        .get("/api/quizzes/{quizId}/forIntern/{personId}", quizId, personId))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(Integer.valueOf(quiz.getId().toString()))))
-                .andExpect(jsonPath("$.title", is(quiz.getTitle())))
-                .andExpect(jsonPath("$.summary", is(quiz.getSummary())))
-                .andExpect(jsonPath("$.state", is(quiz.getState().toString())));
-    }
-
-    @Test
-    public void shouldNotGetQuizWithStateByQuizIdAndPersonId404() throws Exception {
-        Long quizId = 1L;
-        Long personId = 1L;
-        given(quizService.getQuizWithStateByQuizIdAndPersonId(quizId, personId)).willReturn(null);
-
-        mvc.perform(MockMvcRequestBuilders
-                        .get("/api/quizzes/{quizId}/forIntern/{personId}", quizId, personId))
-                .andDo(print())
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    public void shouldNotGetQuizWithStateByQuizIdAndPersonId500() throws Exception {
-        Long quizId = 1L;
-        Long personId = 1L;
-        given(quizService.getQuizWithStateByQuizIdAndPersonId(quizId, personId)).willThrow(new Exception());
-
-        mvc.perform(MockMvcRequestBuilders
-                        .get("/api/quizzes/{quizId}/forIntern/{personId}", quizId, personId))
-                .andDo(print())
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
     public void shouldGetAllQuizzesAttributedToPersonWithStateByPersonId() throws Exception {
         Long personId = 1L;
 
@@ -361,12 +314,14 @@ public class QuizControllerTests {
         String title1 = "Life";
         String summary1 = "Pretty important stuff.";
         QuizState state1 = QuizState.STARTED;
-        QuizForInternDTO quiz1 = new QuizForInternDTO(id1, title1, summary1, state1);
-        Long id2 = 1L;
+        Long progressId1 = 2L;
+        QuizForInternDTO quiz1 = new QuizForInternDTO(id1, title1, summary1, state1, progressId1);
+        Long id2 = 3L;
         String title2 = "Death";
         String summary2 = "Pretty gloomy stuff.";
         QuizState state2 = QuizState.NOT_STARTED;
-        QuizForInternDTO quiz2 = new QuizForInternDTO(id2, title2, summary2, state2);
+        Long progressId2 = 4L;
+        QuizForInternDTO quiz2 = new QuizForInternDTO(id2, title2, summary2, state2, progressId2);
         List<QuizForInternDTO> quizzes = new ArrayList<>();
         quizzes.add(quiz1);
         quizzes.add(quiz2);
@@ -382,10 +337,12 @@ public class QuizControllerTests {
                 .andExpect(jsonPath("$[0].title", is(quiz1.getTitle())))
                 .andExpect(jsonPath("$[0].summary", is(quiz1.getSummary())))
                 .andExpect(jsonPath("$[0].state", is(quiz1.getState().toString())))
+                .andExpect(jsonPath("$[0].progressId", is(Integer.valueOf(quiz1.getProgressId().toString()))))
                 .andExpect(jsonPath("$[1].id", is(Integer.valueOf(quiz2.getId().toString()))))
                 .andExpect(jsonPath("$[1].title", is(quiz2.getTitle())))
                 .andExpect(jsonPath("$[1].summary", is(quiz2.getSummary())))
-                .andExpect(jsonPath("$[1].state", is(quiz2.getState().toString())));
+                .andExpect(jsonPath("$[1].state", is(quiz2.getState().toString())))
+                .andExpect(jsonPath("$[1].progressId", is(Integer.valueOf(quiz2.getProgressId().toString()))));
     }
 
     @Test
@@ -420,7 +377,7 @@ public class QuizControllerTests {
         String personsIdsAsString = "5,6,7";
         QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, personsIds);
 
-        given(quizService.attributePersonsToQuizByIds(any(), any())).willReturn(quiz);
+        given(quizService.attributePersonsToQuizByIds(id, personsIds)).willReturn(quiz);
 
         mvc.perform(MockMvcRequestBuilders
                         .patch("/api/quizzes/{quizId}/attributePersons/{personsIdsAsString}", id, personsIdsAsString)
@@ -454,10 +411,10 @@ public class QuizControllerTests {
     @Test
     public void shouldNotAttributePersonsToQuizById404() throws Exception {
         Long quizId = 1L;
-        //Long[] personsIds = {102L, 103L, 104L};
+        Long[] personsIds = {102L, 103L, 104L};
         String personsIdsAsString = "102,103,104";
 
-        given(quizService.attributePersonsToQuizByIds(any(), any())).willReturn(null);
+        given(quizService.attributePersonsToQuizByIds(quizId, personsIds)).willReturn(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .patch("/api/quizzes/{quizId}/attributePersons/{personsIdsAsString}", quizId, personsIdsAsString))
@@ -468,10 +425,10 @@ public class QuizControllerTests {
     @Test
     public void shouldNotAttributePersonsToQuizById409() throws Exception {
         Long quizId = 1L;
-        //Long[] personsIds = {2L, 3L, 4L};
+        Long[] personsIds = {2L, 3L, 4L};
         String personsIdsAsString = "2,3,4";
 
-        given(quizService.attributePersonsToQuizByIds(any(), any())).willReturn(new QuizDTO());
+        given(quizService.attributePersonsToQuizByIds(quizId, personsIds)).willReturn(new QuizDTO());
 
         mvc.perform(MockMvcRequestBuilders
                         .patch("/api/quizzes/{quizId}/attributePersons/{personsIdsAsString}", quizId, personsIdsAsString))
@@ -482,10 +439,10 @@ public class QuizControllerTests {
     @Test
     public void shouldNotAttributePersonsToQuizByIds500() throws Exception {
         Long quizId = 1L;
-        //Long[] personsIds = {2L, 3L, 4L};
+        Long[] personsIds = {2L, 3L, 4L};
         String personsIdsAsString = "2,3,4";
 
-        given(quizService.attributePersonsToQuizByIds(any(), any())).willThrow(new Exception());
+        given(quizService.attributePersonsToQuizByIds(quizId, personsIds)).willThrow(new Exception());
 
         mvc.perform(MockMvcRequestBuilders
                         .patch("/api/quizzes/{quizId}/attributePersons/{personsIdsAsString}", quizId, personsIdsAsString))

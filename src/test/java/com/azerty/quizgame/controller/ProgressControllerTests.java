@@ -178,7 +178,7 @@ public class ProgressControllerTests {
         Long[] recordsIds = {4L, 5L, 6L};
         ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
-        given(personDAO.findById(any())).willReturn(Optional.empty());
+        given(personDAO.findById(personId)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/progresses/create")
@@ -198,7 +198,7 @@ public class ProgressControllerTests {
         Long[] recordsIds = {4L, 5L, 6L};
         ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
-        given(quizDAO.findById(any())).willReturn(Optional.empty());
+        given(quizDAO.findById(quizId)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/progresses/create")
@@ -218,7 +218,7 @@ public class ProgressControllerTests {
         Long[] recordsIds = {4L, 5L, 6L};
         ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
-        given(recordDAO.findById(any())).willReturn(Optional.empty());
+        given(recordDAO.findById(recordsIds[0])).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/progresses/create")
@@ -300,7 +300,7 @@ public class ProgressControllerTests {
         Long[] recordsIds = {4L, 5L, 6L};
         ProgressDTO progress = new ProgressDTO(id, dateAndTimeOfCompletion, score, personId, quizId, recordsIds);
 
-        given(progressDAO.findById(any())).willReturn(Optional.empty());
+        given(progressDAO.findById(id)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .put("/api/progresses/{id}", id)
@@ -378,7 +378,7 @@ public class ProgressControllerTests {
     public void shouldNotGetAllProgressesByPersonId404() throws Exception {
         Long id = 1L;
 
-        given(progressService.getAllProgressesByPersonId(any())).willReturn(null);
+        given(progressService.getAllProgressesByPersonId(id)).willReturn(null);
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/progresses/intern/{id}", id))

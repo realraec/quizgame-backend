@@ -160,8 +160,7 @@ public class AnswerControllerTests {
         Long questionId = 2L;
         AnswerDTO answer = new AnswerDTO(id, wording, isCorrect, questionId);
 
-        //given(answerService.saveAnswer(any())).willReturn(answer);
-        given(questionDAO.findById(any())).willReturn(Optional.empty());
+        given(questionDAO.findById(questionId)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .post("/api/answers/create")
@@ -230,7 +229,7 @@ public class AnswerControllerTests {
         Long questionId = 2L;
         AnswerDTO answer = new AnswerDTO(id, wording, isCorrect, questionId);
 
-        given(answerDAO.findById(any())).willReturn(Optional.empty());
+        given(answerDAO.findById(id)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .put("/api/answers/{id}", id)
@@ -328,7 +327,7 @@ public class AnswerControllerTests {
     @Test
     public void shouldNotGetAllAnswersByQuestionId404() throws Exception {
         Long id = 1L;
-        given(questionDAO.findById(any())).willReturn(Optional.empty());
+        given(questionDAO.findById(id)).willReturn(Optional.empty());
 
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/answers/question/{id}", id))

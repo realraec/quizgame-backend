@@ -17,8 +17,6 @@ public interface QuizService {
 
     QuizDTO updateQuizById(QuizDTO quiz, Long id) throws Exception;
 
-    //QuizForInternDTO getQuizWithStateByQuizIdAndPersonId(Long quizId, Long personId) throws Exception;
-
     List<QuizForInternDTO> getAllQuizzesAttributedToPersonWithStateByPersonId(Long personId) throws Exception;
 
     QuizDTO attributePersonsToQuizByIds(Long quizId, Long[] personsIds) throws Exception;

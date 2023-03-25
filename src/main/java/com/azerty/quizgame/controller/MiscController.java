@@ -25,6 +25,17 @@ public class MiscController {
     }
 
 
+    @GetMapping(path = "/clear")
+    public Object clearDatabase() {
+        try {
+            miscService.clearDatabase();
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(path = "/reset")
     public Object resetDatabase() {
         try {
