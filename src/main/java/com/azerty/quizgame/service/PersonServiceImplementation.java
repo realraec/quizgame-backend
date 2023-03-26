@@ -4,17 +4,16 @@ import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.dto.PersonDTO;
+import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.utils.CountsMapper;
 import com.azerty.quizgame.utils.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PersonServiceImplementation implements PersonService {
@@ -103,6 +102,38 @@ public class PersonServiceImplementation implements PersonService {
             Person personAsEntity = personMapper.toPerson(person);
             personAsEntity.setId(id);
             return savePerson(personMapper.toPersonDTO(personAsEntity));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<PersonDTO> getAllPersonsAttributedToQuizByQuizId(Long quizId) {
+        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
+        if (checkQuiz.isPresent()) {
+            Iterator<Person> personIterator = personDAO.findAllPersonsAttributedToQuizByQuizId(quizId).iterator();
+            List<PersonDTO> persons = new ArrayList<>();
+            while (personIterator.hasNext()) {
+                persons.add(personMapper.toPersonDTO(personIterator.next()));
+            }
+            return persons;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional
+    public List<PersonDTO> getAllPersonsNotAttributedToQuizByQuizId(Long quizId) {
+        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
+        if (checkQuiz.isPresent()) {
+            Iterator<Person> personIterator = personDAO.findAllPersonsNotAttributedToQuizByQuizId(quizId).iterator();
+            List<PersonDTO> persons = new ArrayList<>();
+            while (personIterator.hasNext()) {
+                persons.add(personMapper.toPersonDTO(personIterator.next()));
+            }
+            return persons;
         } else {
             return null;
         }

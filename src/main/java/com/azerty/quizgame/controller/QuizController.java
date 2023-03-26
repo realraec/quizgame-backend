@@ -1,5 +1,6 @@
 package com.azerty.quizgame.controller;
 
+import com.azerty.quizgame.model.dto.PersonDTO;
 import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.dto.QuizForInternDTO;
 import com.azerty.quizgame.service.QuizService;
@@ -115,6 +116,25 @@ public class QuizController {
     public ResponseEntity<QuizDTO> attributePersonsToQuizByIds(@PathVariable Long quizId, @PathVariable Long[] personsIds) {
         try {
             QuizDTO updatedQuiz = quizService.attributePersonsToQuizByIds(quizId, personsIds);
+            if (updatedQuiz != null) {
+                if (updatedQuiz.getId() != null) {
+                    return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                }
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping(path = "/{quizId}/removePersons/{personsIds}")
+    public ResponseEntity<QuizDTO> removePersonsToQuizByIds(@PathVariable Long quizId, @PathVariable Long[] personsIds) {
+        try {
+            QuizDTO updatedQuiz = quizService.removePersonsToQuizByIds(quizId, personsIds);
             if (updatedQuiz != null) {
                 if (updatedQuiz.getId() != null) {
                     return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);
