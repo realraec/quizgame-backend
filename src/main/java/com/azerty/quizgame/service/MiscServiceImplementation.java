@@ -1,20 +1,42 @@
 package com.azerty.quizgame.service;
 
+import com.azerty.quizgame.model.dto.CountsDTO;
+import com.azerty.quizgame.utils.CountsMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class MiscServiceImplementation implements MiscService {
 
     private final EntityManager entityManager;
 
+    private final CountsMapper countsMapper = new CountsMapper();
+
 
     public MiscServiceImplementation(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
+
+    @Override
+    public CountsDTO getInternCountAndQuizCount() {
+        try {
+            String sql = """
+                    SELECT COALESCE((SELECT DISTINCT COUNT(pk_person) OVER() FROM persons WHERE persons.role = 'INTERN'), 0)
+                    UNION ALL
+                    SELECT COALESCE((SELECT DISTINCT COUNT(pk_quiz) OVER() FROM quizzes), 0);
+                    """;
+            Query query = entityManager.createNativeQuery(sql);
+            List<Long> resultList = query.getResultList();
+            return countsMapper.toCountsDTO(resultList);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     @Override
     @Transactional

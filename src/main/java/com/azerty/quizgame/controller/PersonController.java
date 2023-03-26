@@ -106,15 +106,4 @@ public class PersonController {
         }
     }
 
-    @GetMapping(path = "/counts")
-    public ResponseEntity<CountsDTO> getInternCountAndQuizCount() {
-        try {
-            CountsDTO counts = personService.getInternCountAndQuizCount();
-            return new ResponseEntity<>(counts, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
 }

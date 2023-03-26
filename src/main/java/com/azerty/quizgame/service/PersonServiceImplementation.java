@@ -22,7 +22,6 @@ public class PersonServiceImplementation implements PersonService {
     private final PersonDAO personDAO;
     private final QuizDAO quizDAO;
     private final PersonMapper personMapper = new PersonMapper();
-    private final CountsMapper countsMapper = new CountsMapper();
 
 
     @Autowired
@@ -107,12 +106,6 @@ public class PersonServiceImplementation implements PersonService {
         } else {
             return null;
         }
-    }
-
-    @Override
-    public CountsDTO getInternCountAndQuizCount() {
-        Long[] counts = personDAO.findPersonWithRoleInternCountAndQuizCount();
-        return countsMapper.toCountsDTO(counts);
     }
 
 }

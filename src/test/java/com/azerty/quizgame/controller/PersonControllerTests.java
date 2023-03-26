@@ -1,7 +1,6 @@
 package com.azerty.quizgame.controller;
 
 import com.azerty.quizgame.dao.PersonDAO;
-import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.dto.PersonDTO;
 import com.azerty.quizgame.model.enums.Role;
 import com.azerty.quizgame.service.PersonService;
@@ -359,31 +358,5 @@ public class PersonControllerTests {
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
     }
-
-
-    @Test
-    public void shouldGetCounts() throws Exception {
-        CountsDTO counts = new CountsDTO(20L, 5L);
-        given(personService.getInternCountAndQuizCount()).willReturn(counts);
-
-        mvc.perform(MockMvcRequestBuilders
-                        .get("/api/persons/counts"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.internCount", is(Integer.valueOf(counts.getInternCount().toString()))))
-                .andExpect(jsonPath("$.quizCount", is(Integer.valueOf(counts.getQuizCount().toString()))));
-    }
-
-    @Test
-    public void shouldNotGetCounts500() throws Exception {
-        Long id = 1L;
-        given(personService.getInternCountAndQuizCount()).willThrow(new Exception());
-
-        mvc.perform(MockMvcRequestBuilders
-                        .get("/api/persons/counts"))
-                .andDo(print())
-                .andExpect(status().isInternalServerError());
-    }
-
 
 }

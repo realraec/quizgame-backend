@@ -1,5 +1,6 @@
 package com.azerty.quizgame.controller;
 
+import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.service.MiscService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,17 @@ public class MiscController {
         this.miscService = miscService;
     }
 
+
+    @GetMapping(path = "/counts")
+    public ResponseEntity<CountsDTO> getInternCountAndQuizCount() {
+        try {
+            CountsDTO counts = miscService.getInternCountAndQuizCount();
+            return new ResponseEntity<>(counts, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @GetMapping(path = "/clear")
     public Object clearDatabase() {

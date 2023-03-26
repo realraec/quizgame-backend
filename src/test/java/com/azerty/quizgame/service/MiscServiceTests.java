@@ -1,5 +1,6 @@
 package com.azerty.quizgame.service;
 
+import com.azerty.quizgame.model.dto.CountsDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.junit.Test;
@@ -11,8 +12,8 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(org.mockito.junit.MockitoJUnitRunner.class)
 public class MiscServiceTests {
@@ -24,10 +25,53 @@ public class MiscServiceTests {
     @Mock
     private Query query;
 
+
     public MiscServiceTests() {
         this.entityManager = null;
     }
 
+
+    @Test
+    public void shouldGetInternCountAndQuizCount() {
+        // Given
+        Long internCount = 15L;
+        Long quizCount = 5L;
+        List<Long> countsToReturn = new ArrayList<>();
+        countsToReturn.add(internCount);
+        countsToReturn.add(quizCount);
+
+        String sql = """
+                SELECT COALESCE((SELECT DISTINCT COUNT(pk_person) OVER() FROM persons WHERE persons.role = 'INTERN'), 0)
+                UNION ALL
+                SELECT COALESCE((SELECT DISTINCT COUNT(pk_quiz) OVER() FROM quizzes), 0);
+                """;
+        Mockito.when(entityManager.createNativeQuery(sql)).thenReturn(query);
+        Mockito.when(query.getResultList()).thenReturn(countsToReturn);
+
+        // When
+        CountsDTO counts = miscService.getInternCountAndQuizCount();
+
+        // Then
+        assertEquals(countsToReturn.get(0), counts.getInternCount());
+        assertEquals(countsToReturn.get(1), counts.getQuizCount());
+    }
+
+    @Test
+    public void shouldNotGetInternCountAndQuizCount() {
+        // Given
+        String sql = """
+                SELECT COALESCE((SELECT DISTINCT COUNT(pk_person) OVER() FROM persons WHERE persons.role = 'INTERN'), 0)
+                UNION ALL
+                SELECT COALESCE((SELECT DISTINCT COUNT(pk_quiz) OVER() FROM quizzes), 0);
+                """;
+        Mockito.when(entityManager.createNativeQuery(sql)).thenReturn(null);
+
+        // When
+        CountsDTO counts = miscService.getInternCountAndQuizCount();
+
+        // Then
+        assertNull(counts);
+    }
 
     @Test
     public void shouldClearDatabase() {
