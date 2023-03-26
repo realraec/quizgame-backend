@@ -1,6 +1,7 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.dto.RecordWithPickedAnswersDTO;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface RecordService {
 
     RecordDTO updateRecordById(RecordDTO quiz, Long id) throws Exception;
 
-    RecordDTO getRecordByProgressIdAndQuestionId(Long personId, Long questionId) throws Exception;
+    RecordDTO getRecordByProgressIdAndQuestionId(Long progressId, Long questionId) throws Exception;
+
+    RecordDTO saveRecordAndCheckAnswers(RecordWithPickedAnswersDTO record) throws Exception;
 
 }

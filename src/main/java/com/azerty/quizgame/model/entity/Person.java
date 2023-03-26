@@ -2,8 +2,8 @@ package com.azerty.quizgame.model.entity;
 
 import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,6 +28,7 @@ public class Person {
     @Column(nullable = false)
     private String firstname;
 
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -52,7 +53,7 @@ public class Person {
         this.email = email;
         this.company = company;
         this.role = role;
-        this.quizzes = new ArrayList<>();
+        this.quizzes = quizzes;
     }
 
 

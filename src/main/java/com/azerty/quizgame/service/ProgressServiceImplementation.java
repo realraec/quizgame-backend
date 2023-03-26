@@ -6,6 +6,7 @@ import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.dao.RecordDAO;
 import com.azerty.quizgame.model.dto.ProgressDTO;
 import com.azerty.quizgame.model.dto.RecordDTO;
+import com.azerty.quizgame.model.dto.RecordWithPickedAnswersDTO;
 import com.azerty.quizgame.model.entity.Record;
 import com.azerty.quizgame.model.entity.*;
 import com.azerty.quizgame.utils.ProgressMapper;
@@ -24,8 +25,8 @@ public class ProgressServiceImplementation implements ProgressService {
     private final ProgressDAO progressDAO;
     private final PersonDAO personDAO;
     private final QuizDAO quizDAO;
-    private final ProgressMapper progressMapper = new ProgressMapper();
     private final RecordDAO recordDAO;
+    private final ProgressMapper progressMapper = new ProgressMapper();
 
 
     @Autowired
@@ -40,16 +41,14 @@ public class ProgressServiceImplementation implements ProgressService {
 
     @Override
     public List<ProgressDTO> getAllProgresses() {
-        Iterator<Progress> progressIterator = progressDAO.findAll().iterator();
-        List<ProgressDTO> progresses = new ArrayList<>();
-
-        while (progressIterator.hasNext()) {
-            progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
-        }
-
-        if (!progresses.isEmpty()) {
+        try {
+            Iterator<Progress> progressIterator = progressDAO.findAll().iterator();
+            List<ProgressDTO> progresses = new ArrayList<>();
+            while (progressIterator.hasNext()) {
+                progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
+            }
             return progresses;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }
@@ -63,7 +62,7 @@ public class ProgressServiceImplementation implements ProgressService {
     @Override
     public ProgressDTO saveProgress(ProgressDTO progress) {
         Long[] recordsIds = progress.getRecordsIds();
-        if (recordsIds != null) {
+        if (recordsIds != null && recordsIds.length > 0) {
             for (int i = 0; i < recordsIds.length; i++) {
                 Optional<Record> checkRecord = recordDAO.findById(recordsIds[i]);
                 if (checkRecord.isEmpty()) {
@@ -76,19 +75,9 @@ public class ProgressServiceImplementation implements ProgressService {
 
         Optional<Person> checkPerson = personDAO.findById(progress.getPersonId());
         Optional<Quiz> checkQuiz = quizDAO.findById(progress.getQuizId());
-        if (checkPerson.isEmpty() || checkQuiz.isEmpty()) {
-            return null;
-        } else {
-            return progressMapper.toProgressDTO(progressDAO.save(progressMapper.toProgress(progress)));
-        }
-    }
-
-    @Override
-    public ProgressDTO updateProgressById(ProgressDTO progress, Long id) {
-        Optional<Progress> checkProgress = progressDAO.findById(id);
-        if (checkProgress.isPresent()) {
+        if (checkPerson.isPresent() && checkQuiz.isPresent()) {
             Progress progressAsEntity = progressMapper.toProgress(progress);
-            progressAsEntity.setId(id);
+            progressAsEntity.setId(progress.getId());
             return progressMapper.toProgressDTO(progressDAO.save(progressAsEntity));
         } else {
             return null;
@@ -107,14 +96,26 @@ public class ProgressServiceImplementation implements ProgressService {
     }
 
     @Override
-    public List<ProgressDTO> getAllProgressesByPersonId(Long personId) {
-        Iterator<Progress> progressIterator = progressDAO.findAllProgressesByPersonId(personId).iterator();
-        List<ProgressDTO> progresses = new ArrayList<>();
-        while (progressIterator.hasNext()) {
-            progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
+    public ProgressDTO updateProgressById(ProgressDTO progress, Long id) {
+        Optional<Progress> checkProgress = progressDAO.findById(id);
+        if (checkProgress.isPresent()) {
+            Progress progressAsEntity = progressMapper.toProgress(progress);
+            progressAsEntity.setId(id);
+            return saveProgress(progressMapper.toProgressDTO(progressAsEntity));
+        } else {
+            return null;
         }
+    }
 
-        if (!progresses.isEmpty()) {
+    @Override
+    public List<ProgressDTO> getAllProgressesByPersonId(Long personId) {
+        Optional<Person> checkPerson = personDAO.findById(personId);
+        if (checkPerson.isPresent()) {
+            Iterator<Progress> progressIterator = progressDAO.findAllProgressesByPersonId(personId).iterator();
+            List<ProgressDTO> progresses = new ArrayList<>();
+            while (progressIterator.hasNext()) {
+                progresses.add(progressMapper.toProgressDTO(progressIterator.next()));
+            }
             return progresses;
         } else {
             return null;
@@ -126,13 +127,8 @@ public class ProgressServiceImplementation implements ProgressService {
         Optional<Person> checkPerson = personDAO.findById(personId);
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
         if (checkPerson.isPresent() && checkQuiz.isPresent()) {
-
-            Progress progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quizId);
-            if (progress != null) {
-                return progressMapper.toProgressDTO(progress);
-            } else {
-                return null;
-            }
+            Optional<Progress> progress = progressDAO.findProgressByPersonIdAndQuizId(personId, quizId);
+            return progress.map(progressMapper::toProgressDTO).orElse(null);
         } else {
             return null;
         }
@@ -142,16 +138,15 @@ public class ProgressServiceImplementation implements ProgressService {
     public boolean updateProgressDependingOnRecord(RecordDTO record) {
         Optional<Progress> checkProgress = progressDAO.findById(record.getProgressId());
         if (checkProgress.isPresent()) {
-
             Progress progressAsEntity = checkProgress.get();
             if (record.isSuccess()) {
                 progressAsEntity.setScore(progressAsEntity.getScore() + 1);
-                progressMapper.toProgressDTO(progressDAO.save(progressAsEntity));
+                saveProgress(progressMapper.toProgressDTO(progressAsEntity));
             }
             List<Question> questions = progressAsEntity.getQuiz().getQuestions();
             if (record.getQuestionId() == questions.get(questions.size() - 1).getId()) {
                 progressAsEntity.setDateAndTimeOfCompletion(LocalDateTime.now());
-                progressMapper.toProgressDTO(progressDAO.save(progressAsEntity));
+                saveProgress(progressMapper.toProgressDTO(progressAsEntity));
             }
             return true;
         } else {

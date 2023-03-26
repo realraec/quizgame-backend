@@ -27,8 +27,8 @@ public class Quiz {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "quizzes_persons",
-            joinColumns = { @JoinColumn(name = "pk_quiz") },
-            inverseJoinColumns = { @JoinColumn(name = "pk_person") }
+            joinColumns = {@JoinColumn(name = "pk_quiz")},
+            inverseJoinColumns = {@JoinColumn(name = "pk_person")}
     )
     private List<Person> persons;
 
@@ -41,8 +41,8 @@ public class Quiz {
     public Quiz(Long id, String title, String summary, List<Question> questions, List<Person> persons) {
         this.title = title;
         this.summary = summary;
-        this.questions = new ArrayList<>();
-        this.persons = new ArrayList<>();
+        this.questions = questions;
+        this.persons = persons;
     }
 
     public Long getId() {

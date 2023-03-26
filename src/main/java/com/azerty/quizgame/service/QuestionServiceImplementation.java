@@ -6,8 +6,10 @@ import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
 import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
-import com.azerty.quizgame.model.entity.*;
-import com.azerty.quizgame.model.entity.Record;
+import com.azerty.quizgame.model.entity.Answer;
+import com.azerty.quizgame.model.entity.Progress;
+import com.azerty.quizgame.model.entity.Question;
+import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.utils.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +25,8 @@ public class QuestionServiceImplementation implements QuestionService {
     private final QuestionDAO questionDAO;
     private final ProgressDAO progressDAO;
     private final QuizDAO quizDAO;
-    private final QuestionMapper questionMapper = new QuestionMapper();
     private final AnswerDAO answerDAO;
+    private final QuestionMapper questionMapper = new QuestionMapper();
 
 
     @Autowired
@@ -39,15 +41,14 @@ public class QuestionServiceImplementation implements QuestionService {
 
     @Override
     public List<QuestionDTO> getAllQuestions() {
-        Iterator<Question> questionIterator = questionDAO.findAll().iterator();
-        List<QuestionDTO> questions = new ArrayList<>();
-        while (questionIterator.hasNext()) {
-            questions.add(questionMapper.toQuestionDTO(questionIterator.next()));
-        }
-
-        if (!questions.isEmpty()) {
+        try {
+            Iterator<Question> questionIterator = questionDAO.findAll().iterator();
+            List<QuestionDTO> questions = new ArrayList<>();
+            while (questionIterator.hasNext()) {
+                questions.add(questionMapper.toQuestionDTO(questionIterator.next()));
+            }
             return questions;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }
@@ -61,30 +62,21 @@ public class QuestionServiceImplementation implements QuestionService {
     @Override
     public QuestionDTO saveQuestion(QuestionDTO question) {
         Long[] answersIds = question.getAnswersIds();
-        if (answersIds != null) {
+        if (answersIds != null && answersIds.length > 0) {
             for (int i = 0; i < answersIds.length; i++) {
-                Optional<Answer> checkRecord = answerDAO.findById(answersIds[i]);
-                if (checkRecord.isEmpty()) {
+                Optional<Answer> checkAnswer = answerDAO.findById(answersIds[i]);
+                if (checkAnswer.isEmpty()) {
                     return null;
                 }
             }
         } else {
             question.setAnswersIds(new Long[]{});
         }
+
         Optional<Quiz> checkQuiz = quizDAO.findById(question.getQuizId());
         if (checkQuiz.isPresent()) {
-            return questionMapper.toQuestionDTO(questionDAO.save(questionMapper.toQuestion(question)));
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public QuestionDTO updateQuestionById(QuestionDTO question, Long id) {
-        Optional<Question> checkQuestion = questionDAO.findById(id);
-        if (checkQuestion.isPresent()) {
             Question questionAsEntity = questionMapper.toQuestion(question);
-            questionAsEntity.setId(id);
+            questionAsEntity.setId(question.getId());
             return questionMapper.toQuestionDTO(questionDAO.save(questionAsEntity));
         } else {
             return null;
@@ -103,10 +95,21 @@ public class QuestionServiceImplementation implements QuestionService {
     }
 
     @Override
+    public QuestionDTO updateQuestionById(QuestionDTO question, Long id) {
+        Optional<Question> checkQuestion = questionDAO.findById(id);
+        if (checkQuestion.isPresent()) {
+            Question questionAsEntity = questionMapper.toQuestion(question);
+            questionAsEntity.setId(id);
+            return saveQuestion(questionMapper.toQuestionDTO(questionAsEntity));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public List<QuestionDTO> getAllQuestionsByQuizId(Long quizId) {
         Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
         if (checkQuiz.isPresent()) {
-
             Iterator<Question> questionIterator = questionDAO.findAllByQuizId(quizId).iterator();
             List<QuestionDTO> questions = new ArrayList<>();
             while (questionIterator.hasNext()) {
@@ -122,7 +125,6 @@ public class QuestionServiceImplementation implements QuestionService {
     public QuestionInQuizDTO getOneQuestionInQuizAndAllItsAnswersWithIdNotInProgressRecordsByProgressId(Long progressId) {
         Optional<Progress> checkProgress = progressDAO.findById(progressId);
         if (checkProgress.isPresent()) {
-
             List<Object[]> objectArraysList = questionDAO.findOneQuestionInQuizTogetherWithAllItsAnswersWithIdNotInProgressRecordsByProgressId(progressId);
             return questionMapper.toQuestionInQuizDTO(objectArraysList);
         } else {

@@ -14,12 +14,12 @@ import java.util.List;
 @Component
 public class QuizMapper {
 
-    public QuizForInternDTO toQuizForInternDTO(Quiz quiz, QuizState quizState) {
+    public QuizForInternDTO toQuizForInternDTO(Quiz quiz, QuizState quizState, Long progressId) {
         Long id = quiz.getId();
         String title = quiz.getTitle();
         String summary = quiz.getSummary();
 
-        return new QuizForInternDTO(id, title, summary, quizState);
+        return new QuizForInternDTO(id, title, summary, quizState, progressId);
     }
 
     public QuizDTO toQuizDTO(Quiz quiz) {

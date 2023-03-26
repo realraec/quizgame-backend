@@ -70,7 +70,7 @@ public class PersonMapperTests {
         Assertions.assertEquals(email, person.getEmail());
         Assertions.assertEquals(company, person.getCompany());
         Assertions.assertEquals(role, person.getRole());
-        Assertions.assertEquals(0, person.getQuizzes().size());
+        Assertions.assertEquals(quizzes.size(), person.getQuizzes().size());
     }
 
 }

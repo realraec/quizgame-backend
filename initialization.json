@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "a9669842-c170-4484-b941-44bbf40b46cb",
-		"name": "initialization",
+		"_postman_id": "830e3d75-5e17-490f-b72f-815d58ebbf4c",
+		"name": "initialization Copy 2",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "18763805"
 	},
@@ -811,7 +811,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/quizzes/1/attributePersons/4,6",
+					"name": "/api/quizzes/1/attributePersons/4,6,8",
 					"event": [
 						{
 							"listen": "test",
@@ -838,7 +838,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL}}/api/quizzes/1/attributePersons/4,6",
+							"raw": "{{URL}}/api/quizzes/1/attributePersons/4,6,8",
 							"host": [
 								"{{URL}}"
 							],
@@ -847,7 +847,7 @@
 								"quizzes",
 								"1",
 								"attributePersons",
-								"4,6"
+								"4,6,8"
 							]
 						}
 					},
@@ -3164,7 +3164,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 1,\r\n    \"quizId\": 1\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 4,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3205,7 +3205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 1,\r\n    \"quizId\": 2\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 4,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3246,7 +3246,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 2,\r\n    \"quizId\": 2\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 5,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3287,7 +3287,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 2,\r\n    \"quizId\": 4\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 5,\r\n    \"quizId\": 4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3328,7 +3328,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 3,\r\n    \"quizId\": 1\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 6,\r\n    \"quizId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3369,7 +3369,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 4,\r\n    \"quizId\": 2\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 7,\r\n    \"quizId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3410,7 +3410,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 4,\r\n    \"quizId\": 3\r\n}",
+							"raw": "{\r\n    \"dateAndTimeOfCompletion\": null,\r\n    \"score\": 0,\r\n    \"personId\": 7,\r\n    \"quizId\": 3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

@@ -95,22 +95,6 @@ public class QuizController {
         }
     }
 
-
-    @GetMapping(path = "/{quizId}/forIntern/{personId}")
-    public ResponseEntity<QuizForInternDTO> getQuizWithStateByQuizIdAndPersonId(@PathVariable Long quizId, @PathVariable Long personId) {
-        try {
-            QuizForInternDTO quiz = quizService.getQuizWithStateByQuizIdAndPersonId(quizId, personId);
-            if (quiz != null) {
-                return new ResponseEntity<>(quiz, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping(path = "/forIntern/{personId}")
     public ResponseEntity<List<QuizForInternDTO>> getAllQuizzesAttributedToPersonWithStateByPersonId(@PathVariable Long personId) {
         try {

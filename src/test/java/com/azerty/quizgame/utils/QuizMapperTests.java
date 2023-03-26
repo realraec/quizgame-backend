@@ -29,14 +29,17 @@ public class QuizMapperTests {
         persons.add(new Person());
         persons.add(new Person());
         QuizState state = QuizState.STARTED;
+        Long progressId = 2L;
 
         Quiz quiz = new Quiz(id, title, summary, questions, persons);
-        QuizForInternDTO quizForInternDTO = quizMapper.toQuizForInternDTO(quiz, state);
+        QuizForInternDTO quizForInternDTO = quizMapper.toQuizForInternDTO(quiz, state, progressId);
 
         Assertions.assertEquals(null, quizForInternDTO.getId());
         Assertions.assertEquals(title, quizForInternDTO.getTitle());
         Assertions.assertEquals(summary, quizForInternDTO.getSummary());
         Assertions.assertEquals(state, quizForInternDTO.getState());
+        Assertions.assertEquals(progressId, quizForInternDTO.getProgressId());
+
     }
 
     @Test
@@ -85,8 +88,8 @@ public class QuizMapperTests {
         Assertions.assertEquals(null, quiz.getId());
         Assertions.assertEquals(title, quiz.getTitle());
         Assertions.assertEquals(summary, quiz.getSummary());
-        Assertions.assertEquals(0, quiz.getQuestions().size());
-        Assertions.assertEquals(0, quiz.getPersons().size());
+        Assertions.assertEquals(questions.size(), quiz.getQuestions().size());
+        Assertions.assertEquals(persons.size(), quiz.getPersons().size());
     }
 
 }

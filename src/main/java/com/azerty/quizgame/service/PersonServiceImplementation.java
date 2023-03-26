@@ -1,9 +1,11 @@
 package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.PersonDAO;
+import com.azerty.quizgame.dao.QuizDAO;
 import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.dto.PersonDTO;
 import com.azerty.quizgame.model.entity.Person;
+import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.utils.CountsMapper;
 import com.azerty.quizgame.utils.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,55 +20,69 @@ import java.util.Optional;
 public class PersonServiceImplementation implements PersonService {
 
     private final PersonDAO personDAO;
+    private final QuizDAO quizDAO;
     private final PersonMapper personMapper = new PersonMapper();
-    private final CountsMapper countsMapper = new CountsMapper();
-
 
 
     @Autowired
-    public PersonServiceImplementation(PersonDAO personDAO) {
+    public PersonServiceImplementation(PersonDAO personDAO,
+                                       QuizDAO quizDAO) {
         this.personDAO = personDAO;
+        this.quizDAO = quizDAO;
     }
 
 
     @Override
     public List<PersonDTO> getAllAdmins() {
-        Iterator<Person> adminIterator = personDAO.findAllPersonsWithRoleAdmin().iterator();
-        List<PersonDTO> admins = new ArrayList<>();
-        while (adminIterator.hasNext()) {
-            admins.add(personMapper.toPersonDTO(adminIterator.next()));
-        }
-
-        if (!admins.isEmpty()) {
+        try {
+            Iterator<Person> adminIterator = personDAO.findAllPersonsWithRoleAdmin().iterator();
+            List<PersonDTO> admins = new ArrayList<>();
+            while (adminIterator.hasNext()) {
+                admins.add(personMapper.toPersonDTO(adminIterator.next()));
+            }
             return admins;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }
 
     @Override
     public List<PersonDTO> getAllInterns() {
-        Iterator<Person> internIterator = personDAO.findAllPersonsWithRoleIntern().iterator();
-        List<PersonDTO> interns = new ArrayList<>();
-        while (internIterator.hasNext()) {
-            interns.add(personMapper.toPersonDTO(internIterator.next()));
-        }
-
-        if (!interns.isEmpty()) {
+        try {
+            Iterator<Person> internIterator = personDAO.findAllPersonsWithRoleIntern().iterator();
+            List<PersonDTO> interns = new ArrayList<>();
+            while (internIterator.hasNext()) {
+                interns.add(personMapper.toPersonDTO(internIterator.next()));
+            }
             return interns;
-        } else {
+        } catch (NullPointerException e) {
             return null;
         }
     }
 
     @Override
     public PersonDTO getPersonById(Long id) {
-        Optional<Person> person = personDAO.findPersonById(id);
-        if (person.isPresent()) {
-            return personMapper.toPersonDTO(person.get());
+        Optional<Person> person = personDAO.findById(id);
+        return person.map(personMapper::toPersonDTO).orElse(null);
+    }
+
+    @Override
+    public PersonDTO savePerson(PersonDTO person) {
+        Long[] quizzesIds = person.getQuizzesIds();
+        if (quizzesIds != null && quizzesIds.length > 0) {
+            for (int i = 0; i < quizzesIds.length; i++) {
+                Optional<Quiz> checkRecord = quizDAO.findById(quizzesIds[i]);
+                if (checkRecord.isEmpty()) {
+                    return null;
+                }
+            }
+
         } else {
-            return null;
+            person.setQuizzesIds(new Long[]{});
         }
+        Person personAsEntity = personMapper.toPerson(person);
+        personAsEntity.setId(person.getId());
+        return personMapper.toPersonDTO(personDAO.save(personAsEntity));
     }
 
     @Override
@@ -81,27 +97,15 @@ public class PersonServiceImplementation implements PersonService {
     }
 
     @Override
-    public PersonDTO savePerson(PersonDTO person) {
-        return personMapper.toPersonDTO(personDAO.save(personMapper.toPerson(person)));
-    }
-
-    @Override
     public PersonDTO updatePersonById(PersonDTO person, Long id) {
         Optional<Person> checkPerson = personDAO.findById(id);
         if (checkPerson.isPresent()) {
             Person personAsEntity = personMapper.toPerson(person);
             personAsEntity.setId(id);
-            return personMapper.toPersonDTO(personDAO.save(personAsEntity));
+            return savePerson(personMapper.toPersonDTO(personAsEntity));
         } else {
             return null;
         }
     }
-
-    @Override
-    public CountsDTO getInternCountAndQuizCount() {
-        Long[] counts = personDAO.findPersonWithRoleInternCountAndQuizCount();
-        return countsMapper.toCountsDTO(counts);
-    }
-
 
 }

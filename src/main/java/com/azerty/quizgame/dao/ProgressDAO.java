@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProgressDAO extends CrudRepository<Progress, Long> {
@@ -23,6 +24,6 @@ public interface ProgressDAO extends CrudRepository<Progress, Long> {
             WHERE p.person.id = (:personId)
             AND p.quiz.id = (:quizId)
             """)
-    Progress findProgressByPersonIdAndQuizId(Long personId, Long quizId);
+    Optional<Progress> findProgressByPersonIdAndQuizId(Long personId, Long quizId);
 
 }
