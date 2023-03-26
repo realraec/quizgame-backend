@@ -25,11 +25,22 @@ public interface PersonDAO extends CrudRepository<Person, Long> {
     List<Person> findAllPersonsWithRoleIntern();
 
     @Query(nativeQuery = true, value = """
-            SELECT DISTINCT COUNT(*) OVER() FROM persons WHERE persons.role = 'INTERN'
-            UNION ALL
-            SELECT DISTINCT COUNT(*) OVER() FROM quizzes;
+            SELECT DISTINCT persons.pk_person, persons.company, persons.email, persons.firstname,
+                            persons.lastname, persons.password, persons.role, persons.username
+            FROM persons
+            JOIN quizzes_persons qp ON persons.pk_person = qp.pk_person
+            WHERE qp.pk_quiz = (:quizId)
             """)
-    Long[] findPersonWithRoleInternCountAndQuizCount();
+    List<Person> findAllPersonsAttributedToQuizByQuizId(Long quizId);
 
+    @Query(nativeQuery = true, value = """
+            SELECT DISTINCT persons.pk_person, persons.company, persons.email, persons.firstname,
+                            persons.lastname, persons.password, persons.role, persons.username
+            FROM persons
+            LEFT JOIN quizzes_persons qp ON persons.pk_person = qp.pk_person AND qp.pk_quiz = (:quizId)
+            WHERE qp.pk_quiz IS NULL
+            AND persons.role = 'INTERN';
+            """)
+    List<Person> findAllPersonsNotAttributedToQuizByQuizId(Long quizId);
 
 }

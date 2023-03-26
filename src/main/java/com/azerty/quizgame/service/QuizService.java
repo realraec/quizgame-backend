@@ -21,5 +21,6 @@ public interface QuizService {
 
     QuizDTO attributePersonsToQuizByIds(Long quizId, Long[] personsIds) throws Exception;
 
+    QuizDTO removePersonsToQuizByIds(Long quizId, Long[] personsIds) throws Exception;
 
 }

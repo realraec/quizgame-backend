@@ -1,12 +1,12 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.dto.PersonDTO;
 import com.azerty.quizgame.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -100,6 +100,36 @@ public class PersonController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             //CONFLICT / BAD REQUEST
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/attributedToQuiz/{quizId}")
+    public ResponseEntity<List<PersonDTO>> getAllPersonsAttributedToQuizByQuizId(@PathVariable Long quizId) {
+        try {
+            List<PersonDTO> personsAttributed = personService.getAllPersonsAttributedToQuizByQuizId(quizId);
+            if (personsAttributed != null) {
+                return new ResponseEntity<>(personsAttributed, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/notAttributedToQuiz/{quizId}")
+    public ResponseEntity<List<PersonDTO>> getAllPersonsNotAttributedToQuizByQuizId(@PathVariable Long quizId) {
+        try {
+            List<PersonDTO> personsAttributed = personService.getAllPersonsNotAttributedToQuizByQuizId(quizId);
+            if (personsAttributed != null) {
+                return new ResponseEntity<>(personsAttributed, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
