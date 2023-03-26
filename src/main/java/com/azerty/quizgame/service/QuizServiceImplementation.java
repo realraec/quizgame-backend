@@ -139,7 +139,7 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public QuizDTO attributePersonsToQuizByIds(Long quizId, Long[] personsIds) throws Exception {
+    public QuizDTO attributePersonsToQuizByIds(Long quizId, Long[] personsIds) {
         Set<Long> personsIdsAsSet = new HashSet<>(Arrays.asList(personsIds));
         if (personsIdsAsSet.size() != personsIds.length) {
             return new QuizDTO();
@@ -165,6 +165,44 @@ public class QuizServiceImplementation implements QuizService {
                 }
             }
             persons.addAll(personsToAttribute);
+            quizAsEntity.setPersons(persons);
+            return saveQuiz(quizMapper.toQuizDTO(quizAsEntity));
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public QuizDTO removePersonsToQuizByIds(Long quizId, Long[] personsIds) {
+        Set<Long> personsIdsAsSet = new HashSet<>(Arrays.asList(personsIds));
+        if (personsIdsAsSet.size() != personsIds.length) {
+            return new QuizDTO();
+        }
+
+        Optional<Quiz> checkQuiz = quizDAO.findById(quizId);
+        if (checkQuiz.isPresent()) {
+            List<Person> personsToRemove = new ArrayList<>();
+            for (int i = 0; i < personsIds.length; i++) {
+                Optional<Person> checkPerson = personDAO.findById(personsIds[i]);
+                if (checkPerson.isEmpty()) {
+                    return null;
+                }
+                personsToRemove.add(checkPerson.get());
+            }
+            Quiz quizAsEntity = checkQuiz.get();
+            List<Person> persons = quizAsEntity.getPersons();
+            List<Long> personsIdsOriginal = persons.stream().map(Person::getId).toList();
+            List<Long> personsIdsToRemove = Arrays.stream(personsIds).toList();
+
+            if (!personsIdsOriginal.containsAll(personsIdsToRemove)) {
+                return new QuizDTO();
+            }
+
+
+            persons.removeAll(personsToRemove);
+            System.out.println("-----------------");
+            System.out.println(persons);
+            System.out.println("-----------------");
             quizAsEntity.setPersons(persons);
             return saveQuiz(quizMapper.toQuizDTO(quizAsEntity));
         } else {

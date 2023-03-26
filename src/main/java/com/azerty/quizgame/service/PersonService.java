@@ -19,4 +19,8 @@ public interface PersonService {
 
     PersonDTO updatePersonById(PersonDTO person, Long id) throws Exception;
 
+    List<PersonDTO> getAllPersonsAttributedToQuizByQuizId(Long quizId) throws Exception;
+
+    List<PersonDTO> getAllPersonsNotAttributedToQuizByQuizId(Long quizId) throws Exception;
+
 }
