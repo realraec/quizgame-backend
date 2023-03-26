@@ -19,6 +19,4 @@ public interface PersonService {
 
     PersonDTO updatePersonById(PersonDTO person, Long id) throws Exception;
 
-    CountsDTO getInternCountAndQuizCount() throws Exception;
-
 }

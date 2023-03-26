@@ -2,7 +2,6 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.dao.QuizDAO;
-import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.dto.PersonDTO;
 import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Quiz;
@@ -386,38 +385,6 @@ public class PersonServiceTests {
 
         // Then
         assertNull(person);
-    }
-
-    @Test
-    public void shouldGetInternCountAndQuizCount() {
-        // Given
-        long internCount = 10L;
-        long quizCount = 5L;
-        Long[] countsToReturn = {internCount, quizCount};
-        Mockito.when(personDAO.findPersonWithRoleInternCountAndQuizCount()).thenReturn(countsToReturn);
-
-        // When
-        CountsDTO counts = personService.getInternCountAndQuizCount();
-
-        // Then
-        assertEquals(countsToReturn[0], counts.getInternCount());
-        assertEquals(countsToReturn[1], counts.getQuizCount());
-    }
-
-    @Test
-    public void shouldNotGetInternCountAndQuizCount() {
-        // Given
-        Long internCount = 0L;
-        Long quizCount = 0L;
-        Long[] countsToReturn = {};
-        Mockito.when(personDAO.findPersonWithRoleInternCountAndQuizCount()).thenReturn(countsToReturn);
-
-        // When
-        CountsDTO counts = personService.getInternCountAndQuizCount();
-
-        // Then
-        assertEquals(internCount, counts.getInternCount());
-        assertEquals(quizCount, counts.getQuizCount());
     }
 
 }
