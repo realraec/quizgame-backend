@@ -2,18 +2,18 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.dao.QuizDAO;
-import com.azerty.quizgame.model.dto.CountsDTO;
 import com.azerty.quizgame.model.dto.PersonDTO;
-import com.azerty.quizgame.model.dto.QuizDTO;
 import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Quiz;
-import com.azerty.quizgame.utils.CountsMapper;
 import com.azerty.quizgame.utils.PersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PersonServiceImplementation implements PersonService {

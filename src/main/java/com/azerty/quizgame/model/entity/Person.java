@@ -3,6 +3,8 @@ package com.azerty.quizgame.model.entity;
 import com.azerty.quizgame.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +41,8 @@ public class Person {
 
     private String company;
 
-    @ManyToMany(mappedBy = "persons", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "persons", fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Quiz> quizzes;
 
 

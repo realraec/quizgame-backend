@@ -1,6 +1,8 @@
 package com.azerty.quizgame.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -15,11 +17,13 @@ public class Record {
     @Column(nullable = false)
     private boolean isSuccess;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "fk_question", nullable = false)
     private Question question;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "fk_progress", nullable = false)
     private Progress progress;
 
