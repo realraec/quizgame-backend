@@ -1,6 +1,8 @@
 package com.azerty.quizgame.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ public class Quiz {
     @Column(nullable = false)
     private String summary;
 
-    @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER)
     private List<Question> questions;
 
     @ManyToMany(fetch = FetchType.EAGER)

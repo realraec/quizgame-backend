@@ -1,6 +1,8 @@
 package com.azerty.quizgame.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Access(AccessType.FIELD)
@@ -18,7 +20,8 @@ public class Answer {
     @Column(nullable = false)
     private boolean isCorrect;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "fk_question", nullable = false)
     private Question question;
 

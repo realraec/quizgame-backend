@@ -134,7 +134,7 @@ public class QuizController {
     @PatchMapping(path = "/{quizId}/removePersons/{personsIds}")
     public ResponseEntity<QuizDTO> removePersonsToQuizByIds(@PathVariable Long quizId, @PathVariable Long[] personsIds) {
         try {
-            QuizDTO updatedQuiz = quizService.removePersonsToQuizByIds(quizId, personsIds);
+            QuizDTO updatedQuiz = quizService.removePersonsFromQuizByIds(quizId, personsIds);
             if (updatedQuiz != null) {
                 if (updatedQuiz.getId() != null) {
                     return new ResponseEntity<>(updatedQuiz, HttpStatus.OK);

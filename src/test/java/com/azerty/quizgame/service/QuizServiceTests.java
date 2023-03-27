@@ -424,7 +424,7 @@ public class QuizServiceTests {
     }
 
     @Test
-    public void shouldAttributePersonsToQuizByIdsQuiz() throws Exception {
+    public void shouldAttributePersonsToQuizByIds() {
         // Given
         Person person1 = new Person();
         Long personId1 = 2L;
@@ -487,7 +487,7 @@ public class QuizServiceTests {
     }
 
     @Test
-    public void shouldNotAttributePersonsToQuizByIdsQuiz() throws Exception {
+    public void shouldNotAttributePersonsToQuizByIdsQuiz() {
         // Given
         Long quizId = 1L;
         Long personId1 = 2L;
@@ -503,7 +503,7 @@ public class QuizServiceTests {
     }
 
     @Test
-    public void shouldNotAttributePersonsToQuizByIdsPersonsIdsParameter() throws Exception {
+    public void shouldNotAttributePersonsToQuizByIdsPersonsIdsParameter() {
         // Given
         Long quizId = 1L;
         Long personId = 2L;
@@ -522,7 +522,7 @@ public class QuizServiceTests {
     }
 
     @Test
-    public void shouldNotAttributePersonsToQuizByIdsPerson() throws Exception {
+    public void shouldNotAttributePersonsToQuizByIdsPerson() {
         // Given
         Long quizId = 1L;
         Long personId1 = 2L;
@@ -540,7 +540,7 @@ public class QuizServiceTests {
     }
 
     @Test
-    public void shouldNotAttributePersonsToQuizByIdsPersonsIds() throws Exception {
+    public void shouldNotAttributePersonsToQuizByIdsPersonsIds() {
         // Given
         Person person1 = new Person();
         Long personId1 = 2L;
@@ -568,6 +568,142 @@ public class QuizServiceTests {
         assertEquals(quizEmpty.getId(), quiz.getId());
         assertEquals(quizEmpty.getTitle(), quiz.getTitle());
         Assertions.assertEquals(quizEmpty.getSummary(), quiz.getSummary());
+        Assertions.assertNull(quiz.getQuestionsIds());
+        Assertions.assertNull(quiz.getPersonsIds());
+    }
+
+    @Test
+    public void shouldRemovePersonsFromQuizByIds() {
+        // Given
+        Person person1 = new Person();
+        Long personId1 = 2L;
+        person1.setId(personId1);
+        Person person2 = new Person();
+        Long personId2 = 3L;
+        person2.setId(personId2);
+        Person person3 = new Person();
+        Long personId3 = 4L;
+        person3.setId(personId3);
+        Long[] personsIds = {personId1, personId2};
+        List<Person> persons = new ArrayList<>(List.of(person1, person2, person3));
+        List<Person> updatedPersons = new ArrayList<>(List.of(person3));
+        Long[] updatedPersonsIds = updatedPersons.stream().map(Person::getId).toArray(Long[]::new);
+
+        Question question1 = new Question();
+        Long questionId1 = 5L;
+        question1.setId(questionId1);
+        Question question2 = new Question();
+        Long questionId2 = 6L;
+        question2.setId(questionId2);
+        List<Question> questions = new ArrayList<>(List.of(question1, question2));
+        Long[] questionsIds = questions.stream().map(Question::getId).toArray(Long[]::new);
+
+        Long quizId = 1L;
+        String title = "Life";
+        String summary = "Pretty deep stuff.";
+        Quiz quizToReturn = new Quiz(quizId, title, summary, questions, persons);
+        quizToReturn.setId(quizId);
+        Quiz updatedQuiz = new Quiz(quizId, title, summary, questions, updatedPersons);
+        updatedQuiz.setId(quizId);
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quizToReturn));
+        Mockito.when(personDAO.findById(personId1)).thenReturn(Optional.of(person1));
+        Mockito.when(personDAO.findById(personId2)).thenReturn(Optional.of(person2));
+        Mockito.when(questionDAO.findById(questionId1)).thenReturn(Optional.of(question1));
+        Mockito.when(questionDAO.findById(questionId2)).thenReturn(Optional.of(question2));
+        Mockito.when(personDAO.findById(personId3)).thenReturn(Optional.of(person3));
+        Mockito.when(quizDAO.save(any())).thenReturn(updatedQuiz);
+
+        // When
+        QuizDTO quiz = quizService.removePersonsFromQuizByIds(quizId, personsIds);
+
+        // Then
+        //assertEquals(updatedQuiz.getId(), quiz.getId());
+        assertEquals(updatedQuiz.getTitle(), quiz.getTitle());
+        Assertions.assertEquals(updatedQuiz.getSummary(), quiz.getSummary());
+        Assertions.assertEquals(questionsIds.length, quiz.getQuestionsIds().length);
+        Assertions.assertEquals(questionsIds[0], quiz.getQuestionsIds()[0]);
+        Assertions.assertEquals(questionsIds[1], quiz.getQuestionsIds()[1]);
+        Assertions.assertEquals(updatedPersonsIds.length, quiz.getPersonsIds().length);
+        Assertions.assertEquals(updatedPersonsIds[0], quiz.getPersonsIds()[0]);
+    }
+
+    @Test
+    public void shouldNotRemovePersonsFromQuizByIdsQuiz() {
+        // Given
+        Long quizId = 1L;
+        Long personId1 = 2L;
+        Long personId2 = 3L;
+        Long[] personsIds = {personId1, personId2};
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.empty());
+
+        // When
+        QuizDTO quiz = quizService.removePersonsFromQuizByIds(quizId, personsIds);
+
+        // Then
+        assertNull(quiz);
+    }
+
+    @Test
+    public void shouldNotRemovePersonsFromQuizByIdsPersonsIdsParameter() {
+        // Given
+        Long quizId = 1L;
+        Long personId = 2L;
+        Long[] personsIds = {personId, personId};
+        QuizDTO quizToReturn = new QuizDTO();
+
+        // When
+        QuizDTO quiz = quizService.removePersonsFromQuizByIds(quizId, personsIds);
+
+        // Then
+        assertEquals(quizToReturn.getId(), quiz.getId());
+        assertEquals(quizToReturn.getTitle(), quiz.getTitle());
+        Assertions.assertEquals(quizToReturn.getSummary(), quiz.getSummary());
+        Assertions.assertNull(quiz.getQuestionsIds());
+        Assertions.assertNull(quiz.getPersonsIds());
+    }
+
+    @Test
+    public void shouldNotRemovePersonsFromQuizByIdsPerson() {
+        // Given
+        Long quizId = 1L;
+        Long personId1 = 2L;
+        Long personId2 = 3L;
+        Long[] personsIds = {personId1, personId2};
+        Quiz quizToReturn = new Quiz();
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quizToReturn));
+        Mockito.when(personDAO.findById(personId1)).thenReturn(Optional.empty());
+
+        // When
+        QuizDTO quiz = quizService.removePersonsFromQuizByIds(quizId, personsIds);
+
+        // Then
+        assertNull(quiz);
+    }
+
+    @Test
+    public void shouldNotRemovePersonsFromQuizByIdsPersonsIds() {
+        // Given
+        Person person1 = new Person();
+        Long personId1 = 2L;
+        person1.setId(personId1);
+        Person person2 = new Person();
+        Long personId2 = 3L;
+        person2.setId(personId2);
+        Long[] personsIds = {personId1, personId2};
+
+        Long quizId = 1L;
+        Quiz quizToReturn = new Quiz();
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quizToReturn));
+        Mockito.when(personDAO.findById(personId1)).thenReturn(Optional.of(person1));
+        Mockito.when(personDAO.findById(personId2)).thenReturn(Optional.of(person2));
+
+        // When
+        QuizDTO quiz = quizService.removePersonsFromQuizByIds(quizId, personsIds);
+
+        // Then
+        assertEquals(quizToReturn.getId(), quiz.getId());
+        assertEquals(quizToReturn.getTitle(), quiz.getTitle());
+        Assertions.assertEquals(quizToReturn.getSummary(), quiz.getSummary());
         Assertions.assertNull(quiz.getQuestionsIds());
         Assertions.assertNull(quiz.getPersonsIds());
     }
