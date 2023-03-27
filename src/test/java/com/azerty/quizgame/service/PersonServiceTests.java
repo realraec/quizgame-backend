@@ -387,4 +387,74 @@ public class PersonServiceTests {
         assertNull(person);
     }
 
+    @Test
+    public void shouldGetAllPersonsAttributedToQuizByQuizId() {
+        // Given
+        Long quizId = 1L;
+        Quiz quizToReturn = new Quiz();
+        quizToReturn.setId(quizId);
+        Person person1 = new Person();
+        person1.setQuizzes(new ArrayList<>(List.of(quizToReturn)));
+        Person person2 = new Person();
+        person2.setQuizzes(new ArrayList<>(List.of(quizToReturn)));
+        List<Person> personsToReturn = new ArrayList<>(List.of(person1, person2));
+
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quizToReturn));
+        Mockito.when(personDAO.findAllPersonsAttributedToQuizByQuizId(quizId)).thenReturn(personsToReturn);
+
+        // When
+        List<PersonDTO> persons = personService.getAllPersonsAttributedToQuizByQuizId(quizId);
+
+        // Then
+        assertEquals(personsToReturn.size(), persons.size());
+    }
+
+    @Test
+    public void shouldNotGetAllPersonsAttributedToQuizByQuizId() {
+        // Given
+        Long quizId = 1L;
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.empty());
+
+        // When
+        List<PersonDTO> persons = personService.getAllPersonsAttributedToQuizByQuizId(quizId);
+
+        // Then
+        assertNull(persons);
+    }
+
+    @Test
+    public void shouldGetAllPersonsNotAttributedToQuizByQuizId() {
+        // Given
+        Long quizId = 1L;
+        Quiz quizToReturn = new Quiz();
+        quizToReturn.setId(quizId);
+        Person person1 = new Person();
+        person1.setQuizzes(new ArrayList<>());
+        Person person2 = new Person();
+        person2.setQuizzes(new ArrayList<>());
+        List<Person> personsToReturn = new ArrayList<>(List.of(person1, person2));
+
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.of(quizToReturn));
+        Mockito.when(personDAO.findAllPersonsNotAttributedToQuizByQuizId(quizId)).thenReturn(personsToReturn);
+
+        // When
+        List<PersonDTO> persons = personService.getAllPersonsNotAttributedToQuizByQuizId(quizId);
+
+        // Then
+        assertEquals(personsToReturn.size(), persons.size());
+    }
+
+    @Test
+    public void shouldNotGetAllPersonsNotAttributedToQuizByQuizId() {
+        // Given
+        Long quizId = 1L;
+        Mockito.when(quizDAO.findById(quizId)).thenReturn(Optional.empty());
+
+        // When
+        List<PersonDTO> persons = personService.getAllPersonsNotAttributedToQuizByQuizId(quizId);
+
+        // Then
+        assertNull(persons);
+    }
+
 }

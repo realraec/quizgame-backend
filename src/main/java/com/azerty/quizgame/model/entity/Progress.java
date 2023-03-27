@@ -1,6 +1,8 @@
 package com.azerty.quizgame.model.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,11 +22,13 @@ public class Progress {
     @Column(nullable = false)
     private int score;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "fk_person", nullable = false)
     private Person person;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "fk_quiz", nullable = false)
     private Quiz quiz;
 

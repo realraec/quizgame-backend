@@ -380,9 +380,7 @@ public class QuizControllerTests {
         given(quizService.attributePersonsToQuizByIds(id, personsIds)).willReturn(quiz);
 
         mvc.perform(MockMvcRequestBuilders
-                        .patch("/api/quizzes/{quizId}/attributePersons/{personsIdsAsString}", id, personsIdsAsString)
-                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                        .content(objectMapper.writeValueAsString(quiz)))
+                        .patch("/api/quizzes/{quizId}/attributePersons/{personsIdsAsString}", id, personsIdsAsString))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(Integer.valueOf(quiz.getId().toString()))))
@@ -446,6 +444,86 @@ public class QuizControllerTests {
 
         mvc.perform(MockMvcRequestBuilders
                         .patch("/api/quizzes/{quizId}/attributePersons/{personsIdsAsString}", quizId, personsIdsAsString))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+    }
+
+
+    @Test
+    public void shouldRemovePersonsToQuizByIds() throws Exception {
+        Long id = 1L;
+        String title = "Life";
+        String summary = "Pretty important stuff.";
+        Long[] questionsIds = {2L, 3L, 4L};
+        Long[] personsIds = {5L, 6L, 7L};
+        String personsIdsAsString = "5,6,7";
+        QuizDTO quiz = new QuizDTO(id, title, summary, questionsIds, personsIds);
+
+        given(quizService.removePersonsFromQuizByIds(id, personsIds)).willReturn(quiz);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/removePersons/{personsIdsAsString}", id, personsIdsAsString))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(Integer.valueOf(quiz.getId().toString()))))
+                .andExpect(jsonPath("$.title", is(quiz.getTitle())))
+                .andExpect(jsonPath("$.summary", is(quiz.getSummary())))
+                //.andExpect(jsonPath("$.questionsIds", is(Arrays.toString(quiz.getQuestionsIds()))))
+                .andExpect(jsonPath("$.questionsIds[0]", is(Integer.valueOf(quiz.getQuestionsIds()[0].toString()))))
+                .andExpect(jsonPath("$.questionsIds[1]", is(Integer.valueOf(quiz.getQuestionsIds()[1].toString()))))
+                .andExpect(jsonPath("$.questionsIds[2]", is(Integer.valueOf(quiz.getQuestionsIds()[2].toString()))))
+                .andExpect(jsonPath("$.personsIds[0]", is(Integer.valueOf(quiz.getPersonsIds()[0].toString()))));
+    }
+
+    @Test
+    public void shouldNotRemovePersonsToQuizByIds400() throws Exception {
+        Long quizId = 1L;
+        String personsIds = "xxx";
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/removePersons/{personsIds}", quizId, personsIds))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void shouldNotRemovePersonsToQuizById404() throws Exception {
+        Long quizId = 1L;
+        Long[] personsIds = {102L, 103L, 104L};
+        String personsIdsAsString = "102,103,104";
+
+        given(quizService.removePersonsFromQuizByIds(quizId, personsIds)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/removePersons/{personsIdsAsString}", quizId, personsIdsAsString))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotRemovePersonsToQuizById409() throws Exception {
+        Long quizId = 1L;
+        Long[] personsIds = {2L, 3L, 4L};
+        String personsIdsAsString = "2,3,4";
+
+        given(quizService.removePersonsFromQuizByIds(quizId, personsIds)).willReturn(new QuizDTO());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/removePersons/{personsIdsAsString}", quizId, personsIdsAsString))
+                .andDo(print())
+                .andExpect(status().isConflict());
+    }
+
+    @Test
+    public void shouldNotRemovePersonsToQuizByIds500() throws Exception {
+        Long quizId = 1L;
+        Long[] personsIds = {2L, 3L, 4L};
+        String personsIdsAsString = "2,3,4";
+
+        given(quizService.removePersonsFromQuizByIds(quizId, personsIds)).willThrow(new Exception());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .patch("/api/quizzes/{quizId}/removePersons/{personsIdsAsString}", quizId, personsIdsAsString))
                 .andDo(print())
                 .andExpect(status().isInternalServerError());
     }

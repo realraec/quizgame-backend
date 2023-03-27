@@ -173,7 +173,7 @@ public class QuizServiceImplementation implements QuizService {
     }
 
     @Override
-    public QuizDTO removePersonsToQuizByIds(Long quizId, Long[] personsIds) {
+    public QuizDTO removePersonsFromQuizByIds(Long quizId, Long[] personsIds) {
         Set<Long> personsIdsAsSet = new HashSet<>(Arrays.asList(personsIds));
         if (personsIdsAsSet.size() != personsIds.length) {
             return new QuizDTO();
@@ -193,16 +193,11 @@ public class QuizServiceImplementation implements QuizService {
             List<Person> persons = quizAsEntity.getPersons();
             List<Long> personsIdsOriginal = persons.stream().map(Person::getId).toList();
             List<Long> personsIdsToRemove = Arrays.stream(personsIds).toList();
-
             if (!personsIdsOriginal.containsAll(personsIdsToRemove)) {
                 return new QuizDTO();
             }
-
-
             persons.removeAll(personsToRemove);
-            System.out.println("-----------------");
-            System.out.println(persons);
-            System.out.println("-----------------");
+
             quizAsEntity.setPersons(persons);
             return saveQuiz(quizMapper.toQuizDTO(quizAsEntity));
         } else {

@@ -94,4 +94,29 @@ public class PersonTests {
                 '}', person.toString());
     }
 
+    @Test
+    public void shouldSeeTwoDifferentPersonEntitiesAsDifferent() {
+        Long id1 = 1L;
+        Long id2 = 2L;
+        Person person1 = new Person();
+        person1.setId(id1);
+        Person person2 = new Person();
+        person2.setId(id2);
+
+        Assertions.assertNotEquals(person1, person2);
+        Assertions.assertTrue(person1.hashCode() != person2.hashCode());
+    }
+
+    @Test
+    public void shouldSeeTwoSimilarPersonEntitiesAsSimilar() {
+        Long id = 1L;
+        Person person1 = new Person();
+        person1.setId(id);
+        Person person2 = new Person();
+        person2.setId(id);
+
+        Assertions.assertEquals(person1, person2);
+        Assertions.assertEquals(person1.hashCode(), person2.hashCode());
+    }
+
 }

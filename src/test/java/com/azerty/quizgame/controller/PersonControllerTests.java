@@ -359,4 +359,84 @@ public class PersonControllerTests {
                 .andExpect(status().isInternalServerError());
     }
 
+    @Test
+    public void shouldGetAllPersonsAttributedToQuizByQuizId() throws Exception {
+        Long quizId = 1L;
+        PersonDTO person1 = new PersonDTO();
+        PersonDTO person2 = new PersonDTO();
+        ArrayList<PersonDTO> persons = new ArrayList<>(List.of(person1, person2));
+
+        given(personService.getAllPersonsAttributedToQuizByQuizId(quizId)).willReturn(persons);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/attributedToQuiz/{quizId}", quizId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(persons.size())));
+    }
+
+    @Test
+    public void shouldNotGetAllPersonsAttributedToQuizByQuizId404() throws Exception {
+        Long quizId = 1L;
+
+        given(personService.getAllPersonsAttributedToQuizByQuizId(quizId)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/attributedToQuiz/{quizId}", quizId))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotGetAllPersonsAttributedToQuizByQuizId500() throws Exception {
+        Long quizId = 1L;
+
+        given(personService.getAllPersonsAttributedToQuizByQuizId(quizId)).willThrow(new Exception());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/attributedToQuiz/{quizId}", quizId))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    public void shouldGetAllPersonsNotAttributedToQuizByQuizId() throws Exception {
+        Long quizId = 1L;
+        PersonDTO person1 = new PersonDTO();
+        PersonDTO person2 = new PersonDTO();
+        ArrayList<PersonDTO> persons = new ArrayList<>(List.of(person1, person2));
+
+        given(personService.getAllPersonsNotAttributedToQuizByQuizId(quizId)).willReturn(persons);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/notAttributedToQuiz/{quizId}", quizId))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", is(persons.size())));
+    }
+
+    @Test
+    public void shouldNotGetAllPersonsNotAttributedToQuizByQuizId404() throws Exception {
+        Long quizId = 1L;
+
+        given(personService.getAllPersonsNotAttributedToQuizByQuizId(quizId)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/notAttributedToQuiz/{quizId}", quizId))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotGetAllPersonsNotAttributedToQuizByQuizId500() throws Exception {
+        Long quizId = 1L;
+
+        given(personService.getAllPersonsNotAttributedToQuizByQuizId(quizId)).willThrow(new Exception());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/notAttributedToQuiz/{quizId}", quizId))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+    }
+
 }
