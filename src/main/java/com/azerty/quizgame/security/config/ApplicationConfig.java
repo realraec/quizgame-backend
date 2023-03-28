@@ -26,7 +26,7 @@ public class ApplicationConfig {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-                return personDao.findAnyPersonByUsername(username)
+                return personDao.findPersonByUsername(username)
                         .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
             }
         };

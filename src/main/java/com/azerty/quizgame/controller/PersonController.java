@@ -81,12 +81,12 @@ public class PersonController
 		}
 	}
 
-	@GetMapping(path = "username/{username}")
-	public ResponseEntity<PersonDTO> findPersonById(@PathVariable String username)
+	@GetMapping(path = "/username/{username}")
+	public ResponseEntity<PersonDTO> getPersonByUsername(@PathVariable String username)
 	{
 		try
 		{
-			PersonDTO person = personService.findPersonByUsername(username);
+			PersonDTO person = personService.getPersonByUsername(username);
 			if (person != null)
 			{
 				return new ResponseEntity<>(person, HttpStatus.OK);

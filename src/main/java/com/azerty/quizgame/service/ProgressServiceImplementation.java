@@ -78,6 +78,8 @@ public class ProgressServiceImplementation implements ProgressService {
         if (checkPerson.isPresent() && checkQuiz.isPresent()) {
             Progress progressAsEntity = progressMapper.toProgress(progress);
             progressAsEntity.setId(progress.getId());
+            progressAsEntity.setPerson(checkPerson.get());
+            progressAsEntity.setQuiz(checkQuiz.get());
             return progressMapper.toProgressDTO(progressDAO.save(progressAsEntity));
         } else {
             return null;

@@ -7,13 +7,16 @@ import com.azerty.quizgame.dao.RecordDAO;
 import com.azerty.quizgame.model.dto.ProgressDTO;
 import com.azerty.quizgame.model.entity.Person;
 import com.azerty.quizgame.model.entity.Quiz;
+import com.azerty.quizgame.security.config.JwtService;
 import com.azerty.quizgame.service.ProgressService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -30,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WithMockUser
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = ProgressController.class)
 public class ProgressControllerTests {
 
@@ -37,6 +42,8 @@ public class ProgressControllerTests {
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @MockBean
+    private JwtService jwtService;
     @MockBean
     private ProgressService progressService;
     @MockBean

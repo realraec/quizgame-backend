@@ -108,15 +108,10 @@ public class RecordServiceImplementation implements RecordService {
             boolean isSuccess = true;
 
             Long[] answersIds = record.getPickedAnswersIds();
-            for (int i = 0; i < answersIds.length; i++) {
-                Optional<Answer> checkAnswer = answerDAO.findById(answersIds[i]);
-                if (checkAnswer.isEmpty()) {
-                    return null;
-                }
-                if (!checkAnswer.get().isCorrect()) {
-                    isSuccess = false;
-                    break;
-                }
+            List<Long> answersIdsAsList = Arrays.stream(answersIds).toList();
+            List<Long> correctAnswersIds = answerDAO.findCorrectAnswersIdsByQuestionId(checkQuestion.get().getId());
+            if (!answersIdsAsList.equals(correctAnswersIds)) {
+                isSuccess = false;
             }
 
             Record recordAsEntity = recordMapper.toRecord(record, isSuccess);

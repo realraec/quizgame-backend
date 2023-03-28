@@ -75,9 +75,9 @@ public class PersonServiceImplementation implements PersonService
 	}
 
 	@Override
-	public PersonDTO findPersonByUsername(String username)
+	public PersonDTO getPersonByUsername(String username)
 	{
-		Optional<Person> person = personDAO.findAnyPersonByUsername(username);
+		Optional<Person> person = personDAO.findPersonByUsername(username);
 		return person.map(personMapper::toPersonDTO).orElse(null);
 	}
 

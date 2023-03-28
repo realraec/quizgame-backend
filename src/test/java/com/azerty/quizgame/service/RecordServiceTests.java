@@ -303,14 +303,14 @@ public class RecordServiceTests {
         List<Answer> answers = new ArrayList<>();
         answers.add(answer1);
         answers.add(answer2);
+        List<Long> answersIds = new ArrayList<>(List.of(answerId1, answerId2));
         Long[] pickedAnswersIds = answers.stream().map(Answer::getId).toArray(Long[]::new);
         RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
         Record recordToReturn = new Record(id, isSuccess, question, progress);
 
         Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.of(question));
         Mockito.when(progressDAO.findById(progressId)).thenReturn(Optional.of(progress));
-        Mockito.when(answerDAO.findById(answerId1)).thenReturn(Optional.of(answer1));
-        Mockito.when(answerDAO.findById(answerId2)).thenReturn(Optional.of(answer2));
+        Mockito.when(answerDAO.findCorrectAnswersIdsByQuestionId(questionId)).thenReturn(answersIds);
         Mockito.when(recordDAO.save(any())).thenReturn(recordToReturn);
 
         // When
@@ -345,13 +345,14 @@ public class RecordServiceTests {
         List<Answer> answers = new ArrayList<>();
         answers.add(answer1);
         answers.add(answer2);
+        List<Long> answersIds = new ArrayList<>(List.of(answerId1, answerId2));
         Long[] pickedAnswersIds = answers.stream().map(Answer::getId).toArray(Long[]::new);
         RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
         Record recordToReturn = new Record(id, isSuccess, question, progress);
 
         Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.of(question));
         Mockito.when(progressDAO.findById(progressId)).thenReturn(Optional.of(progress));
-        Mockito.when(answerDAO.findById(answerId1)).thenReturn(Optional.of(answer1));
+        Mockito.when(answerDAO.findCorrectAnswersIdsByQuestionId(questionId)).thenReturn(new ArrayList<>());
         Mockito.when(recordDAO.save(any())).thenReturn(recordToReturn);
 
         // When
@@ -421,40 +422,6 @@ public class RecordServiceTests {
 
         // Then
         assertNull( record);
-    }
-
-    @Test
-    public void shouldNotSaveRecordAndCheckAnswersAnswer() {
-        // Given
-        Question question = new Question();
-        Long questionId = 2L;
-        question.setId(questionId);
-        Progress progress = new Progress();
-        Long progressId = 3L;
-        progress.setId(progressId);
-        Answer answer1 = new Answer();
-        Long answerId1 = 4L;
-        answer1.setId(answerId1);
-        answer1.setCorrect(true);
-        Answer answer2 = new Answer();
-        Long answerId2 = 5L;
-        answer2.setId(answerId2);
-        answer2.setCorrect(true);
-        List<Answer> answers = new ArrayList<>();
-        answers.add(answer1);
-        answers.add(answer2);
-        Long[] pickedAnswersIds = answers.stream().map(Answer::getId).toArray(Long[]::new);
-        RecordWithPickedAnswersDTO recordWithPickedAnswers = new RecordWithPickedAnswersDTO(questionId, progressId, pickedAnswersIds);
-
-        Mockito.when(questionDAO.findById(questionId)).thenReturn(Optional.of(question));
-        Mockito.when(progressDAO.findById(progressId)).thenReturn(Optional.of(progress));
-        Mockito.when(answerDAO.findById(answerId1)).thenReturn(Optional.empty());
-
-        // When
-        RecordDTO record = recordService.saveRecordAndCheckAnswers(recordWithPickedAnswers);
-
-        // Then
-        assertNull(record);
     }
 
 }

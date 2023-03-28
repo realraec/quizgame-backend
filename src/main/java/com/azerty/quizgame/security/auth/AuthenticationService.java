@@ -38,7 +38,7 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        Person user = personDao.findAnyPersonByUsername(request.getUsername()).orElseThrow();
+        Person user = personDao.findPersonByUsername(request.getUsername()).orElseThrow();
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).build();
     }

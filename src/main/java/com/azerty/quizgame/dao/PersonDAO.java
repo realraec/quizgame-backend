@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import com.azerty.quizgame.model.entity.Person;
 
 @Repository
@@ -46,11 +45,6 @@ public interface PersonDAO extends CrudRepository<Person, Long> {
             """)
     List<Person> findAllPersonsNotAttributedToQuizByQuizId(Long quizId);
 
-    /*
-	 * @Query(""" SELECT p FROM Person p WHERE p.id = (:id) """)
-	 */
-	Optional<Person> findPersonById(Long id);
-
 	@Query(nativeQuery = true, value = """
 			SELECT DISTINCT COUNT(*) OVER() FROM persons WHERE persons.role = 'INTERN'
 			UNION ALL
@@ -63,6 +57,6 @@ public interface PersonDAO extends CrudRepository<Person, Long> {
 			FROM Person p
 			WHERE p.username = (:username)
 			""")
-	Optional<Person> findAnyPersonByUsername(String username);
+	Optional<Person> findPersonByUsername(String username);
 
 }

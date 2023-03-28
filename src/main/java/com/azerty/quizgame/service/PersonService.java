@@ -13,7 +13,7 @@ public interface PersonService
 
 	PersonDTO getPersonById(Long id) throws Exception;
 
-	PersonDTO findPersonByUsername(String username) throws Exception;
+	PersonDTO getPersonByUsername(String username) throws Exception;
 
 	PersonDTO savePerson(PersonDTO person) throws Exception;
 
