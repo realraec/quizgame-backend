@@ -3,14 +3,18 @@ package com.azerty.quizgame.controller;
 import com.azerty.quizgame.dao.PersonDAO;
 import com.azerty.quizgame.model.dto.PersonDTO;
 import com.azerty.quizgame.model.enums.Role;
+import com.azerty.quizgame.security.config.JwtService;
 import com.azerty.quizgame.service.PersonService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -26,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WithMockUser
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = PersonController.class)
 public class PersonControllerTests {
 
@@ -33,6 +39,10 @@ public class PersonControllerTests {
     private MockMvc mvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
+    @MockBean
+    private JwtService jwtService;
     @MockBean
     private PersonService personService;
     @MockBean

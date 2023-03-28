@@ -23,6 +23,6 @@ public interface AnswerDAO extends CrudRepository<Answer, Long> {
             WHERE a.question.id = (:questionId)
             AND a.isCorrect = true
             """)
-    List<Answer> findCorrectAnswersIdsByQuestionId(Long questionId);
+    List<Long> findCorrectAnswersIdsByQuestionId(Long questionId);
 
 }

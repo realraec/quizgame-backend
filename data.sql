@@ -21,24 +21,24 @@ DELETE FROM public.persons;
 -- PERSON ENTRIES: ADMIN
 --
 
-INSERT INTO public.persons (pk_person, email, firstname, lastname, password, role, username, company) VALUES (1, 'emilie.lucas@gmail.com', 'Emilie', 'LUCAS', 'P@ssW0rd1', 'ADMIN', 'admin1', NULL);
-INSERT INTO public.persons (pk_person, email, firstname, lastname, password, role, username, company) VALUES (2, 'thomas.saligny@gmail.com', 'Thomas', 'SALIGNY', 'P@ssW0rd2', 'ADMIN', 'admin2', NULL);
-INSERT INTO public.persons (pk_person, email, firstname, lastname, password, role, username, company) VALUES (3, 'louis.bernard@gmail.com', 'Louis', 'BERNARD', 'P@ssW0rd3', 'ADMIN', 'admin3', NULL);
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (1, NULL, 'emilie.lucas@gmail.com', 'Emilie', 'LUCAS', '$2a$10$AmKVFO3iTE93s/FT98ln2OnpIEF/jkJ8vSsCdFHvg0DSkkV856rme', 'ADMIN', 'admin1');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (2, NULL, 'thomas.saligny@gmail.com', 'Thomas', 'SALIGNY', '$2a$10$FXrq8N0Ui0SYUsqVZ/Z.6uEYW4pZrKbIbWn6C2rAf6JoBnvzUyEVy', 'ADMIN', 'admin2');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (3, NULL, 'louis.bernard@gmail.com', 'Louis', 'BERNARD', '$2a$10$TKOQoVnjjI2YzHVTWOwFh.Jvyp1ghiiNwv4zKL1Y5UTR4bTRJXrry', 'ADMIN', 'admin3');
 
 
 --
 -- PERSON ENTRIES: INTERN
 --
 
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (4, 'Amazon', 'timothée.lompech@gmail.com', 'Thimothée', 'LOMPECH', 'P@ssW0rd1', 'INTERN', 'intern4');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (5, 'Apple', 'mathias.guillaume@gmail.com', 'Mathias', 'GUILLAUME', 'P@ssW0rd2', 'INTERN', 'intern5');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (6, 'Alphabet Inc.', 'camille.royer@gmail.com', 'Camille', 'ROYER', 'P@ssW0rd3', 'INTERN', 'intern6');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (7, 'Microsoft', 'leandre.perrin@gmail.com', 'Léandre', 'PERRIN', 'P@ssW0rd4', 'INTERN', 'intern7');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (8, 'Samsung Group', 'marie.coolen@gmail.com', 'Marie', 'COOLEN', 'P@ssW0rd5', 'INTERN', 'intern8');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (9, 'Tencent Holdings', 'theodore.leclerc@gmail.com', 'Théodore', 'LECLERC', 'P@ssW0rd6', 'INTERN', 'intern9');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (10, 'Meta Platforms', 'celestine.meunier@gmail.com', 'Célestine', 'MEUNIER', 'P@ssW0rd7', 'INTERN', 'intern10');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (11, 'Cisco Systems', 'chloe.carpentier@gmail.com', 'Chloé', 'CARPENTIER', 'P@ssW0rd8', 'INTERN', 'intern11');
-INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (12, 'Oracle Corporation', 'diane.caudron@gmail.com', 'Diane', 'CAUDRON', 'P@ssW0rd9', 'INTERN', 'intern12');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (4, 'Amazon', 'timothée.lompech@gmail.com', 'Thimothée', 'LOMPECH', '$2a$10$cqX9EvynEx77c2jqwM2i5uVmDC2IYv8hveLDiiX4f2mVIzRFY3dAu', 'INTERN', 'intern4');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (5, 'Apple', 'mathias.guillaume@gmail.com', 'Mathias', 'GUILLAUME', '$2a$10$62eRXRCdIElCaSUkGHxxguiXQNVOEIcDYwyw25wIEf4pGApC7Y7Tm', 'INTERN', 'intern5');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (6, 'Alphabet Inc.', 'camille.royer@gmail.com', 'Camille', 'ROYER', '$2a$10$sNoh4Ws1BAvP7EZ76HyLbuHUhpBDL.ww2/Oz/fspa/FlXZVyK/x1e', 'INTERN', 'intern6');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (7, 'Microsoft', 'leandre.perrin@gmail.com', 'Léandre', 'PERRIN', '$2a$10$qvD0Cokj.LTDUDDKh9tnP.n0fvCsUTzYg0d35i1MWXdna3V1A9hGu', 'INTERN', 'intern7');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (8, 'Samsung Group', 'marie.coolen@gmail.com', 'Marie', 'COOLEN', '$2a$10$NfIMe7n2JJ2VA1TclGqO1.ozieoDF90WOlHY3g1WjA/BVtRQI69KK', 'INTERN', 'intern8');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (9, 'Tencent Holdings', 'theodore.leclerc@gmail.com', 'Théodore', 'LECLERC', '$2a$10$DWsEY6DYSogwENf35G3C3O./jBccsTL/08y.08UEPykBJUzM3epuG', 'INTERN', 'intern9');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (10, 'Meta Platforms', 'celestine.meunier@gmail.com', 'Célestine', 'MEUNIER', '$2a$10$n5/H6CWqwi0ESMMceY5GiOZk9g40vEU6VArP/LblL5HJPnYx9J3ou', 'INTERN', 'intern10');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (11, 'Cisco Systems', 'chloe.carpentier@gmail.com', 'Chloé', 'CARPENTIER', '$2a$10$STPtWoLs525fvKrdpo2Nj.uXyE27KpY9fDrt0KrQ9XpMUgBwYTpCm', 'INTERN', 'intern11');
+INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (12, 'Oracle Corporation', 'diane.caudron@gmail.com', 'Diane', 'CAUDRON', '$2a$10$8c7FQdwfr1nrPSze3C760eEBwAzOGVJN8FIgmo8O7NIvSPHIjW7ge', 'INTERN', 'intern12');
 
 
 --
@@ -131,12 +131,12 @@ INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES 
 -- PROGRESS ENTRIES
 --
 
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (2, NULL, 0, 4, 2);
 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (6, NULL, 0, 7, 2);
 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (7, NULL, 0, 7, 3);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (1, '2023-03-20 23:23:38.505344', 2, 4, 1);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (2, NULL, 1, 4, 2);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (3, '2023-03-20 23:23:38.692162', 1, 5, 2);
-INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (4, '2023-03-20 23:23:38.728681', 1, 5, 4);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (1, '2023-03-28 21:38:44.150333', 2, 4, 1);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (3, '2023-03-28 21:38:44.54747', 1, 5, 2);
+INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (4, '2023-03-28 21:38:44.637718', 1, 5, 4);
 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (5, NULL, 1, 6, 1);
 
 
@@ -148,7 +148,7 @@ INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VAL
 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (2, false, 1, 2);
 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (3, false, 1, 3);
 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (4, true, 1, 4);
-INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (5, true, 2, 5);
+INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (5, false, 2, 5);
 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (6, false, 2, 6);
 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (7, false, 3, 5);
 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (8, false, 3, 6);
@@ -199,7 +199,7 @@ SELECT pg_catalog.setval('public.progresses_pk_progress_seq', 7, true);
 -- RECORDS SEQUENCE
 --
 
-SELECT pg_catalog.setval('public.records_seq', 14, true);
+SELECT pg_catalog.setval('public.records_pk_record_seq', 14, true);
 
 
 
