@@ -1,26 +1,28 @@
 package com.azerty.quizgame.service;
 
-import com.azerty.quizgame.model.dto.CountsDTO;
-import com.azerty.quizgame.model.dto.PersonDTO;
-
 import java.util.List;
 
-public interface PersonService {
+import com.azerty.quizgame.model.dto.PersonDTO;
 
-    List<PersonDTO> getAllAdmins() throws Exception;
+public interface PersonService
+{
 
-    List<PersonDTO> getAllInterns() throws Exception;
+	List<PersonDTO> getAllAdmins() throws Exception;
 
-    PersonDTO getPersonById(Long id) throws Exception;
+	List<PersonDTO> getAllInterns() throws Exception;
 
-    PersonDTO savePerson(PersonDTO person) throws Exception;
+	PersonDTO getPersonById(Long id) throws Exception;
 
-    boolean deletePersonById(Long id) throws Exception;
+	PersonDTO findPersonByUsername(String username) throws Exception;
 
-    PersonDTO updatePersonById(PersonDTO person, Long id) throws Exception;
+	PersonDTO savePerson(PersonDTO person) throws Exception;
 
-    List<PersonDTO> getAllPersonsAttributedToQuizByQuizId(Long quizId) throws Exception;
+	boolean deletePersonById(Long id) throws Exception;
 
-    List<PersonDTO> getAllPersonsNotAttributedToQuizByQuizId(Long quizId) throws Exception;
+	PersonDTO updatePersonById(PersonDTO person, Long id) throws Exception;
+
+	List<PersonDTO> getAllPersonsAttributedToQuizByQuizId(Long quizId) throws Exception;
+
+	List<PersonDTO> getAllPersonsNotAttributedToQuizByQuizId(Long quizId) throws Exception;
 
 }
