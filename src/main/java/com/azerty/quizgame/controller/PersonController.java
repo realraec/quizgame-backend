@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,11 +27,13 @@ public class PersonController
 {
 
 	private final PersonService personService;
+	private final PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public PersonController(PersonService personService)
+	public PersonController(PersonService personService, PasswordEncoder passwordEncoder)
 	{
 		this.personService = personService;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping(path = "/admins")
@@ -126,6 +129,7 @@ public class PersonController
 	{
 		try
 		{
+			person.setPassword(passwordEncoder.encode(person.getPassword()));
 			return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
 		} catch (DataIntegrityViolationException e)
 		{
@@ -143,6 +147,7 @@ public class PersonController
 	{
 		try
 		{
+			person.setPassword(passwordEncoder.encode(person.getPassword()));
 			PersonDTO updatedIntern = personService.updatePersonById(person, id);
 			if (updatedIntern != null)
 			{
