@@ -52,10 +52,10 @@ public class AuthenticationService {
         try {
             personDto.setPassword(passwordEncoder.encode(request.getNewPassword()));
             personService.savePerson(personDto);
-            return "Password updated successfully.";
+            return "";
         } catch (Exception e) {
             e.printStackTrace();
-            return "Something went wrong.";
+            return "";
         }
     }
 
