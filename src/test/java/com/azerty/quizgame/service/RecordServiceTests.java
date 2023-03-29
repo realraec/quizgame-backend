@@ -390,7 +390,7 @@ public class RecordServiceTests {
         RecordDTO record = recordService.saveRecordAndCheckAnswers(recordWithPickedAnswers);
 
         // Then
-        assertNull( record);
+        assertNull(record);
     }
 
     @Test
@@ -421,7 +421,7 @@ public class RecordServiceTests {
         RecordDTO record = recordService.saveRecordAndCheckAnswers(recordWithPickedAnswers);
 
         // Then
-        assertNull( record);
+        assertNull(record);
     }
 
 }

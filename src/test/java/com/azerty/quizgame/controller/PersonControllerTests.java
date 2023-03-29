@@ -155,6 +155,61 @@ public class PersonControllerTests {
                 .andExpect(status().isInternalServerError());
     }
 
+
+    @Test
+    public void shouldGetPersonByUsername() throws Exception {
+        Long id = 1L;
+        String username = "intern1";
+        String password = "P@ssW0rd1";
+        String lastname = "Tyson";
+        String firstname = "Mike";
+        String email = "mike.tyson@gmail.com";
+        Role role = Role.INTERN;
+        String company = "McDonald's";
+        Long[] quizzesIds = {2L, 3L, 4L};
+        PersonDTO person = new PersonDTO(id, username, password, lastname, firstname, email, company, role, quizzesIds);
+
+        given(personService.getPersonByUsername(username)).willReturn(person);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/username/{username}", username))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(Integer.valueOf(person.getId().toString()))))
+                .andExpect(jsonPath("$.username", is(person.getUsername())))
+                .andExpect(jsonPath("$.password", is(person.getPassword())))
+                .andExpect(jsonPath("$.lastname", is(person.getLastname())))
+                .andExpect(jsonPath("$.firstname", is(person.getFirstname())))
+                .andExpect(jsonPath("$.email", is(person.getEmail())))
+                .andExpect(jsonPath("$.company", is(person.getCompany())))
+                .andExpect(jsonPath("$.role", is(person.getRole().toString())))
+                .andExpect(jsonPath("$.quizzesIds[0]", is(Integer.valueOf(person.getQuizzesIds()[0].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[1]", is(Integer.valueOf(person.getQuizzesIds()[1].toString()))))
+                .andExpect(jsonPath("$.quizzesIds[2]", is(Integer.valueOf(person.getQuizzesIds()[2].toString()))));
+    }
+
+    @Test
+    public void shouldNotGetPersonByUsername404() throws Exception {
+        String username = "intern1";
+        given(personService.getPersonByUsername(username)).willReturn(null);
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/username/{username}", username))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldNotGetPersonByUsername500() throws Exception {
+        String username = "intern1";
+        given(personService.getPersonByUsername(username)).willThrow(new Exception());
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/persons/username/{username}", username))
+                .andDo(print())
+                .andExpect(status().isInternalServerError());
+    }
+
     @Test
     public void shouldSavePerson() throws Exception {
         Long id = 1L;

@@ -9,9 +9,10 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class PasswordRequest
-{
-	private Long id;
-	private String oldPassword;
-	private String newPassword;
+public class PasswordRequest {
+
+    private Long id;
+    private String oldPassword;
+    private String newPassword;
+
 }
