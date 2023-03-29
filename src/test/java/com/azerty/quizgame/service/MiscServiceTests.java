@@ -84,8 +84,8 @@ public class MiscServiceTests {
                 DELETE FROM public.quizzes_persons;
                 DELETE FROM public.quizzes;
                 DELETE FROM public.persons;
-                
-                
+                                
+                                
                 ALTER SEQUENCE public.persons_pk_person_seq RESTART WITH 1;
                 ALTER SEQUENCE public.quizzes_pk_quiz_seq RESTART WITH 1;
                 ALTER SEQUENCE public.questions_pk_question_seq RESTART WITH 1;
@@ -114,8 +114,8 @@ public class MiscServiceTests {
                 DELETE FROM public.quizzes_persons;
                 DELETE FROM public.quizzes;
                 DELETE FROM public.persons;
-                
-                
+                                
+                                
                 ALTER SEQUENCE public.persons_pk_person_seq RESTART WITH 1;
                 ALTER SEQUENCE public.quizzes_pk_quiz_seq RESTART WITH 1;
                 ALTER SEQUENCE public.questions_pk_question_seq RESTART WITH 1;
@@ -143,12 +143,12 @@ public class MiscServiceTests {
                 DELETE FROM public.quizzes_persons;
                 DELETE FROM public.quizzes;
                 DELETE FROM public.persons;
-                
-                
+                                
+                                
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (1, NULL, 'emilie.lucas@gmail.com', 'Emilie', 'LUCAS', '$2a$10$AmKVFO3iTE93s/FT98ln2OnpIEF/jkJ8vSsCdFHvg0DSkkV856rme', 'ADMIN', 'admin1');
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (2, NULL, 'thomas.saligny@gmail.com', 'Thomas', 'SALIGNY', '$2a$10$FXrq8N0Ui0SYUsqVZ/Z.6uEYW4pZrKbIbWn6C2rAf6JoBnvzUyEVy', 'ADMIN', 'admin2');
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (3, NULL, 'louis.bernard@gmail.com', 'Louis', 'BERNARD', '$2a$10$TKOQoVnjjI2YzHVTWOwFh.Jvyp1ghiiNwv4zKL1Y5UTR4bTRJXrry', 'ADMIN', 'admin3');
-                
+                                
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (4, 'Amazon', 'timothée.lompech@gmail.com', 'Thimothée', 'LOMPECH', '$2a$10$cqX9EvynEx77c2jqwM2i5uVmDC2IYv8hveLDiiX4f2mVIzRFY3dAu', 'INTERN', 'intern4');
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (5, 'Apple', 'mathias.guillaume@gmail.com', 'Mathias', 'GUILLAUME', '$2a$10$62eRXRCdIElCaSUkGHxxguiXQNVOEIcDYwyw25wIEf4pGApC7Y7Tm', 'INTERN', 'intern5');
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (6, 'Alphabet Inc.', 'camille.royer@gmail.com', 'Camille', 'ROYER', '$2a$10$sNoh4Ws1BAvP7EZ76HyLbuHUhpBDL.ww2/Oz/fspa/FlXZVyK/x1e', 'INTERN', 'intern6');
@@ -158,13 +158,13 @@ public class MiscServiceTests {
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (10, 'Meta Platforms', 'celestine.meunier@gmail.com', 'Célestine', 'MEUNIER', '$2a$10$n5/H6CWqwi0ESMMceY5GiOZk9g40vEU6VArP/LblL5HJPnYx9J3ou', 'INTERN', 'intern10');
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (11, 'Cisco Systems', 'chloe.carpentier@gmail.com', 'Chloé', 'CARPENTIER', '$2a$10$STPtWoLs525fvKrdpo2Nj.uXyE27KpY9fDrt0KrQ9XpMUgBwYTpCm', 'INTERN', 'intern11');
                 INSERT INTO public.persons (pk_person, company, email, firstname, lastname, password, role, username) VALUES (12, 'Oracle Corporation', 'diane.caudron@gmail.com', 'Diane', 'CAUDRON', '$2a$10$8c7FQdwfr1nrPSze3C760eEBwAzOGVJN8FIgmo8O7NIvSPHIjW7ge', 'INTERN', 'intern12');
-                
+                                
                 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (1, 'This quiz is about the Java programming language', 'Java');
                 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (2, 'This quiz is about the SQL programming language', 'SQL');
                 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (3, 'This quiz is about the HTML markup language', 'HTML');
                 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (4, 'This quiz is about the CSS stylesheet language', 'CSS');
                 INSERT INTO public.quizzes (pk_quiz, summary, title) VALUES (5, 'This quiz is about the C programming language', 'C');
-                
+                                
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 4);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 6);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (1, 8);
@@ -173,7 +173,7 @@ public class MiscServiceTests {
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (2, 7);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (3, 7);
                 INSERT INTO public.quizzes_persons (pk_quiz, pk_person) VALUES (4, 5);
-                
+                                
                 INSERT INTO public.questions (pk_question, max_duration_in_seconds, wording, fk_quiz) VALUES (1, 15, 'What is the symbol used at the end of a command in Java?', 1);
                 INSERT INTO public.questions (pk_question, max_duration_in_seconds, wording, fk_quiz) VALUES (2, 15, 'What does OOP stand for?', 1);
                 INSERT INTO public.questions (pk_question, max_duration_in_seconds, wording, fk_quiz) VALUES (3, 15, 'What are all the possible values that a boolean [as a primitive variable] can take?', 1);
@@ -184,7 +184,7 @@ public class MiscServiceTests {
                 INSERT INTO public.questions (pk_question, max_duration_in_seconds, wording, fk_quiz) VALUES (8, 30, 'What kind of language is HTML?', 3);
                 INSERT INTO public.questions (pk_question, max_duration_in_seconds, wording, fk_quiz) VALUES (9, 15, 'What is the main HTML tag that is opened at the beginning and closed at the end of every HTML file?', 3);
                 INSERT INTO public.questions (pk_question, max_duration_in_seconds, wording, fk_quiz) VALUES (10, 15, 'Is CSS a stylesheet language?', 4);
-                
+                                
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (1, true, ';', 1);
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (2, false, '$', 1);
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (3, false, '*', 1);
@@ -224,7 +224,7 @@ public class MiscServiceTests {
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (37, false, '<all>', 9);
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (38, true, 'Yes it is', 10);
                 INSERT INTO public.answers (pk_answer, is_correct, wording, fk_question) VALUES (39, false, 'No it isn''t', 10);
-                
+                                
                 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (2, NULL, 0, 4, 2);
                 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (6, NULL, 0, 7, 2);
                 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (7, NULL, 0, 7, 3);
@@ -232,7 +232,7 @@ public class MiscServiceTests {
                 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (3, '2023-03-28 21:38:44.54747', 1, 5, 2);
                 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (4, '2023-03-28 21:38:44.637718', 1, 5, 4);
                 INSERT INTO public.progresses (pk_progress, date_and_time_of_completion, score, fk_person, fk_quiz) VALUES (5, NULL, 1, 6, 1);
-                
+                                
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (1, true, 1, 1);
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (2, false, 1, 2);
                 INSERT INTO public.records (pk_record, is_success, fk_progress, fk_question) VALUES (3, false, 1, 3);

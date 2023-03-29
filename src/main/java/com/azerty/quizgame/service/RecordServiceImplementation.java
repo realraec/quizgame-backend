@@ -6,7 +6,6 @@ import com.azerty.quizgame.dao.QuestionDAO;
 import com.azerty.quizgame.dao.RecordDAO;
 import com.azerty.quizgame.model.dto.RecordDTO;
 import com.azerty.quizgame.model.dto.RecordWithPickedAnswersDTO;
-import com.azerty.quizgame.model.entity.Answer;
 import com.azerty.quizgame.model.entity.Progress;
 import com.azerty.quizgame.model.entity.Question;
 import com.azerty.quizgame.model.entity.Record;

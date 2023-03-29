@@ -184,6 +184,58 @@ public class PersonServiceTests {
         assertNull(person);
     }
 
+
+    @Test
+    public void shouldGetPersonByUsername() {
+        // Given
+        Long id = 1L;
+        String username = "user1";
+        String password = "P@ssword1";
+        String lastname = "Tyson";
+        String firstname = "Mike";
+        String email = "mike.tyson@gmail.com";
+        String company = "McDonald's";
+        Role role = Role.INTERN;
+        Quiz quiz1 = new Quiz();
+        quiz1.setId(2L);
+        Quiz quiz2 = new Quiz();
+        quiz2.setId(3L);
+        List<Quiz> quizzes = new ArrayList<>();
+        quizzes.add(quiz1);
+        quizzes.add(quiz2);
+        Long[] quizzesIds = quizzes.stream().map(Quiz::getId).toArray(Long[]::new);
+        Person personToReturn = new Person(id, username, password, lastname, firstname, email, company, role, quizzes);
+        Mockito.when(personDAO.findPersonByUsername(username)).thenReturn(Optional.of(personToReturn));
+
+        // When
+        PersonDTO person = personService.getPersonByUsername(username);
+
+        // Then
+        assertEquals(personToReturn.getId(), person.getId());
+        assertEquals(personToReturn.getUsername(), person.getUsername());
+        assertEquals(personToReturn.getPassword(), person.getPassword());
+        assertEquals(personToReturn.getLastname(), person.getLastname());
+        assertEquals(personToReturn.getFirstname(), person.getFirstname());
+        assertEquals(personToReturn.getEmail(), person.getEmail());
+        assertEquals(personToReturn.getCompany(), person.getCompany());
+        assertEquals(personToReturn.getRole(), person.getRole());
+        assertEquals(quizzesIds.length, person.getQuizzesIds().length);
+    }
+
+    @Test
+    public void shouldNotGetPersonByUsername() {
+        // Given
+        String username = "user1";
+        Mockito.when(personDAO.findPersonByUsername(username)).thenReturn(Optional.empty());
+
+        // When
+        PersonDTO person = personService.getPersonByUsername(username);
+
+        // Then
+        assertNull(person);
+    }
+
+
     @Test
     public void shouldSaveAnswer() {
         // Given
