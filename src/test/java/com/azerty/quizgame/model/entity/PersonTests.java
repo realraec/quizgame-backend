@@ -119,4 +119,16 @@ public class PersonTests {
         Assertions.assertEquals(person1.hashCode(), person2.hashCode());
     }
 
+    @Test
+    public void shouldXXX() {
+        Person person1 = new Person();
+        person1.setRole(Role.ADMIN);
+
+        Assertions.assertNotNull(person1.getAuthorities());
+        Assertions.assertTrue(person1.isAccountNonExpired());
+        Assertions.assertTrue(person1.isAccountNonLocked());
+        Assertions.assertTrue(person1.isCredentialsNonExpired());
+        Assertions.assertTrue(person1.isEnabled());
+    }
+
 }

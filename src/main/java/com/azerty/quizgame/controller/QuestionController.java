@@ -1,6 +1,5 @@
 package com.azerty.quizgame.controller;
 
-import com.azerty.quizgame.model.dto.AnswerDTO;
 import com.azerty.quizgame.model.dto.QuestionDTO;
 import com.azerty.quizgame.model.dto.QuestionInQuizDTO;
 import com.azerty.quizgame.service.QuestionService;

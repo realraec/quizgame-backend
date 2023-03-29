@@ -2,7 +2,6 @@ package com.azerty.quizgame.service;
 
 import com.azerty.quizgame.model.dto.ProgressDTO;
 import com.azerty.quizgame.model.dto.RecordDTO;
-import com.azerty.quizgame.model.dto.RecordWithPickedAnswersDTO;
 
 import java.util.List;
 

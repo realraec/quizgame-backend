@@ -1,12 +1,8 @@
 package com.azerty.quizgame.model.dto;
 
-import com.azerty.quizgame.model.entity.Quiz;
 import com.azerty.quizgame.model.enums.Role;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PersonDTOTests {
 
